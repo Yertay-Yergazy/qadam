@@ -1,0 +1,12 @@
+{
+  "name": "s2: the speaker takes the task himself ('я возьму') - only the speaker label says who",
+  "meeting_date": "2026-11-04",
+  "people": ["Алия", "Ерлан", "Айгерим"],
+  "segments": [
+    {"speaker": "Алия", "text": "Кто-то должен настроить бэкапы базы."},
+    {"speaker": "Ерлан", "text": "Я возьму, до пятницы."}
+  ],
+  "expected": [
+    {"keywords": ["бэкап"], "assignee": "Ерлан", "due_text": "пятница", "due_date": "2026-11-06"}
+  ]
+}

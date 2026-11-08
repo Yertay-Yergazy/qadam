@@ -1,0 +1,17 @@
+{
+  "name": "s6: English planning, owners by name and by 'I can take it'",
+  "meeting_date": "2026-11-04",
+  "people": ["Sam", "Priya", "Alex"],
+  "segments": [
+    {"speaker": "Sam", "text": "Okay, next item. We need to fix the flaky login test."},
+    {"speaker": "Priya", "text": "I can take it. I'll do it by Friday."},
+    {"speaker": "Sam", "text": "Great. Let's also update the onboarding docs."},
+    {"speaker": "Sam", "text": "Alex will do that next week."},
+    {"speaker": "Alex", "text": "Sure."},
+    {"speaker": "Sam", "text": "Maybe someday we should look at dark mode, not decided."}
+  ],
+  "expected": [
+    {"keywords": ["login", "test"], "assignee": "Priya", "due_text": "friday", "due_date": "2026-11-06"},
+    {"keywords": ["onboarding"], "assignee": "Alex", "due_text": "next week", "due_date": null}
+  ]
+}

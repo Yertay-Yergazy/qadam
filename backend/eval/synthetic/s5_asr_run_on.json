@@ -1,0 +1,12 @@
+{
+  "name": "s5: speech recognition style - no punctuation, lower case, two tasks in one run-on sentence",
+  "meeting_date": "2026-11-04",
+  "people": ["Алия", "Ерлан", "Айгерим"],
+  "segments": [
+    {"speaker": null, "text": "ну короче надо переписать авторизацию на новый сервис пусть ерлан займется до конца недели а еще нужно обновить зависимости в бэкенде"}
+  ],
+  "expected": [
+    {"keywords": ["авториз"], "assignee": "Ерлан", "due_text": "до конца недели", "due_date": null},
+    {"keywords": ["зависимост"], "assignee": null, "due_text": null, "due_date": null}
+  ]
+}

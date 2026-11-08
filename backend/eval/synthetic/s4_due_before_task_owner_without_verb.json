@@ -1,0 +1,12 @@
+{
+  "name": "s4: the deadline opens the sentence, the owner follows without a rule verb",
+  "meeting_date": "2026-11-04",
+  "people": ["Алия", "Ерлан", "Айгерим"],
+  "segments": [
+    {"speaker": "Алия", "text": "К понедельнику нужно подготовить демо для заказчика."},
+    {"speaker": "Ерлан", "text": "Подготовит Айгерим."}
+  ],
+  "expected": [
+    {"keywords": ["демо"], "assignee": "Айгерим", "due_text": "понедельник", "due_date": "2026-11-09"}
+  ]
+}
