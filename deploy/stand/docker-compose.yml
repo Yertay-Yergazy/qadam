@@ -1,0 +1,35 @@
+# Temporary stand on the shared Digitron dev VM: no calls (no LiveKit/Egress), no public ports, TLS by the host's Caddy.
+# Unique service names (qadam-*) so they never clash with Digitron's `web`/`api`/`db` when Caddy joins this network.
+name: qadam
+services:
+  qadam-backend:
+    image: qadam-backend:${IMAGE_TAG}
+    restart: unless-stopped
+    mem_limit: 1g
+    user: root
+    environment:
+      LIVEKIT_API_KEY: ""            # empty = upload-only mode
+      WHISPER_MODEL: ${WHISPER_MODEL:-base}
+      WHISPER_LANGUAGE: ${WHISPER_LANGUAGE:-}
+      DRAFTER: placeholder
+      JWT_SECRET: ${JWT_SECRET}
+      COOKIE_SECURE: "true"
+      SEED_DEMO: "false"
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      CORS_ORIGINS: https://${DOMAIN}
+    volumes:
+      - qadam-db:/data
+      - whisper-cache:/root/.cache/huggingface
+
+  qadam-web:
+    image: qadam-web:${IMAGE_TAG}
+    restart: unless-stopped
+    mem_limit: 64m
+    ports:
+      - "127.0.0.1:8081:80"          # SSH-tunnel access for testing; not reachable from the internet
+    depends_on: [qadam-backend]
+
+volumes:
+  qadam-db:
+  whisper-cache:
