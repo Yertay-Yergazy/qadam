@@ -141,7 +141,7 @@ function DraftCard({ draft, onDecided }) {
               )}
             </Field>
             <Field label="Срок">
-              <Text size="sm" fw={draft.due_text ? 500 : 400} c={draft.due_text ? undefined : "dimmed"}>{draft.due_text ?? "не указан"}</Text>
+              <Text size="sm" fw={draft.due_text ? 500 : 400} c={draft.due_text ? undefined : "dimmed"}>{draft.due_text ? `${draft.due_text}${draft.due_date ? ` · ${draft.due_date.split("-").reverse().join(".")}` : ""}` : "не указан"}</Text>
             </Field>
           </Group>
           {draft.source_quote ? <div className="quote">Из встречи — «{draft.source_quote}»</div> : null}

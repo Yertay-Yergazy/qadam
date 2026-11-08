@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from typing import Optional
 
 from sqlalchemy import JSON, Column
@@ -72,6 +72,7 @@ class DraftTask(SQLModel, table=True):
     acceptance_criteria: list = Field(default_factory=list, sa_column=Column(JSON))
     assignee_id: Optional[int] = Field(default=None, foreign_key="users.id")  # None = "not specified" (F5 AC2)
     due_text: Optional[str] = None  # None = "not specified"
+    due_date: Optional[date] = None  # resolved calendar date, None if the wording was vague
     source_quote: str = ""
     status: str = "pending"  # pending | approved | rejected
     reviewer_id: Optional[int] = Field(default=None, foreign_key="users.id")
@@ -91,6 +92,7 @@ class Task(SQLModel, table=True):
     acceptance_criteria: list = Field(default_factory=list, sa_column=Column(JSON))
     assignee_id: Optional[int] = Field(default=None, foreign_key="users.id")
     due_text: Optional[str] = None
+    due_date: Optional[date] = None
     status: str = "todo"  # todo | in_progress | done
     origin_meeting_id: Optional[int] = Field(default=None, foreign_key="meetings.id")
     origin_quote: str = ""

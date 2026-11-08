@@ -29,7 +29,9 @@ def generate_drafts(session: Session, meeting: Meeting) -> None:
     lead = next((u for u in users if u.role == "lead"), None)
 
     result = get_drafter(get_settings().drafter).generate(
-        [SegmentIn(s.start_sec, s.speaker, s.text) for s in segs], list(by_name)
+        [SegmentIn(s.start_sec, s.speaker, s.text) for s in segs],
+        list(by_name),
+        today=(meeting.started_at or meeting.created_at).date(),
     )
 
     # Reprocessing replaces untouched proposals only; reviewed ones stay as history.
@@ -44,6 +46,7 @@ def generate_drafts(session: Session, meeting: Meeting) -> None:
                 acceptance_criteria=p.acceptance_criteria,
                 assignee_id=assignee.id if assignee else None,
                 due_text=p.due_text,
+                due_date=p.due_date,
                 source_quote=p.source_quote,
                 reviewer_id=lead.id if lead else None,
             )

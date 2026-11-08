@@ -1,4 +1,4 @@
-import { Badge, Card, Group, Paper, SimpleGrid, Stack, Text } from "@mantine/core";
+import { Badge, Card, Group, Paper, SimpleGrid, Stack, Text, Tooltip } from "@mantine/core";
 import { IconMicrophone } from "@tabler/icons-react";
 import { useState } from "react";
 import { api } from "../api.js";
@@ -83,7 +83,18 @@ export default function BoardPage() {
                       <Text size="sm" fw={500} mt={4} lineClamp={3}>{t.title}</Text>
                       <Group justify="space-between" mt="sm">
                         {t.origin_meeting_id ? (
-                          <Badge variant="light" size="sm" leftSection={<IconMicrophone size={12} />}>Со встречи</Badge>
+                          <Tooltip label={t.origin_meeting_title ? `Создано со встречи «${t.origin_meeting_title}»` : "Создано со встречи"} withArrow>
+                            <Badge
+                              variant="light"
+                              size="sm"
+                              tt="none"
+                              maw={170}
+                              leftSection={<IconMicrophone size={12} />}
+                              data-testid="from-meeting"
+                            >
+                              Со встречи{t.origin_meeting_title ? ` · ${t.origin_meeting_title}` : ""}
+                            </Badge>
+                          </Tooltip>
                         ) : (
                           <span />
                         )}

@@ -8,6 +8,7 @@ from ..db import get_session
 from ..models import DraftTask, Meeting, Task, TaskEvent, User, utcnow
 from ..schemas import DraftOut, DraftPatch, TaskOut
 from ..security import require
+from ..services.drafting import resolve_due_text
 from ..serializers import draft_out, task_out
 
 router = APIRouter(prefix="/api/drafts", tags=["review"])
@@ -54,6 +55,10 @@ def edit_draft(
         data["acceptance_criteria"] = [c.strip() for c in (data["acceptance_criteria"] or []) if c.strip()]
     if "due_text" in data:
         data["due_text"] = (data["due_text"] or "").strip() or None
+        if "due_date" not in data:  # reviewer retyped the wording -> recompute the date (None if vague)
+            meeting = session.get(Meeting, draft.meeting_id)
+            ref = ((meeting.started_at or meeting.created_at).date()) if meeting else None
+            data["due_date"] = resolve_due_text(data["due_text"], ref)
     for key, value in data.items():
         setattr(draft, key, value)
     session.add(draft)
@@ -76,6 +81,7 @@ def approve_draft(draft_id: int, session: Session = Depends(get_session), user: 
         acceptance_criteria=list(draft.acceptance_criteria or []),
         assignee_id=draft.assignee_id,
         due_text=draft.due_text,
+        due_date=draft.due_date,
         origin_meeting_id=draft.meeting_id,
         origin_quote=draft.source_quote,
         created_by_id=actor_id,

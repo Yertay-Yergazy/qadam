@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from typing import Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, computed_field
@@ -77,6 +77,7 @@ class DraftOut(BaseModel):
     acceptance_criteria: list[str]
     assignee_id: Optional[int]
     due_text: Optional[str]
+    due_date: Optional[date] = None
     source_quote: str
     status: str
     reviewer_id: Optional[int]
@@ -91,6 +92,7 @@ class DraftPatch(BaseModel):
     acceptance_criteria: Optional[list[str]] = None
     assignee_id: Optional[int] = None
     due_text: Optional[str] = None
+    due_date: Optional[date] = None
 
 
 class MeetingCreate(BaseModel):
@@ -154,6 +156,7 @@ class TaskOut(BaseModel):
     acceptance_criteria: list[str]
     assignee_id: Optional[int]
     due_text: Optional[str]
+    due_date: Optional[date] = None
     status: str
     origin_meeting_id: Optional[int]
     origin_quote: str
