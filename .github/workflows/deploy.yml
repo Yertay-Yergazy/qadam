@@ -1,0 +1,56 @@
+name: Deploy
+# CD to the shared dev VM: after CI is green on main, build linux/amd64 images on the runner (the VM has 1 vCPU,
+# it must not build), ship them over SSH, restart the `qadam` compose project, roll back if /api/health fails.
+# Server side: ~/qadam/deploy.sh (see deploy/stand/deploy.sh).
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    env:
+      HOST: ${{ secrets.DEPLOY_HOST }}
+      USER_NAME: ${{ secrets.DEPLOY_USER }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Tag
+        run: echo "TAG=main-$(git rev-parse --short HEAD)" >> "$GITHUB_ENV"
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build images (linux/amd64)
+        run: |
+          docker buildx build --platform linux/amd64 -t qadam-backend:$TAG --load ./backend
+          docker buildx build --platform linux/amd64 -f deploy/stand/Dockerfile.web \
+            --build-context stand=deploy/stand -t qadam-web:$TAG --load .
+
+      - name: SSH setup
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key && chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "${{ secrets.DEPLOY_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          printf 'Host target\n  HostName %s\n  User %s\n  IdentityFile ~/.ssh/deploy_key\n  StrictHostKeyChecking yes\n  ServerAliveInterval 15\n' "$HOST" "$USER_NAME" > ~/.ssh/config
+
+      # The key is restricted on the server (authorized_keys: restrict,command=deploy.sh): it can only run
+      # `load` (docker load from stdin) and `deploy <tag>` (switch IMAGE_TAG, restart, health-check, roll back).
+      # It cannot read .env or run anything else. The compose file lives on the server and is not uploaded.
+      - name: Upload images
+        run: docker save qadam-backend:$TAG qadam-web:$TAG | gzip | ssh target load
+
+      - name: Deploy (rolls back automatically if /api/health fails)
+        run: ssh target "deploy $TAG"
