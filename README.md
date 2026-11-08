@@ -12,7 +12,7 @@ Meeting-to-task platform: **audio call → recording → Whisper transcript → 
 | Backend | Python 3.11+, FastAPI, SQLModel (SQLite by default, any SQLAlchemy URL works) |
 | Audio calls | **LiveKit** (SDK chosen in T6): `livekit-client` in the browser, `livekit-api` + Egress on the server |
 | Transcription | **faster-whisper** (CTranslate2 build of OpenAI Whisper), runs on your own hardware |
-| NLP (draft tasks) | **Not implemented yet** — a stable interface + a clearly-labelled regex placeholder, see below |
+| NLP (draft tasks) | Rule-based drafter by default; experimental self-hosted LLM drafter (Qwen + llama.cpp) behind `DRAFTER=llm`, see below |
 
 ## What is implemented (MVP = F1, F3, F4, F5-interface, F6)
 
@@ -118,20 +118,43 @@ browser (livekit-client) ──join token──▶ POST /api/meetings/{id}/call/
 review UI ──approve──▶ Task (QAD-n) + activity event  → backlog and board
 ```
 
-## Plugging in the NLP part
+## Drafting: rules or a self-hosted LLM
 
-Everything the rest of the app needs is the `DraftGenerator` protocol in `backend/app/services/drafting.py`:
+Everything the rest of the app needs is the `DraftGenerator` protocol in `backend/app/services/drafting.py`;
+`DRAFTER` picks the implementation:
 
-```python
-class DraftGenerator(Protocol):
-    def generate(self, segments: Sequence[SegmentIn], known_people: Sequence[str]) -> DraftingResult: ...
+| `DRAFTER` | What drafts the tasks |
+| --- | --- |
+| `placeholder` (default) | `RuleDrafter`: keyword/regex rules (ru + en): «давайте / надо / нужно», «пусть сделает <имя>», weekdays, «готово, когда …». Deterministic, no network |
+| `llm` | `LLMDrafter`: a small self-hosted model (Qwen via llama.cpp) behind an OpenAI-compatible API; falls back to the rules on any failure |
+| `none` | no drafts |
+
+Re-run any drafter on stored transcripts with **«Пересоздать черновики»** (`POST /api/meetings/{id}/reprocess`).
+
+### LLM drafter (`DRAFTER=llm`) — experimental, off by default
+
+```
+Segment rows ─► sentences ─► windows around cue sentences ─► llama-server (JSON schema) ─► guards ─► DraftTask
 ```
 
-1. Implement it (LLM call + parser from T5/N6). Return `assignee_name` only if it is one of `known_people` *and* was said in the transcript, otherwise `None` — the UI renders that as "не указан" (F5 AC2).
-2. Return it from `get_drafter()` for e.g. `DRAFTER=llm`.
-3. Re-run it on stored transcripts with the **«Пересоздать черновики»** button (`POST /api/meetings/{id}/reprocess`) — no need to re-transcribe.
-
-The default `PlaceholderDrafter` is ~100 lines of keyword/regex rules (Russian + a bit of English: «давайте / надо / нужно», «пусть сделает <имя>», weekday words, «готово, когда …»). It exists so the loop can be demoed and tested; it is **not** the product's NLP. `DRAFTER=none` disables it.
+* **The model proposes, code checks, a human approves.** The guards enforce F5 AC2 regardless of what the model says:
+  an assignee must be a teammate *named* in the task's own lines (a speaker label is not an assignment), a deadline
+  must have been said and is dated by the rules, criteria and titles must be grounded in the transcript, the quote
+  is cut from the transcript by code. Server down, timeout or broken JSON → the rule drafter, nothing is lost.
+* Code: `services/llm_drafting.py` (pipeline + guards), `services/llm_prompts.py` (prompts per language — small
+  models follow the prompt's language, so English meetings get an English prompt; Kazakh goes with the Russian one).
+* Settings: `LLM_BASE_URL`, `LLM_MODEL` (Ollama needs the tag, llama-server ignores it), `LLM_MODE`
+  (`extract` default, `refine`, `full`), `LLM_TIMEOUT_SEC` — see `.env.example`.
+* Run locally: put a GGUF model into `data/models/` and start the `llm` compose profile:
+  ```bash
+  curl -L -o data/models/Qwen3-1.7B-Q4_K_M.gguf \
+    https://huggingface.co/unsloth/Qwen3-1.7B-GGUF/resolve/main/Qwen3-1.7B-Q4_K_M.gguf
+  DRAFTER=llm docker compose --profile llm up --build
+  ```
+* **Status:** the model is not chosen yet, so production keeps `DRAFTER=placeholder`. The dev stand has 1 vCPU and
+  ~2 GB for the whole project; Qwen3-1.7B Q4_K_M needs ~1.45 GB RSS and ~5–10 s per fragment on one core. Quality is
+  measured with `backend/eval` (12 real meetings ru/en + synthetic cases, see `backend/eval/README.md`); on real
+  meetings no model up to 2B parameters reaches the targets yet, mostly because of false positives.
 
 ## Known limitations
 
