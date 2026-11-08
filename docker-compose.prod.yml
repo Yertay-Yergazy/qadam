@@ -1,0 +1,94 @@
+# Production: https://$DOMAIN (app + /api) and wss://lk.$DOMAIN (LiveKit), certificates by Caddy.
+# Usage: cp deploy/.env.prod.example .env && edit && docker compose -f docker-compose.prod.yml up -d --build
+services:
+  web:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.web
+    restart: unless-stopped
+    environment:
+      DOMAIN: ${DOMAIN}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on: [backend, livekit]
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+
+  livekit:
+    image: livekit/livekit-server:latest
+    restart: unless-stopped
+    environment:
+      LIVEKIT_CONFIG: |
+        port: 7880
+        rtc:
+          tcp_port: 7881
+          udp_port: 7882
+          use_external_ip: true
+        redis:
+          address: redis:6379
+        keys:
+          ${LIVEKIT_API_KEY}: ${LIVEKIT_API_SECRET}
+        webhook:
+          api_key: ${LIVEKIT_API_KEY}
+          urls:
+            - http://backend:8000/api/livekit/webhook
+    ports:
+      - "7881:7881"        # WebRTC over TCP (fallback)
+      - "7882:7882/udp"    # WebRTC over UDP
+    depends_on: [redis]
+
+  egress:
+    image: livekit/egress:latest
+    restart: unless-stopped
+    user: root
+    environment:
+      EGRESS_CONFIG_BODY: |
+        api_key: ${LIVEKIT_API_KEY}
+        api_secret: ${LIVEKIT_API_SECRET}
+        ws_url: ws://livekit:7880
+        redis:
+          address: redis:6379
+        health_port: 8080
+    cap_add:
+      - SYS_ADMIN
+    volumes:
+      - ./data/recordings:/out
+    depends_on: [livekit, redis]
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    user: root
+    expose:
+      - "8000"                       # reachable only through Caddy
+    environment:
+      LIVEKIT_URL: wss://lk.${DOMAIN}
+      LIVEKIT_API_URL: http://livekit:7880
+      LIVEKIT_API_KEY: ${LIVEKIT_API_KEY}
+      LIVEKIT_API_SECRET: ${LIVEKIT_API_SECRET}
+      WHISPER_MODEL: ${WHISPER_MODEL:-small}
+      WHISPER_LANGUAGE: ${WHISPER_LANGUAGE:-}
+      DRAFTER: ${DRAFTER:-placeholder}
+      JWT_SECRET: ${JWT_SECRET}
+      COOKIE_SECURE: "true"
+      SEED_DEMO: "false"
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      CORS_ORIGINS: https://${DOMAIN}
+    volumes:
+      - ./data/recordings:/data/recordings
+      - qadam-db:/data
+      - whisper-cache:/root/.cache/huggingface
+    depends_on: [livekit]
+
+volumes:
+  qadam-db:
+  whisper-cache:
+  caddy-data:
+  caddy-config:
