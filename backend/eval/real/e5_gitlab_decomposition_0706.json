@@ -1,0 +1,625 @@
+{
+  "name": "e5: GitLab Database Decomposition standup 2022-07-06 (post-rollout praise, small talk, last standup)",
+  "source": "https://www.youtube.com/watch?v=vOtsWJaYZos",
+  "language": "en",
+  "duration_sec": 539,
+  "meeting_date": "2022-07-06",
+  "people": [
+    "Eric",
+    "Dylan",
+    "Alex",
+    "Dave"
+  ],
+  "segments": [
+    {
+      "start_sec": 3.25,
+      "speaker": null,
+      "text": "Cool, welcome to Decomposition State holders weekly stand-up one stage all I six"
+    },
+    {
+      "start_sec": 10.69,
+      "speaker": null,
+      "text": "Yeah, well over the weekend. We shipped CID composition and production"
+    },
+    {
+      "start_sec": 17.57,
+      "speaker": null,
+      "text": "so"
+    },
+    {
+      "start_sec": 18.77,
+      "speaker": null,
+      "text": "woo-hoo"
+    },
+    {
+      "start_sec": 20.29,
+      "speaker": null,
+      "text": "and"
+    },
+    {
+      "start_sec": 22.29,
+      "speaker": null,
+      "text": "Yeah, I just wanted to pass along some praise from Eric and the"
+    },
+    {
+      "start_sec": 26.53,
+      "speaker": null,
+      "text": "That he had in the database scalability working group yesterday"
+    },
+    {
+      "start_sec": 30.61,
+      "speaker": null,
+      "text": "He said it was very surgical lots of preparation discipline about the happy path very impressive so"
+    },
+    {
+      "start_sec": 39.33,
+      "speaker": null,
+      "text": "Yeah, pretty pretty high praise there"
+    },
+    {
+      "start_sec": 41.73,
+      "speaker": null,
+      "text": "So congrats everyone and many thanks to everyone in this group specifically"
+    },
+    {
+      "start_sec": 47.89,
+      "speaker": null,
+      "text": "And those who had attended the the stand-up more regularly before the coordinate efforts across so many teams"
+    },
+    {
+      "start_sec": 55.73,
+      "speaker": null,
+      "text": "As we've got closer to this rollout"
+    },
+    {
+      "start_sec": 58.61,
+      "speaker": null,
+      "text": "Yeah, I'm just making sure I have it. I didn't put it anywhere yet, but"
+    },
+    {
+      "start_sec": 62.85,
+      "speaker": null,
+      "text": "I can at least share it among this group like"
+    },
+    {
+      "start_sec": 64.85,
+      "speaker": null,
+      "text": "I know it wasn't just Dylan, but y'all did a great job"
+    },
+    {
+      "start_sec": 67.89,
+      "speaker": null,
+      "text": "When you do stuff in production things happen that are not expected like the rails consoles and stuff"
+    },
+    {
+      "start_sec": 72.21,
+      "speaker": null,
+      "text": "So you sidetrack, but you you could did a good job of like and I think that's some of what Eric was saying to you"
+    },
+    {
+      "start_sec": 77.09,
+      "speaker": null,
+      "text": "I've like get back on the"
+    },
+    {
+      "start_sec": 79.41,
+      "speaker": null,
+      "text": "Get this done"
+    },
+    {
+      "start_sec": 81.49,
+      "speaker": null,
+      "text": "Research some things, but then stop and be like okay, this is an important. Let's just keep going"
+    },
+    {
+      "start_sec": 85.89,
+      "speaker": null,
+      "text": "So that was well done"
+    },
+    {
+      "start_sec": 89.33,
+      "speaker": null,
+      "text": "Well, everyone everyone here and the last few months that's such an intense pressure on the infrastructure team just to highlight that"
+    },
+    {
+      "start_sec": 101.09,
+      "speaker": null,
+      "text": "This is a"
+    },
+    {
+      "start_sec": 102.61,
+      "speaker": null,
+      "text": "This is great collaboration"
+    },
+    {
+      "start_sec": 105.49,
+      "speaker": null,
+      "text": "We learned a lot from this experience and of course if you know that the team will will be moving on to pause soon or later"
+    },
+    {
+      "start_sec": 114.45,
+      "speaker": null,
+      "text": "that will be"
+    },
+    {
+      "start_sec": 116.61,
+      "speaker": null,
+      "text": "even larger scale of the"
+    },
+    {
+      "start_sec": 121.17,
+      "speaker": null,
+      "text": "You know the the the sharding of the databases, so what we learned now is a high value for the next big rollout"
+    },
+    {
+      "start_sec": 134.59,
+      "speaker": null,
+      "text": "I think it's done"
+    },
+    {
+      "start_sec": 137.47,
+      "speaker": null,
+      "text": "So you know, it's a"
+    },
+    {
+      "start_sec": 141.39,
+      "speaker": null,
+      "text": "This week feels"
+    },
+    {
+      "start_sec": 143.39,
+      "speaker": null,
+      "text": "less exciting than the last one. That's maybe not that"
+    },
+    {
+      "start_sec": 149.52,
+      "speaker": null,
+      "text": "Okay, and I thought you are what question is coming up nicely with this one down then"
+    },
+    {
+      "start_sec": 154.32,
+      "speaker": null,
+      "text": "Yes"
+    },
+    {
+      "start_sec": 155.68,
+      "speaker": null,
+      "text": "So it's actually quite nice"
+    },
+    {
+      "start_sec": 157.36,
+      "speaker": null,
+      "text": "I'll be in the US for a month"
+    },
+    {
+      "start_sec": 159.92,
+      "speaker": null,
+      "text": "which"
+    },
+    {
+      "start_sec": 161.6,
+      "speaker": null,
+      "text": "On the occasion for a little bit more than two, so I'm hoping that you know, everybody like"
+    },
+    {
+      "start_sec": 168.72,
+      "speaker": null,
+      "text": "Recuperates and the covers a little bit from this and then we spent a little bit of time on strategy and hiring and those kinds of activities"
+    },
+    {
+      "start_sec": 178.48,
+      "speaker": null,
+      "text": "You know going to the next cycle"
+    },
+    {
+      "start_sec": 181.2,
+      "speaker": null,
+      "text": "So you're coming to visit neck and eye, right?"
+    },
+    {
+      "start_sec": 184.72,
+      "speaker": null,
+      "text": "We actually have discussed this a little bit. I have to look at flights and we'll be in upstate of New York"
+    },
+    {
+      "start_sec": 189.44,
+      "speaker": null,
+      "text": "So maybe I can fly it to Minnesota for a couple days"
+    },
+    {
+      "start_sec": 194.56,
+      "speaker": null,
+      "text": "No, no, no, no, don't go there. It's too hot there in the summer. Can't get to Portland or Seattle"
+    },
+    {
+      "start_sec": 201.68,
+      "speaker": null,
+      "text": "So much important last last summer for us sometime, right?"
+    },
+    {
+      "start_sec": 207.44,
+      "speaker": null,
+      "text": "Hahaha"
+    },
+    {
+      "start_sec": 209.44,
+      "speaker": null,
+      "text": "I guarantee you will have a better experience here, so whether it's a whether wise it's better here"
+    },
+    {
+      "start_sec": 215.92,
+      "speaker": null,
+      "text": "mosquitoes up there also hunt and packs like fossil raptors, so just be careful"
+    },
+    {
+      "start_sec": 221.28,
+      "speaker": null,
+      "text": "So these these two mosquitoes are flying through Minnesota and they pick up a cow for lunch and then they're headed towards Wisconsin"
+    },
+    {
+      "start_sec": 229.2,
+      "speaker": null,
+      "text": "And one mosquito goes no, don't go there. That's where the big mosquitoes live"
+    },
+    {
+      "start_sec": 237.44,
+      "speaker": null,
+      "text": "Hahaha"
+    },
+    {
+      "start_sec": 240.32,
+      "speaker": null,
+      "text": "I was like, great place"
+    },
+    {
+      "start_sec": 244.08,
+      "speaker": null,
+      "text": "The mosquitoes are only alive during the summer. July and August are the worst times"
+    },
+    {
+      "start_sec": 248.08,
+      "speaker": null,
+      "text": "But I do remember my lived in Madison that I had mosquitoes biting me through jeans"
+    },
+    {
+      "start_sec": 253.76,
+      "speaker": null,
+      "text": "So Alex's story is true"
+    },
+    {
+      "start_sec": 256.08,
+      "speaker": null,
+      "text": "Yeah"
+    },
+    {
+      "start_sec": 258.4,
+      "speaker": null,
+      "text": "I hesitate sharing this here because it will be published on YouTube"
+    },
+    {
+      "start_sec": 262.24,
+      "speaker": null,
+      "text": "But the little corner of Minnesota that I live in"
+    },
+    {
+      "start_sec": 265.44,
+      "speaker": null,
+      "text": "Actually does not have mosquitoes because it's"
+    },
+    {
+      "start_sec": 268.56,
+      "speaker": null,
+      "text": "Because it's it doesn't have the same topography as as most of Minnesota and has a lot of it doesn't have any like standing less leaks and standing water makes a difference"
+    },
+    {
+      "start_sec": 278.0,
+      "speaker": null,
+      "text": "Yep"
+    },
+    {
+      "start_sec": 280.51,
+      "speaker": null,
+      "text": "Since I talked about mosquitoes. I was surprised after I moved here to Portland"
+    },
+    {
+      "start_sec": 286.75,
+      "speaker": null,
+      "text": "Never got the most killed by here. It's just no mosquitoes at all in my home"
+    },
+    {
+      "start_sec": 293.63,
+      "speaker": null,
+      "text": "At least you live this area no mosquitoes at all at all. I still wonder why"
+    },
+    {
+      "start_sec": 299.79,
+      "speaker": null,
+      "text": "I've started using Permithrin which is this like insect repellent that you put on clothes"
+    },
+    {
+      "start_sec": 306.11,
+      "speaker": null,
+      "text": "And it just like stays on the clothes for a while and it works really well"
+    },
+    {
+      "start_sec": 313.95,
+      "speaker": null,
+      "text": "Anyway"
+    },
+    {
+      "start_sec": 316.35,
+      "speaker": null,
+      "text": "All right, I may be considering the trouble plans of this discussion"
+    },
+    {
+      "start_sec": 319.79,
+      "speaker": null,
+      "text": "Maybe we'll just all go to Portland and uh and invade"
+    },
+    {
+      "start_sec": 329.23,
+      "speaker": null,
+      "text": "Jones place"
+    },
+    {
+      "start_sec": 331.63,
+      "speaker": null,
+      "text": "Good lab people there and I've never been so kind of just got to bring back the trout the visiting grant"
+    },
+    {
+      "start_sec": 339.07,
+      "speaker": null,
+      "text": "There's a bunch of people here"
+    },
+    {
+      "start_sec": 343.52,
+      "speaker": null,
+      "text": "um"
+    },
+    {
+      "start_sec": 346.0,
+      "speaker": null,
+      "text": "Awesome, well uh yeah go into the"
+    },
+    {
+      "start_sec": 350.0,
+      "speaker": null,
+      "text": "That's uh item just uh link to the cid composition retro issue"
+    },
+    {
+      "start_sec": 355.52,
+      "speaker": null,
+      "text": "already a lot of a lot of good comments in there um and then"
+    },
+    {
+      "start_sec": 360.56,
+      "speaker": null,
+      "text": "Just uh last question. Yeah, just asking. Yeah, do we want to continue the stand-up and and if so how much longer"
+    },
+    {
+      "start_sec": 368.56,
+      "speaker": null,
+      "text": "Um, see yeah, Davie have a suggestion there"
+    },
+    {
+      "start_sec": 371.92,
+      "speaker": null,
+      "text": "Yeah, suggestion says question. What do you all think of like the retro issue goes on but sometimes it's nice for us at our level to"
+    },
+    {
+      "start_sec": 378.72,
+      "speaker": null,
+      "text": "Maybe sync up one last time to look over that retro issue make sure there's anything we call out that"
+    },
+    {
+      "start_sec": 383.84,
+      "speaker": null,
+      "text": "That's a question more than a"
+    },
+    {
+      "start_sec": 385.84,
+      "speaker": null,
+      "text": "I think we should do this. So I don't know if you all think that'd be good"
+    },
+    {
+      "start_sec": 393.02,
+      "speaker": null,
+      "text": "Depends on people's vacations because it you know, if that retrospective is going to be open for two weeks"
+    },
+    {
+      "start_sec": 399.12,
+      "speaker": null,
+      "text": "It's only valuable if you think it is"
+    },
+    {
+      "start_sec": 405.63,
+      "speaker": null,
+      "text": "Yeah, I'm okay with um"
+    },
+    {
+      "start_sec": 408.35,
+      "speaker": null,
+      "text": "You know, I think this and maybe actually going through the retro items next time and be arriving actions from it"
+    },
+    {
+      "start_sec": 414.59,
+      "speaker": null,
+      "text": "No"
+    },
+    {
+      "start_sec": 417.23,
+      "speaker": null,
+      "text": "Yeah"
+    },
+    {
+      "start_sec": 419.23,
+      "speaker": null,
+      "text": "I'm trying to reduce the the meetings associated with this"
+    },
+    {
+      "start_sec": 422.59,
+      "speaker": null,
+      "text": "But the removal of the working group was already met with resistance because it's going to fill up with at least one more working group I think"
+    },
+    {
+      "start_sec": 432.51,
+      "speaker": null,
+      "text": "My message is here we uh, we uh, we wrote everything all the carp expect to the working group meeting"
+    },
+    {
+      "start_sec": 438.19,
+      "speaker": null,
+      "text": "And then we can stop this meeting this meeting. I mean specifically uh, starting from"
+    },
+    {
+      "start_sec": 444.19,
+      "speaker": null,
+      "text": "Next week, so that doesn't make sense this yeah, this will be our last one for this uh, stand up"
+    },
+    {
+      "start_sec": 452.59,
+      "speaker": null,
+      "text": "Yeah, that's a good point. We already did agree to have at least one more of the"
+    },
+    {
+      "start_sec": 457.71,
+      "speaker": null,
+      "text": "Scala database scalability working group meetings so um, yeah, we can cover the retro there um"
+    },
+    {
+      "start_sec": 465.47,
+      "speaker": null,
+      "text": "Cool. Yeah, if everyone's good with that um, I'll yeah"
+    },
+    {
+      "start_sec": 469.95,
+      "speaker": null,
+      "text": "Uh update the invite and uh, yeah, anyone wants to um"
+    },
+    {
+      "start_sec": 476.03,
+      "speaker": null,
+      "text": "Review the retro um can follow along in the in the working group agenda"
+    },
+    {
+      "start_sec": 488.14,
+      "speaker": null,
+      "text": "Awesome. We're thank you again for all your support"
+    },
+    {
+      "start_sec": 491.82,
+      "speaker": null,
+      "text": "Yeah, yeah"
+    },
+    {
+      "start_sec": 494.14,
+      "speaker": null,
+      "text": "Yeah, just I call that uh soldiers of times"
+    },
+    {
+      "start_sec": 499.98,
+      "speaker": null,
+      "text": "Yeah, thanks everyone um, well, I guess yeah, we'll uh"
+    },
+    {
+      "start_sec": 504.3,
+      "speaker": null,
+      "text": "We'll call it a we'll call it a meeting we'll wrap up this uh stand up"
+    },
+    {
+      "start_sec": 508.94,
+      "speaker": null,
+      "text": "Yeah, thanks again. I'm sure this won't be the the last time we're all uh meeting about uh something"
+    },
+    {
+      "start_sec": 517.42,
+      "speaker": null,
+      "text": "Database related, but uh, I hope everyone enjoys the uh the the break from this this sort of thing uh for for a while and"
+    },
+    {
+      "start_sec": 527.1,
+      "speaker": null,
+      "text": "And gets to relax a bit"
+    },
+    {
+      "start_sec": 531.26,
+      "speaker": null,
+      "text": "All right"
+    },
+    {
+      "start_sec": 532.46,
+      "speaker": null,
+      "text": "Thanks and good day everyone"
+    },
+    {
+      "start_sec": 534.46,
+      "speaker": null,
+      "text": "Thanks to everybody"
+    }
+  ],
+  "expected": [
+    {
+      "keywords": [
+        [
+          "invite",
+          "calendar",
+          "meeting",
+          "standup",
+          "stand-up"
+        ]
+      ],
+      "assignee": null,
+      "due_text": null,
+      "due_date": null,
+      "note": "[88-96] stop this standup and cover the retro in the working group: 'this will be our last one for this stand up' -> 'if everyone's good with that, I'll ... update the invite'. Speaker unnamed.",
+      "segments": [
+        [
+          88,
+          96
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "retro"
+        ]
+      ],
+      "optional": true,
+      "due_text": null,
+      "due_date": null,
+      "note": "[76-97] 'sync up one last time to look over that retro issue' -> 'we can cover the retro there [database scalability working group]' / 'anyone wants to review the retro can follow along in the working group agenda'. Debatable: an agreement on where to discuss, no concrete owner.",
+      "assignee": null,
+      "segments": [
+        [
+          76,
+          97
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "praise",
+          "kudos",
+          "eric"
+        ]
+      ],
+      "optional": true,
+      "due_text": null,
+      "due_date": null,
+      "note": "[5-13] Eric's praise: 'I didn't put it anywhere yet, but I can at least share it among this group'. Minor hedged personal follow-up. 'Davie' in [77] taken as Dave.",
+      "assignee": null,
+      "segments": [
+        [
+          5,
+          13
+        ],
+        [
+          77,
+          77
+        ]
+      ]
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-from app.services.drafting import PlaceholderDrafter, SegmentIn
+from app.services.drafting import PlaceholderDrafter, SegmentIn, normalise_due
 
 PEOPLE = ["Алия", "Ерлан", "Айгерим"]
 
@@ -32,7 +32,10 @@ import pytest  # noqa: E402
 FRI_NOV_6 = date(2026, 11, 6)  # a Friday
 
 
-@pytest.mark.parametrize("phrase", ["Пусть Ерлан сделает", "Пусть Ерлану передадут", "Задачу возьмёт Ерлана команда", "Поручим это Ерлану"])
+@pytest.mark.parametrize(
+    "phrase",
+    ["Пусть Ерлан сделает", "Пусть Ерлану передадут", "Задачу возьмёт Ерлана команда", "Поручим это Ерлану", "Пусть сделает Ерланға"],
+)
 def test_russian_cases_of_a_name_are_matched(phrase):
     r = PlaceholderDrafter().generate([SegmentIn(0, None, f"Нужно починить логин. {phrase}.")], PEOPLE)
     assert r.drafts[0].assignee_name == "Ерлан"
@@ -67,3 +70,16 @@ def test_due_wording_becomes_a_date(said, text, expected):
 def test_no_due_means_no_date():
     d = PlaceholderDrafter().generate([SegmentIn(0, None, "Нужно выкатить релиз.")], PEOPLE, today=FRI_NOV_6).drafts[0]
     assert d.due_text is None and d.due_date is None
+
+
+@pytest.mark.parametrize(
+    "raw,expected",
+    [
+        ("next week", ("next week", None)),  # was ("week", None)
+        ("next friday", ("friday", date(2026, 11, 13))),
+        ("Friday", ("friday", date(2026, 11, 13))),
+        ("tomorrow", ("tomorrow", date(2026, 11, 7))),
+    ],
+)
+def test_english_due_wording(raw, expected):
+    assert normalise_due(raw, FRI_NOV_6) == expected

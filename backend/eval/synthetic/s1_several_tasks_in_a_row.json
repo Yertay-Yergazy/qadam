@@ -1,0 +1,16 @@
+{
+  "name": "s1: several tasks in a row, each owner/date said right after its task",
+  "meeting_date": "2026-11-04",
+  "people": ["Алия", "Ерлан", "Айгерим"],
+  "segments": [
+    {"speaker": "Ерлан", "text": "Так, по релизу. Нужно обновить документацию по API."},
+    {"speaker": "Ерлан", "text": "Это возьмёт Алия, до среды."},
+    {"speaker": "Алия", "text": "Ок. Ещё надо поправить падение на странице оплаты."},
+    {"speaker": "Ерлан", "text": "Да, это Айгерим, сегодня."},
+    {"speaker": "Айгерим", "text": "Принято."}
+  ],
+  "expected": [
+    {"keywords": ["документац"], "assignee": "Алия", "due_text": "среда", "due_date": "2026-11-11"},
+    {"keywords": ["оплат"], "assignee": "Айгерим", "due_text": "сегодня", "due_date": "2026-11-04"}
+  ]
+}

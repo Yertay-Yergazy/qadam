@@ -1,10 +1,8 @@
 """NLP step: transcript -> draft tasks.
 
-The real implementation (LLM prompt + parser, tasks T5 / N6) is NOT done yet. This module defines the
-contract the rest of the app depends on (`DraftGenerator`) plus a deliberately dumb regex
-`PlaceholderDrafter`, so the whole loop call -> transcript -> review -> backlog can be exercised end to end.
-
-To plug in the real thing: implement `DraftGenerator.generate`, then return it from `get_drafter()`.
+This module defines the contract the rest of the app depends on (`DraftGenerator`), the deterministic
+`RuleDrafter` (regex, ru + en) and the text helpers both drafters share. `get_drafter()` picks one by the
+DRAFTER setting: `placeholder` (rules), `llm` (self-hosted model, see llm_drafting.py) or `none`.
 
 Contract rules (A2, F5):
   * AC1: one draft per clearly stated action item.
@@ -77,7 +75,7 @@ _WEEKDAYS = [
 
 def normalise_due(raw: str, today: Optional[date] = None) -> tuple[str, Optional[date]]:
     """'в пятницу' -> ('пятница', next Friday). Vague phrases keep their text and get no date (never guess)."""
-    word = raw.lower().replace("next ", "").strip()
+    word = raw.lower().strip()
     today = today or date.today()
     if word in ("сегодня", "today"):
         return word, today
@@ -85,24 +83,60 @@ def normalise_due(raw: str, today: Optional[date] = None) -> tuple[str, Optional
         return word, today + timedelta(days=1)
     if word == "послезавтра":
         return word, today + timedelta(days=2)
+    day = word.removeprefix("next ")  # "next friday" is a weekday, "next week" stays vague
     for stem, canonical, idx in _WEEKDAYS:
-        if re.match(stem, word):
+        if re.match(stem, day):
             ahead = (idx - today.weekday()) % 7 or 7  # a weekday named today means next week
             return canonical, today + timedelta(days=ahead)
     return word, None
 
 
+def parse_due(text: str, today: Optional[date] = None) -> Optional[tuple[str, Optional[date]]]:
+    """The first due wording in `text`, normalised: 'сделать к пятнице' -> ('пятница', date). None if there is none."""
+    m = _DUE.search(text or "")
+    return normalise_due(m.group(1), today) if m else None
+
+
+def all_dues(text: str, today: Optional[date] = None) -> list[tuple[str, Optional[date]]]:
+    """Every due wording in `text`, normalised."""
+    return [normalise_due(m.group(1), today) for m in _DUE.finditer(text or "")]
+
+
 def resolve_due_text(text: str, today: Optional[date] = None) -> Optional[date]:
     """Used when a reviewer edits the free-text due field: recompute the date, or None if not parseable."""
-    m = _DUE.search(text or "")
-    return normalise_due(m.group(1), today)[1] if m else None
+    due = parse_due(text, today)
+    return due[1] if due else None
 
 
-def _cap(s: str) -> str:
+def is_hedge(sentence: str) -> bool:
+    """'когда-нибудь', 'потом решим': discussed, not decided -> never a task."""
+    return bool(_HEDGE.search(sentence))
+
+
+def is_action_cue(sentence: str, people: Sequence[str]) -> bool:
+    """Loose pre-filter: the sentence proposes, assigns, names a deadline or a teammate."""
+    return bool(
+        _PROPOSE.search(sentence) or _OWNER.search(sentence) or _DUE.search(sentence) or find_person(sentence, people)
+    )
+
+
+def summarize(drafts: Sequence[DraftProposal]) -> str:
+    if not drafts:
+        return ""
+    parts = []
+    for d in drafts:
+        extra = ", ".join(
+            x for x in (d.assignee_name and f"исполнитель — {d.assignee_name}", d.due_text and f"срок — {d.due_text}") if x
+        )
+        parts.append(f"«{d.title}»" + (f" ({extra})" if extra else ""))
+    return f"Предложено задач: {len(drafts)}. " + "; ".join(parts) + "."
+
+
+def capitalize(s: str) -> str:
     return s[:1].upper() + s[1:]
 
 
-def _sentences(text: str) -> list[str]:
+def split_sentences(text: str) -> list[str]:
     return [s.strip() for s in re.split(r"(?<=[.!?])\s+", text.strip()) if s.strip()]
 
 
@@ -111,20 +145,20 @@ def _title(sentence: str) -> str:
     t = re.sub(r"\s{2,}", " ", t).strip()
     t = re.sub(r"^(?:и|а|ну|тогда)\s+", "", t, flags=re.I)
     t = re.sub(r"^(?:давайте|надо|нужно|необходимо|let\x27s|we need to|we should)\s+", "", t, flags=re.I)
-    return _cap(t.strip(" .!?,;—-"))
+    return capitalize(t.strip(" .!?,;—-"))
 
 
-def _name_pattern(name: str) -> re.Pattern:
+def name_pattern(name: str) -> re.Pattern:
     """Matches a name in any Russian case: Ерлан / Ерлана / Ерлану / Ерланом; Алия / Алии / Алию / Алией."""
     stem = name[:-1] if name[-1].lower() in "аяйь" and len(name) > 3 else name
-    return re.compile(r"(?<![\w])" + re.escape(stem) + r"[а-яёa-z]{0,3}(?![\w])", re.I)
+    return re.compile(r"(?<![\w])" + re.escape(stem) + r"[а-яёәғқңөұүһіa-z]{0,3}(?![\w])", re.I)
 
 
-def _find_person(sentence: str, people: Sequence[str]) -> Optional[str]:
+def find_person(sentence: str, people: Sequence[str]) -> Optional[str]:
     """Only a person who is actually named in the sentence and is in `known_people`; otherwise None (F5 AC2)."""
     best: tuple[int, str] | None = None
     for name in people:
-        m = _name_pattern(name).search(sentence)
+        m = name_pattern(name).search(sentence)
         if m and (best is None or m.start() < best[0]):
             best = (m.start(), name)
     return best[1] if best else None
@@ -140,18 +174,18 @@ class RuleDrafter:
         current: Optional[DraftProposal] = None
 
         def apply_attrs(draft: DraftProposal, sentence: str) -> None:
-            person = _find_person(sentence, known_people)
-            due = _DUE.search(sentence)
+            person = find_person(sentence, known_people)
+            due = parse_due(sentence, today)
             if person:
                 draft.assignee_name = person
                 draft.source_quote = sentence
             if due:
-                draft.due_text, draft.due_date = normalise_due(due.group(1), today)
+                draft.due_text, draft.due_date = due
                 draft.source_quote = sentence
 
         for seg in segments:
             collecting_criteria = False
-            for sent in _sentences(seg.text):
+            for sent in split_sentences(seg.text):
                 if _HEDGE.search(sent):
                     topic = _TOPIC.search(sent)
                     if topic:
@@ -160,11 +194,11 @@ class RuleDrafter:
                     continue
                 done_when = _DONE_WHEN.match(sent)
                 if done_when and current:
-                    current.acceptance_criteria.append(_cap(done_when.group(1).strip()))
+                    current.acceptance_criteria.append(capitalize(done_when.group(1).strip()))
                     collecting_criteria = True
                     continue
                 if collecting_criteria and current:
-                    current.acceptance_criteria.append(_cap(sent))
+                    current.acceptance_criteria.append(capitalize(sent))
                     continue
                 if _PROPOSE.search(sent) and not _OWNER.search(sent):
                     current = DraftProposal(title=_title(sent), description=sent, source_quote=sent)
@@ -173,12 +207,7 @@ class RuleDrafter:
                 elif _OWNER.search(sent) and current:
                     apply_attrs(current, sent)
 
-        if result.drafts:
-            parts = []
-            for d in result.drafts:
-                extra = ", ".join(x for x in (d.assignee_name and f"исполнитель — {d.assignee_name}", d.due_text and f"срок — {d.due_text}") if x)
-                parts.append(f"«{d.title}»" + (f" ({extra})" if extra else ""))
-            result.summary = f"Предложено задач: {len(result.drafts)}. " + "; ".join(parts) + "."
+        result.summary = summarize(result.drafts)
         return result
 
 
@@ -188,5 +217,8 @@ PlaceholderDrafter = RuleDrafter  # backwards-compatible alias
 def get_drafter(kind: str) -> DraftGenerator:
     if kind == "none":
         return NoopDrafter()
-    # An LLM-backed drafter can be added here (DRAFTER=llm) behind the same DraftGenerator protocol.
+    if kind == "llm":
+        from .llm_drafting import LLMDrafter  # imports this module; also keeps httpx out of the rule-only path
+
+        return LLMDrafter.from_settings()
     return RuleDrafter()

@@ -1,0 +1,12 @@
+{
+  "name": "s8: Kazakh - a task with an owner, no deadline",
+  "meeting_date": "2026-11-04",
+  "people": ["Ерлан", "Алия", "Айгерім"],
+  "segments": [
+    {"speaker": "Ерлан", "text": "Есепті дайындау керек."},
+    {"speaker": "Алия", "text": "Оны Айгерім жасайды."}
+  ],
+  "expected": [
+    {"keywords": ["есеп"], "assignee": "Айгерім", "due_text": null, "due_date": null}
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "s7: English status updates only - no action items",
+  "meeting_date": "2026-11-04",
+  "people": ["Dana", "Omar"],
+  "segments": [
+    {"speaker": "Dana", "text": "Quick update from me, the migration finished yesterday without issues."},
+    {"speaker": "Omar", "text": "Nice. On my side the dashboard numbers look stable this week."},
+    {"speaker": "Dana", "text": "Cool, nothing blocking then."}
+  ],
+  "expected": []
+}

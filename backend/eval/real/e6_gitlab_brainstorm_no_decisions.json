@@ -1,0 +1,1989 @@
+{
+  "name": "e6: GitLab compliance design brainstorm (project labels, inheritance) - no decisions, no assigned tasks",
+  "source": "https://www.youtube.com/watch?v=EZgOH6qPJN0",
+  "language": "en",
+  "duration_sec": 1387,
+  "meeting_date": "2020-08-11",
+  "people": [
+    "Rob",
+    "Sid",
+    "Jeremy",
+    "Melissa",
+    "Patrick",
+    "Dan"
+  ],
+  "segments": [
+    {
+      "start_sec": 0.0,
+      "speaker": null,
+      "text": "It's to let you navigate through on your own end."
+    },
+    {
+      "start_sec": 4.24,
+      "speaker": null,
+      "text": "Oh, no, no, no."
+    },
+    {
+      "start_sec": 4.92,
+      "speaker": null,
+      "text": "You're good."
+    },
+    {
+      "start_sec": 6.84,
+      "speaker": null,
+      "text": "So this context for this particular issue"
+    },
+    {
+      "start_sec": 10.52,
+      "speaker": null,
+      "text": "is that in, I think it was 1210, we shipped the project labels."
+    },
+    {
+      "start_sec": 15.64,
+      "speaker": null,
+      "text": "And I think you did the engineering on that, right?"
+    },
+    {
+      "start_sec": 19.64,
+      "speaker": null,
+      "text": "Yeah."
+    },
+    {
+      "start_sec": 20.76,
+      "speaker": null,
+      "text": "And Rob, I think he worked, I think he started off with that."
+    },
+    {
+      "start_sec": 25.08,
+      "speaker": null,
+      "text": "And Gianna's what he will have across that."
+    },
+    {
+      "start_sec": 28.92,
+      "speaker": null,
+      "text": "Yeah, so we, so we implemented that feature."
+    },
+    {
+      "start_sec": 31.76,
+      "speaker": null,
+      "text": "And the intent there was let's give customers a way"
+    },
+    {
+      "start_sec": 34.88,
+      "speaker": null,
+      "text": "to label the projects that they care about, like in a compliance"
+    },
+    {
+      "start_sec": 38.56,
+      "speaker": null,
+      "text": "context, so that we could then have flexibility, like what"
+    },
+    {
+      "start_sec": 42.08,
+      "speaker": null,
+      "text": "you did with the instance level merger request approval rules,"
+    },
+    {
+      "start_sec": 44.68,
+      "speaker": null,
+      "text": "or we say, apply this disruptive policy only to regulated projects."
+    },
+    {
+      "start_sec": 50.96,
+      "speaker": null,
+      "text": "So that worked great."
+    },
+    {
+      "start_sec": 52.24,
+      "speaker": null,
+      "text": "We got really positive feedback from that."
+    },
+    {
+      "start_sec": 54.48,
+      "speaker": null,
+      "text": "But then we have a follow up feedback that said, basically,"
+    },
+    {
+      "start_sec": 57.84,
+      "speaker": null,
+      "text": "oh, this is great, but I also want"
+    },
+    {
+      "start_sec": 59.64,
+      "speaker": null,
+      "text": "to be able to label projects as maybe having"
+    },
+    {
+      "start_sec": 62.88,
+      "speaker": null,
+      "text": "specific environments like AWS or Google Cloud."
+    },
+    {
+      "start_sec": 66.36,
+      "speaker": null,
+      "text": "Maybe I want to label specific things like,"
+    },
+    {
+      "start_sec": 68.4,
+      "speaker": null,
+      "text": "oh, this is a Linux application, or like a Linux environment"
+    },
+    {
+      "start_sec": 71.48,
+      "speaker": null,
+      "text": "versus Windows."
+    },
+    {
+      "start_sec": 73.36,
+      "speaker": null,
+      "text": "And so we got into the topic of, like, well,"
+    },
+    {
+      "start_sec": 76.36,
+      "speaker": null,
+      "text": "we have project topics."
+    },
+    {
+      "start_sec": 77.56,
+      "speaker": null,
+      "text": "And maybe we just iterate on that to improve that feature."
+    },
+    {
+      "start_sec": 82.6,
+      "speaker": null,
+      "text": "But then there was this overlapping effort"
+    },
+    {
+      "start_sec": 85.84,
+      "speaker": null,
+      "text": "where the compliance pipeline configuration"
+    },
+    {
+      "start_sec": 89.64,
+      "speaker": null,
+      "text": "will call it initiative."
+    },
+    {
+      "start_sec": 92.28,
+      "speaker": null,
+      "text": "And the recent proposal basically says,"
+    },
+    {
+      "start_sec": 97.2,
+      "speaker": null,
+      "text": "as part of the solution, use Custom CI Configuration Path."
+    },
+    {
+      "start_sec": 101.04,
+      "speaker": null,
+      "text": "One of SID's main concerns was, we don't want this"
+    },
+    {
+      "start_sec": 103.36,
+      "speaker": null,
+      "text": "to apply broadly."
+    },
+    {
+      "start_sec": 104.64,
+      "speaker": null,
+      "text": "This should be refined in some way"
+    },
+    {
+      "start_sec": 106.2,
+      "speaker": null,
+      "text": "that it says least disruptive as possible."
+    },
+    {
+      "start_sec": 108.64,
+      "speaker": null,
+      "text": "And so it felt like those two went hand in hand."
+    },
+    {
+      "start_sec": 111.04,
+      "speaker": null,
+      "text": "Here we have customers asking for the ability"
+    },
+    {
+      "start_sec": 113.04,
+      "speaker": null,
+      "text": "to customize labels that we were going"
+    },
+    {
+      "start_sec": 114.96,
+      "speaker": null,
+      "text": "to use to reduce the scope of this compliance pipeline"
+    },
+    {
+      "start_sec": 119.32,
+      "speaker": null,
+      "text": "configuration."
+    },
+    {
+      "start_sec": 120.52,
+      "speaker": null,
+      "text": "And then here we have this premise of like a Custom CI path."
+    },
+    {
+      "start_sec": 126.68,
+      "speaker": null,
+      "text": "And so we thought, what if we just enable customers"
+    },
+    {
+      "start_sec": 131.32,
+      "speaker": null,
+      "text": "to do that customization of the compliance labels?"
+    },
+    {
+      "start_sec": 135.48,
+      "speaker": null,
+      "text": "And so talking through that, we ended up mostly on word"
+    },
+    {
+      "start_sec": 139.24,
+      "speaker": null,
+      "text": "that we see this proposal."
+    },
+    {
+      "start_sec": 140.72,
+      "speaker": null,
+      "text": "We're still at one thing we've come back to it just yet,"
+    },
+    {
+      "start_sec": 143.28,
+      "speaker": null,
+      "text": "but the reason that Custom CI Config Path is there"
+    },
+    {
+      "start_sec": 147.04,
+      "speaker": null,
+      "text": "is because we thought, well, if they want to define HIPAA."
+    },
+    {
+      "start_sec": 151.12,
+      "speaker": null,
+      "text": "And so to avoid a breaking change,"
+    },
+    {
+      "start_sec": 153.64,
+      "speaker": null,
+      "text": "we could say take those five hard coded framework labels"
+    },
+    {
+      "start_sec": 158.36,
+      "speaker": null,
+      "text": "that we added and just make them editable"
+    },
+    {
+      "start_sec": 160.44,
+      "speaker": null,
+      "text": "as part of this customizable area"
+    },
+    {
+      "start_sec": 163.0,
+      "speaker": null,
+      "text": "and add an optional field for Custom CI Path."
+    },
+    {
+      "start_sec": 166.4,
+      "speaker": null,
+      "text": "And so every project that you label with Sox, for example,"
+    },
+    {
+      "start_sec": 170.72,
+      "speaker": null,
+      "text": "if you define a Custom CI Path to like TANs Group,"
+    },
+    {
+      "start_sec": 174.72,
+      "speaker": null,
+      "text": "slash TANs Project, slash TAN.gillabci.aml,"
+    },
+    {
+      "start_sec": 180.44,
+      "speaker": null,
+      "text": "then every project with that label would call out"
+    },
+    {
+      "start_sec": 183.88,
+      "speaker": null,
+      "text": "to that external or that Custom CI Path"
+    },
+    {
+      "start_sec": 186.52,
+      "speaker": null,
+      "text": "in addition to their local YAML file."
+    },
+    {
+      "start_sec": 190.04,
+      "speaker": null,
+      "text": "And the thinking there was in that TAN.gillabci,"
+    },
+    {
+      "start_sec": 193.76,
+      "speaker": null,
+      "text": "which is outside of the local project"
+    },
+    {
+      "start_sec": 196.08,
+      "speaker": null,
+      "text": "being controlled by the compliance team,"
+    },
+    {
+      "start_sec": 198.04,
+      "speaker": null,
+      "text": "you could specify different rule sets"
+    },
+    {
+      "start_sec": 200.12,
+      "speaker": null,
+      "text": "to say run this rule set for this project namespace"
+    },
+    {
+      "start_sec": 203.24,
+      "speaker": null,
+      "text": "and this rule set for this or label even."
+    },
+    {
+      "start_sec": 206.64,
+      "speaker": null,
+      "text": "And so that was just one of the crossover opportunities"
+    },
+    {
+      "start_sec": 210.08,
+      "speaker": null,
+      "text": "we found."
+    },
+    {
+      "start_sec": 211.4,
+      "speaker": null,
+      "text": "And I think the reason I mentioned it"
+    },
+    {
+      "start_sec": 213.84,
+      "speaker": null,
+      "text": "in that group level merger quest approval rules"
+    },
+    {
+      "start_sec": 218.92,
+      "speaker": null,
+      "text": "is because we were talking about the,"
+    },
+    {
+      "start_sec": 223.48,
+      "speaker": null,
+      "text": "I guess, the inheritance pattern"
+    },
+    {
+      "start_sec": 225.2,
+      "speaker": null,
+      "text": "and how we built it for the instance level"
+    },
+    {
+      "start_sec": 228.04,
+      "speaker": null,
+      "text": "merger quest approval rules or settings, I should say."
+    },
+    {
+      "start_sec": 231.92,
+      "speaker": null,
+      "text": "And so I think I was raising that issue for your awareness"
+    },
+    {
+      "start_sec": 235.16,
+      "speaker": null,
+      "text": "to say, hey, like maybe there's some way"
+    },
+    {
+      "start_sec": 237.0,
+      "speaker": null,
+      "text": "we can leverage these labels in conjunction"
+    },
+    {
+      "start_sec": 240.4,
+      "speaker": null,
+      "text": "with that inheritance model or to supplant"
+    },
+    {
+      "start_sec": 243.68,
+      "speaker": null,
+      "text": "that inheritance model with something different"
+    },
+    {
+      "start_sec": 246.56,
+      "speaker": null,
+      "text": "based on the new criteria we've been given around."
+    },
+    {
+      "start_sec": 249.68,
+      "speaker": null,
+      "text": "Hey, I want to set something at the group level"
+    },
+    {
+      "start_sec": 253.2,
+      "speaker": null,
+      "text": "and then have that recursively applied"
+    },
+    {
+      "start_sec": 255.28,
+      "speaker": null,
+      "text": "down into every subgrouping project."
+    },
+    {
+      "start_sec": 259.72,
+      "speaker": null,
+      "text": "So hopefully that all makes sense."
+    },
+    {
+      "start_sec": 260.72,
+      "speaker": null,
+      "text": "I know that was a bit of a breakdown"
+    },
+    {
+      "start_sec": 262.32,
+      "speaker": null,
+      "text": "but it's a lot of moving parts, at least in my head."
+    },
+    {
+      "start_sec": 266.68,
+      "speaker": null,
+      "text": "Yeah, yeah, I can see the motivation behind label"
+    },
+    {
+      "start_sec": 271.72,
+      "speaker": null,
+      "text": "as well, together, give you a little bit more flexibility."
+    },
+    {
+      "start_sec": 277.52,
+      "speaker": null,
+      "text": "But also, I think I can think of it as a two path here"
+    },
+    {
+      "start_sec": 285.32,
+      "speaker": null,
+      "text": "where one, we're talking about is recording"
+    },
+    {
+      "start_sec": 289.12,
+      "speaker": null,
+      "text": "what almost like what the metadata that the compliance framework"
+    },
+    {
+      "start_sec": 296.12,
+      "speaker": null,
+      "text": "have or a labels or compliance label can have"
+    },
+    {
+      "start_sec": 300.0,
+      "speaker": null,
+      "text": "and the other part was applying those rules to other areas"
+    },
+    {
+      "start_sec": 304.28,
+      "speaker": null,
+      "text": "like whether that's going to be saying MR approvals"
+    },
+    {
+      "start_sec": 310.64,
+      "speaker": null,
+      "text": "or push rules and things like that."
+    },
+    {
+      "start_sec": 314.12,
+      "speaker": null,
+      "text": "So this one we're talking, yeah, I think it's more"
+    },
+    {
+      "start_sec": 317.6,
+      "speaker": null,
+      "text": "on how we record the data or a thing that relates"
+    },
+    {
+      "start_sec": 324.88,
+      "speaker": null,
+      "text": "to compliance framework and the one that prior to this,"
+    },
+    {
+      "start_sec": 330.4,
+      "speaker": null,
+      "text": "this one here, the group level March request approval rules"
+    },
+    {
+      "start_sec": 337.6,
+      "speaker": null,
+      "text": "are on the application path, taking the data that we recorded"
+    },
+    {
+      "start_sec": 343.64,
+      "speaker": null,
+      "text": "that attached to the labels or compliance labels"
+    },
+    {
+      "start_sec": 346.52,
+      "speaker": null,
+      "text": "and then apply it here."
+    },
+    {
+      "start_sec": 350.16,
+      "speaker": null,
+      "text": "So they actually contributing to the end user experience"
+    },
+    {
+      "start_sec": 356.8,
+      "speaker": null,
+      "text": "of having this apply or inheritance gone through."
+    },
+    {
+      "start_sec": 363.8,
+      "speaker": null,
+      "text": "But I think that's the two different problems"
+    },
+    {
+      "start_sec": 370.56,
+      "speaker": null,
+      "text": "that we're trying to tackle."
+    },
+    {
+      "start_sec": 375.12,
+      "speaker": null,
+      "text": "So at the moment, if we're taking the framework"
+    },
+    {
+      "start_sec": 377.64,
+      "speaker": null,
+      "text": "or what we recorded, we still can run with this rule."
+    },
+    {
+      "start_sec": 382.16,
+      "speaker": null,
+      "text": "So she meant that that's recorded at the instant settings, I think."
+    },
+    {
+      "start_sec": 393.68,
+      "speaker": null,
+      "text": "When you raise another point that I forgot to mention,"
+    },
+    {
+      "start_sec": 397.88,
+      "speaker": null,
+      "text": "one of the reasons I brought this up was because the paradigm"
+    },
+    {
+      "start_sec": 402.48,
+      "speaker": null,
+      "text": "of toggle something and then enforce it only"
+    },
+    {
+      "start_sec": 406.36,
+      "speaker": null,
+      "text": "the compliance label projects right now would be really ugly"
+    },
+    {
+      "start_sec": 410.76,
+      "speaker": null,
+      "text": "because we'd have to copy paste that little subsection"
+    },
+    {
+      "start_sec": 414.2,
+      "speaker": null,
+      "text": "where we say, OK, now I want to set these default approval rules."
+    },
+    {
+      "start_sec": 417.56,
+      "speaker": null,
+      "text": "But I only want to apply them to socks, HIPAA, PCI."
+    },
+    {
+      "start_sec": 421.76,
+      "speaker": null,
+      "text": "And so having to copy paste that experience everywhere just"
+    },
+    {
+      "start_sec": 424.92,
+      "speaker": null,
+      "text": "doesn't seem like the best UX."
+    },
+    {
+      "start_sec": 427.88,
+      "speaker": null,
+      "text": "And so what I hope is achievable in some future state"
+    },
+    {
+      "start_sec": 432.64,
+      "speaker": null,
+      "text": "is when customers define these custom project labels,"
+    },
+    {
+      "start_sec": 436.36,
+      "speaker": null,
+      "text": "they can say they can fully load it and say, OK,"
+    },
+    {
+      "start_sec": 439.08,
+      "speaker": null,
+      "text": "I'm going to define something called, let's call it, PCI-EU."
+    },
+    {
+      "start_sec": 444.56,
+      "speaker": null,
+      "text": "So maybe it's like specific settings for a combination"
+    },
+    {
+      "start_sec": 447.68,
+      "speaker": null,
+      "text": "of the PCI standard as well as some EU laws or regulations."
+    },
+    {
+      "start_sec": 453.28,
+      "speaker": null,
+      "text": "And so in there, I could foresee they have some ability"
+    },
+    {
+      "start_sec": 456.96,
+      "speaker": null,
+      "text": "to say, you know, set these default merge request settings,"
+    },
+    {
+      "start_sec": 463.2,
+      "speaker": null,
+      "text": "point to this custom CI path, prevent project maintainers"
+    },
+    {
+      "start_sec": 469.8,
+      "speaker": null,
+      "text": "from changing any settings or something like that."
+    },
+    {
+      "start_sec": 473.44,
+      "speaker": null,
+      "text": "So instead of having to copy paste this framework selection"
+    },
+    {
+      "start_sec": 476.68,
+      "speaker": null,
+      "text": "everywhere, we have them define those common theme settings"
+    },
+    {
+      "start_sec": 479.92,
+      "speaker": null,
+      "text": "in this one place."
+    },
+    {
+      "start_sec": 481.48,
+      "speaker": null,
+      "text": "And then every project they apply that label to would then"
+    },
+    {
+      "start_sec": 484.52,
+      "speaker": null,
+      "text": "apply those controls and say, OK, maintainers"
+    },
+    {
+      "start_sec": 486.92,
+      "speaker": null,
+      "text": "don't have their normal permissions."
+    },
+    {
+      "start_sec": 488.96,
+      "speaker": null,
+      "text": "The CI pipeline is going to be or the pipeline"
+    },
+    {
+      "start_sec": 491.36,
+      "speaker": null,
+      "text": "is going to be comprised of both this local"
+    },
+    {
+      "start_sec": 493.0,
+      "speaker": null,
+      "text": "and external configuration file."
+    },
+    {
+      "start_sec": 495.48,
+      "speaker": null,
+      "text": "There are a set of default merge request approval rules"
+    },
+    {
+      "start_sec": 498.04,
+      "speaker": null,
+      "text": "in terms of like actual approval rules"
+    },
+    {
+      "start_sec": 500.0,
+      "speaker": null,
+      "text": "in addition to the settings like authors can't merge it"
+    },
+    {
+      "start_sec": 503.44,
+      "speaker": null,
+      "text": "or approve it, whatever it is."
+    },
+    {
+      "start_sec": 506.28,
+      "speaker": null,
+      "text": "Yeah."
+    },
+    {
+      "start_sec": 507.12,
+      "speaker": null,
+      "text": "Good."
+    },
+    {
+      "start_sec": 508.12,
+      "speaker": null,
+      "text": "But yeah, that was what I was thinking of."
+    },
+    {
+      "start_sec": 510.08,
+      "speaker": null,
+      "text": "And the reason I wanted to bring that up to you"
+    },
+    {
+      "start_sec": 513.08,
+      "speaker": null,
+      "text": "in that comment was because I think at this point,"
+    },
+    {
+      "start_sec": 516.2,
+      "speaker": null,
+      "text": "you're basically like the expert on the inheritance model."
+    },
+    {
+      "start_sec": 520.56,
+      "speaker": null,
+      "text": "I worked at work."
+    },
+    {
+      "start_sec": 523.56,
+      "speaker": null,
+      "text": "And we have those for wise too."
+    },
+    {
+      "start_sec": 526.8,
+      "speaker": null,
+      "text": "Yeah, and I just wanted you to have your brain turning on it"
+    },
+    {
+      "start_sec": 530.48,
+      "speaker": null,
+      "text": "because you are most likely to find the opportunity"
+    },
+    {
+      "start_sec": 533.64,
+      "speaker": null,
+      "text": "for us to do it in whatever is likely the best path forward"
+    },
+    {
+      "start_sec": 537.04,
+      "speaker": null,
+      "text": "so that we're not copying and pasting the same UX everywhere."
+    },
+    {
+      "start_sec": 540.24,
+      "speaker": null,
+      "text": "We can achieve what customers want in terms of like in this issue,"
+    },
+    {
+      "start_sec": 544.8,
+      "speaker": null,
+      "text": "if you scroll a little bit further down, he talks about"
+    },
+    {
+      "start_sec": 548.0,
+      "speaker": null,
+      "text": "like I want to set these policies at the root group level."
+    },
+    {
+      "start_sec": 552.4,
+      "speaker": null,
+      "text": "And I want it to automatically inherit down"
+    },
+    {
+      "start_sec": 555.44,
+      "speaker": null,
+      "text": "but subgroups and projects should be able"
+    },
+    {
+      "start_sec": 558.44,
+      "speaker": null,
+      "text": "to change those settings."
+    },
+    {
+      "start_sec": 560.2,
+      "speaker": null,
+      "text": "And I think that's like a, I think that's a good path"
+    },
+    {
+      "start_sec": 562.52,
+      "speaker": null,
+      "text": "because then later we can figure out like okay,"
+    },
+    {
+      "start_sec": 565.2,
+      "speaker": null,
+      "text": "how do we lock these down for compliance or related projects"
+    },
+    {
+      "start_sec": 571.04,
+      "speaker": null,
+      "text": "and to me that seems to be in line with our values"
+    },
+    {
+      "start_sec": 573.48,
+      "speaker": null,
+      "text": "of it's not disruptive, it is convenient"
+    },
+    {
+      "start_sec": 576.96,
+      "speaker": null,
+      "text": "because they can apply a standard"
+    },
+    {
+      "start_sec": 578.4,
+      "speaker": null,
+      "text": "but then local group owners and project maintainers"
+    },
+    {
+      "start_sec": 581.24,
+      "speaker": null,
+      "text": "can change it to their needs."
+    },
+    {
+      "start_sec": 583.04,
+      "speaker": null,
+      "text": "But then later we can introduce the very selectively"
+    },
+    {
+      "start_sec": 585.72,
+      "speaker": null,
+      "text": "disruptive enforcement that allow the owners or admins"
+    },
+    {
+      "start_sec": 590.64,
+      "speaker": null,
+      "text": "to enforce things for this small handful of projects"
+    },
+    {
+      "start_sec": 594.2,
+      "speaker": null,
+      "text": "that they want to regulate."
+    },
+    {
+      "start_sec": 596.2,
+      "speaker": null,
+      "text": "Yeah, does all that make sense?"
+    },
+    {
+      "start_sec": 598.56,
+      "speaker": null,
+      "text": "Yeah it does, it does."
+    },
+    {
+      "start_sec": 600.76,
+      "speaker": null,
+      "text": "I think we're the other thought I have in relation to compliance"
+    },
+    {
+      "start_sec": 609.64,
+      "speaker": null,
+      "text": "is the way I think of it's conceptually,"
+    },
+    {
+      "start_sec": 614.56,
+      "speaker": null,
+      "text": "it's a container of why you can group settings"
+    },
+    {
+      "start_sec": 620.32,
+      "speaker": null,
+      "text": "and if I can think of it's, I think I'll post it up here"
+    },
+    {
+      "start_sec": 624.84,
+      "speaker": null,
+      "text": "but it came to hear your thoughts in."
+    },
+    {
+      "start_sec": 628.0,
+      "speaker": null,
+      "text": "So we have project and a group and instance"
+    },
+    {
+      "start_sec": 630.84,
+      "speaker": null,
+      "text": "if you don't have compliance in that space"
+    },
+    {
+      "start_sec": 632.84,
+      "speaker": null,
+      "text": "you have projects and have it from groups"
+    },
+    {
+      "start_sec": 634.8,
+      "speaker": null,
+      "text": "and have it from instance."
+    },
+    {
+      "start_sec": 638.64,
+      "speaker": null,
+      "text": "Now compliance introduced and interesting dynamics here"
+    },
+    {
+      "start_sec": 641.76,
+      "speaker": null,
+      "text": "so we have, so kind of think you may be in compliance"
+    },
+    {
+      "start_sec": 645.88,
+      "speaker": null,
+      "text": "somewhere in between groups and instance"
+    },
+    {
+      "start_sec": 652.44,
+      "speaker": null,
+      "text": "where you can say project inherits from group"
+    },
+    {
+      "start_sec": 655.64,
+      "speaker": null,
+      "text": "and inherits from compliance."
+    },
+    {
+      "start_sec": 657.92,
+      "speaker": null,
+      "text": "If you have instance that might be high up"
+    },
+    {
+      "start_sec": 660.44,
+      "speaker": null,
+      "text": "so that's compliance inherits from instance"
+    },
+    {
+      "start_sec": 663.64,
+      "speaker": null,
+      "text": "but maybe not the right move there."
+    },
+    {
+      "start_sec": 667.2,
+      "speaker": null,
+      "text": "Compliance may be a little bit more switch trigger"
+    },
+    {
+      "start_sec": 671.28,
+      "speaker": null,
+      "text": "than what we have for instance"
+    },
+    {
+      "start_sec": 674.36,
+      "speaker": null,
+      "text": "because I'm not sure if you want people to change it"
+    },
+    {
+      "start_sec": 680.08,
+      "speaker": null,
+      "text": "after you kind of set or even override"
+    },
+    {
+      "start_sec": 684.12,
+      "speaker": null,
+      "text": "if you say you compliance it will stand"
+    },
+    {
+      "start_sec": 686.24,
+      "speaker": null,
+      "text": "it's whether you allow people at the project level"
+    },
+    {
+      "start_sec": 691.4,
+      "speaker": null,
+      "text": "to override so that's something we might have to consider, I think."
+    },
+    {
+      "start_sec": 696.68,
+      "speaker": null,
+      "text": "Yeah for sure like I think these are two different use cases"
+    },
+    {
+      "start_sec": 701.68,
+      "speaker": null,
+      "text": "if not more for two, if not more types of customers"
+    },
+    {
+      "start_sec": 705.6,
+      "speaker": null,
+      "text": "regulated customers so like the customer in that"
+    },
+    {
+      "start_sec": 709.88,
+      "speaker": null,
+      "text": "in this issue who says hey I want to set it at this top"
+    },
+    {
+      "start_sec": 713.76,
+      "speaker": null,
+      "text": "level, have it inherit down but anyone can change it."
+    },
+    {
+      "start_sec": 717.28,
+      "speaker": null,
+      "text": "I think the agreement that yes there should eventually be"
+    },
+    {
+      "start_sec": 720.72,
+      "speaker": null,
+      "text": "some mechanism that lets me prevent certain projects"
+    },
+    {
+      "start_sec": 723.88,
+      "speaker": null,
+      "text": "and people from changing these settings"
+    },
+    {
+      "start_sec": 726.68,
+      "speaker": null,
+      "text": "but I think for now it's the first problem"
+    },
+    {
+      "start_sec": 729.28,
+      "speaker": null,
+      "text": "which is I don't have a way to automate"
+    },
+    {
+      "start_sec": 732.2,
+      "speaker": null,
+      "text": "or standardize a common set of project settings"
+    },
+    {
+      "start_sec": 737.08,
+      "speaker": null,
+      "text": "that I can just have exist or inherit down"
+    },
+    {
+      "start_sec": 739.84,
+      "speaker": null,
+      "text": "where I don't have to do a bunch of manual work"
+    },
+    {
+      "start_sec": 741.64,
+      "speaker": null,
+      "text": "or custom tooling with an API to make those changes"
+    },
+    {
+      "start_sec": 746.12,
+      "speaker": null,
+      "text": "and then the second problem would then be"
+    },
+    {
+      "start_sec": 748.56,
+      "speaker": null,
+      "text": "okay now that I can like automate and standardize"
+    },
+    {
+      "start_sec": 751.16,
+      "speaker": null,
+      "text": "this project template essentially"
+    },
+    {
+      "start_sec": 753.44,
+      "speaker": null,
+      "text": "or the settings template."
+    },
+    {
+      "start_sec": 754.8,
+      "speaker": null,
+      "text": "Now I want to have that apply on new projects"
+    },
+    {
+      "start_sec": 758.44,
+      "speaker": null,
+      "text": "or inherit down and I don't want maintainers"
+    },
+    {
+      "start_sec": 762.08,
+      "speaker": null,
+      "text": "in this project over here to be able to change that"
+    },
+    {
+      "start_sec": 764.72,
+      "speaker": null,
+      "text": "and I think that's where the compliance labels could come in."
+    },
+    {
+      "start_sec": 767.96,
+      "speaker": null,
+      "text": "Okay, okay, yep."
+    },
+    {
+      "start_sec": 772.04,
+      "speaker": null,
+      "text": "Got you."
+    },
+    {
+      "start_sec": 774.08,
+      "speaker": null,
+      "text": "And I could almost kind of see just like a,"
+    },
+    {
+      "start_sec": 778.04,
+      "speaker": null,
+      "text": "I don't know random thought."
+    },
+    {
+      "start_sec": 783.12,
+      "speaker": null,
+      "text": "Maybe it's in the compliance dashboard"
+    },
+    {
+      "start_sec": 784.88,
+      "speaker": null,
+      "text": "but like a control panel where you specify"
+    },
+    {
+      "start_sec": 788.68,
+      "speaker": null,
+      "text": "that like any project with a compliance label"
+    },
+    {
+      "start_sec": 792.48,
+      "speaker": null,
+      "text": "should have this default profile"
+    },
+    {
+      "start_sec": 794.36,
+      "speaker": null,
+      "text": "and maybe that's maintainers can do X, Y and Z things"
+    },
+    {
+      "start_sec": 797.84,
+      "speaker": null,
+      "text": "but they can't change any of the project settings"
+    },
+    {
+      "start_sec": 800.56,
+      "speaker": null,
+      "text": "and they can't change or do certain actions"
+    },
+    {
+      "start_sec": 803.72,
+      "speaker": null,
+      "text": "that maintainers normally could do."
+    },
+    {
+      "start_sec": 806.36,
+      "speaker": null,
+      "text": "Any label or any project with a compliance label."
+    },
+    {
+      "start_sec": 810.24,
+      "speaker": null,
+      "text": "Yeah, X, Y and Z, but that needs to be thought through."
+    },
+    {
+      "start_sec": 816.36,
+      "speaker": null,
+      "text": "Yeah, I can share."
+    },
+    {
+      "start_sec": 819.36,
+      "speaker": null,
+      "text": "It's an interesting problem to solve isn't it?"
+    },
+    {
+      "start_sec": 822.56,
+      "speaker": null,
+      "text": "To put our curveball here for more requests of probals"
+    },
+    {
+      "start_sec": 828.56,
+      "speaker": null,
+      "text": "the way that it structures different from push rules."
+    },
+    {
+      "start_sec": 832.84,
+      "speaker": null,
+      "text": "So it can't simply like from the technical standpoint"
+    },
+    {
+      "start_sec": 836.6,
+      "speaker": null,
+      "text": "the slide it the same way as push rules"
+    },
+    {
+      "start_sec": 840.08,
+      "speaker": null,
+      "text": "which I think it's was not right"
+    },
+    {
+      "start_sec": 844.4,
+      "speaker": null,
+      "text": "like it should be kind of structure in a similar way"
+    },
+    {
+      "start_sec": 847.52,
+      "speaker": null,
+      "text": "so that's what I don't have to kind of repeat the same effort."
+    },
+    {
+      "start_sec": 852.68,
+      "speaker": null,
+      "text": "To elaborate on that, I think push rules are actually stored."
+    },
+    {
+      "start_sec": 857.76,
+      "speaker": null,
+      "text": "In the same tables where commercial requests approvals"
+    },
+    {
+      "start_sec": 863.08,
+      "speaker": null,
+      "text": "actually being different tables."
+    },
+    {
+      "start_sec": 867.04,
+      "speaker": null,
+      "text": "So there's the extra effort to kind of aggregate these rules"
+    },
+    {
+      "start_sec": 874.2,
+      "speaker": null,
+      "text": "at the time where the project or at the MRL level"
+    },
+    {
+      "start_sec": 879.28,
+      "speaker": null,
+      "text": "approval settings apply."
+    },
+    {
+      "start_sec": 880.8,
+      "speaker": null,
+      "text": "We have to aggregate or jump between different tables"
+    },
+    {
+      "start_sec": 883.56,
+      "speaker": null,
+      "text": "to get to the end result"
+    },
+    {
+      "start_sec": 887.0,
+      "speaker": null,
+      "text": "where push rules actually done any site one tables"
+    },
+    {
+      "start_sec": 890.76,
+      "speaker": null,
+      "text": "with mobile format."
+    },
+    {
+      "start_sec": 894.88,
+      "speaker": null,
+      "text": "So I'm with you that as well."
+    },
+    {
+      "start_sec": 896.48,
+      "speaker": null,
+      "text": "Like I can see that it's beneficial to bring it"
+    },
+    {
+      "start_sec": 902.32,
+      "speaker": null,
+      "text": "like the standard set of how we do inheritance"
+    },
+    {
+      "start_sec": 906.08,
+      "speaker": null,
+      "text": "and overrides."
+    },
+    {
+      "start_sec": 912.54,
+      "speaker": null,
+      "text": "Well, and I think to one of the lessons learned"
+    },
+    {
+      "start_sec": 916.74,
+      "speaker": null,
+      "text": "between the instance level MR rules that you built"
+    },
+    {
+      "start_sec": 920.34,
+      "speaker": null,
+      "text": "and the group level push rules"
+    },
+    {
+      "start_sec": 922.14,
+      "speaker": null,
+      "text": "and just group level anything is I think"
+    },
+    {
+      "start_sec": 925.98,
+      "speaker": null,
+      "text": "we should probably start a focusing first on group level"
+    },
+    {
+      "start_sec": 931.9,
+      "speaker": null,
+      "text": "one because the caters to both dot com customers"
+    },
+    {
+      "start_sec": 934.5,
+      "speaker": null,
+      "text": "and self managed to because I think that the group level"
+    },
+    {
+      "start_sec": 939.42,
+      "speaker": null,
+      "text": "is ideally where a majority like 90% plus"
+    },
+    {
+      "start_sec": 944.9,
+      "speaker": null,
+      "text": "want the control anyway."
+    },
+    {
+      "start_sec": 947.18,
+      "speaker": null,
+      "text": "And it's only going to be the minority of customers"
+    },
+    {
+      "start_sec": 949.78,
+      "speaker": null,
+      "text": "which we could then do small quick iterations eventually"
+    },
+    {
+      "start_sec": 953.22,
+      "speaker": null,
+      "text": "at the instance level to give them that level of control."
+    },
+    {
+      "start_sec": 957.62,
+      "speaker": null,
+      "text": "And I don't think we would have learned that"
+    },
+    {
+      "start_sec": 959.66,
+      "speaker": null,
+      "text": "if we hadn't have done what we've done so far."
+    },
+    {
+      "start_sec": 963.02,
+      "speaker": null,
+      "text": "But I think where I see the instance level"
+    },
+    {
+      "start_sec": 966.18,
+      "speaker": null,
+      "text": "merger quest approval rules going potentially"
+    },
+    {
+      "start_sec": 968.62,
+      "speaker": null,
+      "text": "is we treat that area of the admin panel"
+    },
+    {
+      "start_sec": 972.82,
+      "speaker": null,
+      "text": "as sort of this, I don't know, maybe like Jeremy"
+    },
+    {
+      "start_sec": 977.38,
+      "speaker": null,
+      "text": "raised a great issue around doing like a compliance check."
+    },
+    {
+      "start_sec": 980.9,
+      "speaker": null,
+      "text": "And so maybe we take those check boxes and we add on to it"
+    },
+    {
+      "start_sec": 985.94,
+      "speaker": null,
+      "text": "and maybe we do like a library of common settings"
+    },
+    {
+      "start_sec": 989.58,
+      "speaker": null,
+      "text": "and we say like hey, like check all the settings"
+    },
+    {
+      "start_sec": 991.82,
+      "speaker": null,
+      "text": "that you want to ensure enabled across your instance"
+    },
+    {
+      "start_sec": 994.78,
+      "speaker": null,
+      "text": "and we then use that as some frame of reference"
+    },
+    {
+      "start_sec": 998.22,
+      "speaker": null,
+      "text": "to measure against and say, okay, you've told us"
+    },
+    {
+      "start_sec": 1000.82,
+      "speaker": null,
+      "text": "that these 32 settings should be enabled"
+    },
+    {
+      "start_sec": 1002.86,
+      "speaker": null,
+      "text": "or have these values and now we're going to go look"
+    },
+    {
+      "start_sec": 1004.86,
+      "speaker": null,
+      "text": "at all of the projects in your group,"
+    },
+    {
+      "start_sec": 1006.78,
+      "speaker": null,
+      "text": "we're all the regulated projects in your group or namespace"
+    },
+    {
+      "start_sec": 1010.34,
+      "speaker": null,
+      "text": "to let you know which ones are compliant"
+    },
+    {
+      "start_sec": 1013.14,
+      "speaker": null,
+      "text": "or which ones have violations and stuff like that."
+    },
+    {
+      "start_sec": 1014.94,
+      "speaker": null,
+      "text": "So I think there's still a cool opportunity in that regard."
+    },
+    {
+      "start_sec": 1019.06,
+      "speaker": null,
+      "text": "Yeah, but then that's, again, that's one of those"
+    },
+    {
+      "start_sec": 1022.1,
+      "speaker": null,
+      "text": "like maybe we have to bring it to group at some point"
+    },
+    {
+      "start_sec": 1025.38,
+      "speaker": null,
+      "text": "for .com and it goes back to your point"
+    },
+    {
+      "start_sec": 1027.26,
+      "speaker": null,
+      "text": "from earlier in this call where we say,"
+    },
+    {
+      "start_sec": 1030.46,
+      "speaker": null,
+      "text": "you know, it needs some place between group"
+    },
+    {
+      "start_sec": 1032.58,
+      "speaker": null,
+      "text": "and instance level and I think Melissa"
+    },
+    {
+      "start_sec": 1034.82,
+      "speaker": null,
+      "text": "in the access group is working on a workspaces construct,"
+    },
+    {
+      "start_sec": 1039.74,
+      "speaker": null,
+      "text": "I think, yeah, we're working on those workspaces,"
+    },
+    {
+      "start_sec": 1042.74,
+      "speaker": null,
+      "text": "but yeah, yeah, a lot of really tough problems to solve."
+    },
+    {
+      "start_sec": 1048.38,
+      "speaker": null,
+      "text": "Yeah, it's in if we trade those at least even just"
+    },
+    {
+      "start_sec": 1054.58,
+      "speaker": null,
+      "text": "at the data store level having these in one place"
+    },
+    {
+      "start_sec": 1059.74,
+      "speaker": null,
+      "text": "and just store, it requires approval settings."
+    },
+    {
+      "start_sec": 1064.02,
+      "speaker": null,
+      "text": "So these are the settings that apply for compliance AYZ"
+    },
+    {
+      "start_sec": 1068.26,
+      "speaker": null,
+      "text": "and then this is a compliance apply for group"
+    },
+    {
+      "start_sec": 1071.42,
+      "speaker": null,
+      "text": "and then we can figure out what thing,"
+    },
+    {
+      "start_sec": 1074.66,
+      "speaker": null,
+      "text": "how it's kind of, how the rules are at the later points"
+    },
+    {
+      "start_sec": 1080.26,
+      "speaker": null,
+      "text": "at least we recording is in the same place."
+    },
+    {
+      "start_sec": 1084.34,
+      "speaker": null,
+      "text": "It's same for push rules, that's what happened."
+    },
+    {
+      "start_sec": 1086.66,
+      "speaker": null,
+      "text": "I think we had it all kind of"
+    },
+    {
+      "start_sec": 1089.62,
+      "speaker": null,
+      "text": "in the same tables and there, if you happen to change"
+    },
+    {
+      "start_sec": 1094.3,
+      "speaker": null,
+      "text": "the way the rules apply,"
+    },
+    {
+      "start_sec": 1095.78,
+      "speaker": null,
+      "text": "whether that's group confers or compliance confers,"
+    },
+    {
+      "start_sec": 1100.3,
+      "speaker": null,
+      "text": "it's really easy, feel like less moving parts"
+    },
+    {
+      "start_sec": 1106.94,
+      "speaker": null,
+      "text": "where, you know, most requires approvals."
+    },
+    {
+      "start_sec": 1108.7,
+      "speaker": null,
+      "text": "I think it's digitally we have it to different places."
+    },
+    {
+      "start_sec": 1112.62,
+      "speaker": null,
+      "text": "Oh, that startled me because I said it was dark."
+    },
+    {
+      "start_sec": 1120.05,
+      "speaker": null,
+      "text": "Oh, wow, don't open the door."
+    },
+    {
+      "start_sec": 1123.61,
+      "speaker": null,
+      "text": "At least inside the house already."
+    },
+    {
+      "start_sec": 1134.15,
+      "speaker": null,
+      "text": "They just see another person walking their dog"
+    },
+    {
+      "start_sec": 1136.47,
+      "speaker": null,
+      "text": "and they're, hey, come here, anyway, sorry, what were you saying?"
+    },
+    {
+      "start_sec": 1148.49,
+      "speaker": null,
+      "text": "Yeah, I think it's, I think if we can get them kind of all store"
+    },
+    {
+      "start_sec": 1155.73,
+      "speaker": null,
+      "text": "in the same place and it's making the interpretations"
+    },
+    {
+      "start_sec": 1160.29,
+      "speaker": null,
+      "text": "of these roles a little bit easier,"
+    },
+    {
+      "start_sec": 1163.69,
+      "speaker": null,
+      "text": "at least we don't have to touch how it get ridden."
+    },
+    {
+      "start_sec": 1168.81,
+      "speaker": null,
+      "text": "If it's just focus on the rate parts,"
+    },
+    {
+      "start_sec": 1170.73,
+      "speaker": null,
+      "text": "is how we interpret these roles, you can, yeah,"
+    },
+    {
+      "start_sec": 1176.49,
+      "speaker": null,
+      "text": "you can play with different role engines, if you want to."
+    },
+    {
+      "start_sec": 1181.01,
+      "speaker": null,
+      "text": "Yeah, I mean, I think we should spend some cycles"
+    },
+    {
+      "start_sec": 1184.29,
+      "speaker": null,
+      "text": "thinking through that."
+    },
+    {
+      "start_sec": 1186.57,
+      "speaker": null,
+      "text": "If you feel, oh, go ahead."
+    },
+    {
+      "start_sec": 1189.45,
+      "speaker": null,
+      "text": "I'm putting, have you have a chance to look through"
+    },
+    {
+      "start_sec": 1194.49,
+      "speaker": null,
+      "text": "what the mass integrations have been through it a bit?"
+    },
+    {
+      "start_sec": 1204.73,
+      "speaker": null,
+      "text": "Yeah, because it feel a very similar,"
+    },
+    {
+      "start_sec": 1208.37,
+      "speaker": null,
+      "text": "but I haven't actually gauge what, you know,"
+    },
+    {
+      "start_sec": 1211.45,
+      "speaker": null,
+      "text": "what the implications are from product."
+    },
+    {
+      "start_sec": 1215.53,
+      "speaker": null,
+      "text": "Point of view."
+    },
+    {
+      "start_sec": 1217.29,
+      "speaker": null,
+      "text": "Yeah, I can maybe schedule a call with if it's ecosystem"
+    },
+    {
+      "start_sec": 1222.05,
+      "speaker": null,
+      "text": "that'd be Patrick Dooley and just pick his brain on it a bit"
+    },
+    {
+      "start_sec": 1225.77,
+      "speaker": null,
+      "text": "because I'd like to spend some, some cycles on it with you"
+    },
+    {
+      "start_sec": 1230.49,
+      "speaker": null,
+      "text": "and Dan or whomever and think about what it is you're talking"
+    },
+    {
+      "start_sec": 1236.09,
+      "speaker": null,
+      "text": "about because there's another issue I created"
+    },
+    {
+      "start_sec": 1239.73,
+      "speaker": null,
+      "text": "around creating this risk library where the initial thought"
+    },
+    {
+      "start_sec": 1244.41,
+      "speaker": null,
+      "text": "is customers could define, let's say there's a line item"
+    },
+    {
+      "start_sec": 1247.69,
+      "speaker": null,
+      "text": "and says merger quests opened that have only one minimum"
+    },
+    {
+      "start_sec": 1255.81,
+      "speaker": null,
+      "text": "required approval is a risk score, it like has higher risk"
+    },
+    {
+      "start_sec": 1260.25,
+      "speaker": null,
+      "text": "than one that requires more approvals."
+    },
+    {
+      "start_sec": 1263.01,
+      "speaker": null,
+      "text": "That's why not the right way to define those,"
+    },
+    {
+      "start_sec": 1265.57,
+      "speaker": null,
+      "text": "but something like that where we create this library"
+    },
+    {
+      "start_sec": 1268.05,
+      "speaker": null,
+      "text": "that we can then say, okay, once we've defined what risk looks"
+    },
+    {
+      "start_sec": 1273.09,
+      "speaker": null,
+      "text": "like within GitLab, then when we create an issue,"
+    },
+    {
+      "start_sec": 1276.25,
+      "speaker": null,
+      "text": "when we open an MR, when we merge that MR,"
+    },
+    {
+      "start_sec": 1278.89,
+      "speaker": null,
+      "text": "when we take certain actions, we can assign risk ranks"
+    },
+    {
+      "start_sec": 1282.41,
+      "speaker": null,
+      "text": "or waits to it."
+    },
+    {
+      "start_sec": 1285.49,
+      "speaker": null,
+      "text": "And I think that's gonna require some underlying consideration"
+    },
+    {
+      "start_sec": 1289.57,
+      "speaker": null,
+      "text": "around what does that scheme look like"
+    },
+    {
+      "start_sec": 1291.21,
+      "speaker": null,
+      "text": "and how do we deal with those relationships."
+    },
+    {
+      "start_sec": 1294.69,
+      "speaker": null,
+      "text": "And then similarly, we eventually want to build out,"
+    },
+    {
+      "start_sec": 1297.73,
+      "speaker": null,
+      "text": "you know, a mapping between things like all of the controls"
+    },
+    {
+      "start_sec": 1300.73,
+      "speaker": null,
+      "text": "in the PCI DSS and settings and configurations and GitLab."
+    },
+    {
+      "start_sec": 1307.45,
+      "speaker": null,
+      "text": "So I think we're doing a lot of work"
+    },
+    {
+      "start_sec": 1309.45,
+      "speaker": null,
+      "text": "that's gonna involve these relational"
+    },
+    {
+      "start_sec": 1313.05,
+      "speaker": null,
+      "text": "or relationship type of considerations"
+    },
+    {
+      "start_sec": 1314.89,
+      "speaker": null,
+      "text": "and it's probably good for us to start now,"
+    },
+    {
+      "start_sec": 1317.33,
+      "speaker": null,
+      "text": "even just kind of like slowly and chipping away"
+    },
+    {
+      "start_sec": 1319.29,
+      "speaker": null,
+      "text": "what we think this could manifest as,"
+    },
+    {
+      "start_sec": 1320.89,
+      "speaker": null,
+      "text": "whether it's one or n number of these different models."
+    },
+    {
+      "start_sec": 1325.25,
+      "speaker": null,
+      "text": "But I think group push rules and instance level,"
+    },
+    {
+      "start_sec": 1328.17,
+      "speaker": null,
+      "text": "anything and all of the inheritance involved there"
+    },
+    {
+      "start_sec": 1330.57,
+      "speaker": null,
+      "text": "is already proving difficult."
+    },
+    {
+      "start_sec": 1331.97,
+      "speaker": null,
+      "text": "And I'd like to get ahead of that if we can"
+    },
+    {
+      "start_sec": 1334.13,
+      "speaker": null,
+      "text": "because it's only gonna get worse as we go forward."
+    },
+    {
+      "start_sec": 1337.33,
+      "speaker": null,
+      "text": "Yeah, the multi tenant kind of move."
+    },
+    {
+      "start_sec": 1342.45,
+      "speaker": null,
+      "text": "And I think naturally we tend to fall into a group level"
+    },
+    {
+      "start_sec": 1345.57,
+      "speaker": null,
+      "text": "for a lot of things."
+    },
+    {
+      "start_sec": 1347.57,
+      "speaker": null,
+      "text": "Yeah, I think it's good to have common standards"
+    },
+    {
+      "start_sec": 1352.01,
+      "speaker": null,
+      "text": "or this how we approach it."
+    },
+    {
+      "start_sec": 1354.09,
+      "speaker": null,
+      "text": "Even from the customer perspective to make it easy for them."
+    },
+    {
+      "start_sec": 1358.17,
+      "speaker": null,
+      "text": "Cause yeah, I don't know."
+    },
+    {
+      "start_sec": 1360.97,
+      "speaker": null,
+      "text": "It's, if we just have trouble explaining it,"
+    },
+    {
+      "start_sec": 1365.29,
+      "speaker": null,
+      "text": "like drawing this table and then having that rules"
+    },
+    {
+      "start_sec": 1368.81,
+      "speaker": null,
+      "text": "in the code, feel like it's really hard to say"
+    },
+    {
+      "start_sec": 1373.29,
+      "speaker": null,
+      "text": "how we can get the customer to use"
+    },
+    {
+      "start_sec": 1377.21,
+      "speaker": null,
+      "text": "or even understand how the rules work."
+    },
+    {
+      "start_sec": 1380.97,
+      "speaker": null,
+      "text": "Yep, I agree with you."
+    },
+    {
+      "start_sec": 1382.61,
+      "speaker": null,
+      "text": "Yeah."
+    },
+    {
+      "start_sec": 1383.77,
+      "speaker": null,
+      "text": "Let me stop recording here real quick."
+    },
+    {
+      "start_sec": 1386.13,
+      "speaker": null,
+      "text": "Yeah."
+    }
+  ],
+  "expected": [
+    {
+      "keywords": [
+        [
+          "call",
+          "patrick",
+          "ecosystem",
+          "integration"
+        ]
+      ],
+      "optional": true,
+      "due_text": null,
+      "due_date": null,
+      "note": "[328-337] 'I can maybe schedule a call with if it's ecosystem that'd be Patrick Dooley and just pick his brain on it'. Hedged ('maybe'); Patrick is the person to talk to, not the owner; speaker unnamed.",
+      "assignee": null,
+      "segments": [
+        [
+          328,
+          337
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "diagram",
+          "post",
+          "share"
+        ]
+      ],
+      "optional": true,
+      "due_text": null,
+      "due_date": null,
+      "note": "[173-177], [233] 'I think I'll post it up here but [I'd like] to hear your thoughts' / 'Yeah, I can share.' Hedged aside during brainstorming.",
+      "assignee": null,
+      "segments": [
+        [
+          173,
+          177
+        ],
+        [
+          233,
+          233
+        ]
+      ]
+    }
+  ]
+}

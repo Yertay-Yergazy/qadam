@@ -1,0 +1,12 @@
+{
+  "name": "s3: a discussion with no decisions - every draft is a false positive",
+  "meeting_date": "2026-11-04",
+  "people": ["Алия", "Ерлан", "Айгерим"],
+  "segments": [
+    {"speaker": "Ерлан", "text": "Мне кажется, надо бы когда-нибудь переехать на новый CI."},
+    {"speaker": "Алия", "text": "Может быть, но это потом решим."},
+    {"speaker": "Айгерим", "text": "Интересно, как у других команд с этим."},
+    {"speaker": "Ерлан", "text": "Ладно, просто обсудили, решения пока нет."}
+  ],
+  "expected": []
+}

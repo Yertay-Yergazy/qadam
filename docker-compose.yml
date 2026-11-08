@@ -47,6 +47,10 @@ services:
       WHISPER_MODEL: ${WHISPER_MODEL}
       WHISPER_LANGUAGE: ${WHISPER_LANGUAGE}
       DRAFTER: ${DRAFTER:-placeholder}
+      LLM_BASE_URL: ${LLM_BASE_URL:-http://llm:8080/v1}
+      LLM_MODEL: ${LLM_MODEL:-qwen}
+      LLM_MODE: ${LLM_MODE:-extract}
+      LLM_TIMEOUT_SEC: ${LLM_TIMEOUT_SEC:-120}
       JWT_SECRET: ${JWT_SECRET:-}   # empty = random per start (everyone logged out on restart)
       COOKIE_SECURE: ${COOKIE_SECURE:-false}
       ADMIN_EMAIL: ${ADMIN_EMAIL:-}
@@ -58,6 +62,18 @@ services:
       - qadam-db:/data
       - whisper-cache:/root/.cache/huggingface  # Whisper weights are downloaded once
     depends_on: [livekit]
+
+  # Self-hosted LLM for the drafter (DRAFTER=llm). Off by default: `docker compose --profile llm up`.
+  # Put the GGUF file into ./data/models (see README, "LLM drafter"). Limits mirror the dev stand: one CPU core;
+  # Qwen3-1.7B Q4_K_M peaked at ~1.45 GB RSS with this context size.
+  llm:
+    profiles: [llm]
+    image: ghcr.io/ggml-org/llama.cpp@sha256:ca40726778c25a7fadce42c09bada8484eab22e28bc283bdbf212e87b1555390  # server build used in the evals
+    command: -m /models/${LLM_MODEL_FILE:-Qwen3-1.7B-Q4_K_M.gguf} -c 2048 -t 1 -np 1 --host 0.0.0.0 --port 8080
+    volumes:
+      - ./data/models:/models:ro
+    cpus: 1
+    mem_limit: 1600m
 
 volumes:
   qadam-db:

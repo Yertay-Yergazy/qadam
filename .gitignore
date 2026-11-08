@@ -6,3 +6,4 @@ __pycache__/
 data/
 *.pyc
 .pytest_cache/
+backend/eval/local/

@@ -7,7 +7,7 @@
     {"speaker": "Алия", "text": "Надо починить логин. Пусть Ерлану дадут доступ к серверу, завтра."}
   ],
   "expected": [
-    {"title_contains": "обновить документацию", "assignee": null, "due_text": null, "due_date": null},
-    {"title_contains": "починить логин", "assignee": "Ерлан", "due_text": "завтра", "due_date": "2026-11-07"}
+    {"keywords": ["документац"], "assignee": null, "due_text": null, "due_date": null},
+    {"keywords": ["логин"], "assignee": "Ерлан", "due_text": "завтра", "due_date": "2026-11-07"}
   ]
 }

@@ -1,0 +1,610 @@
+{
+  "name": "e3: GitLab Analytics Instrumentation group sync (custom properties, test style deprecation, opt-out numbers)",
+  "source": "https://www.youtube.com/watch?v=g2vp0LGJRoE",
+  "language": "en",
+  "duration_sec": 909,
+  "meeting_date": "2025-04-22",
+  "people": [
+    "Tanutra",
+    "Sarah",
+    "Ashwin",
+    "Jonas",
+    "Ankit"
+  ],
+  "segments": [
+    {
+      "start_sec": 0.05,
+      "speaker": null,
+      "text": "Hello, welcome to Analytics Instrumentation Sync on the 22nd of April. We have a few dinda items."
+    },
+    {
+      "start_sec": 17.58,
+      "speaker": null,
+      "text": "The first one is from Tanutra, who's now on the call, but I can verbalize."
+    },
+    {
+      "start_sec": 24.7,
+      "speaker": null,
+      "text": "Tanutra realized that she wanted to get the teams thought on the feedback we have on additional"
+    },
+    {
+      "start_sec": 30.7,
+      "speaker": null,
+      "text": "properties. There's a link in the agenda, and to know if there's anything we could do to"
+    },
+    {
+      "start_sec": 40.78,
+      "speaker": null,
+      "text": "do on the instrumentation side to reduce that complexity. Yeah, I wonder because right now"
+    },
+    {
+      "start_sec": 55.81,
+      "speaker": null,
+      "text": "we do need this complexity because we know that on the database side, these free properties are in the"
+    },
+    {
+      "start_sec": 61.33,
+      "speaker": null,
+      "text": "text better than all the other unnamed ones. So that would suggest that we have this distinction"
+    },
+    {
+      "start_sec": 71.49,
+      "speaker": null,
+      "text": "between these free properties and the other ones. Ideally, probably we would want it so that"
+    },
+    {
+      "start_sec": 80.35,
+      "speaker": null,
+      "text": "it doesn't matter also on the data side so that we let anyone use whatever names they want."
+    },
+    {
+      "start_sec": 90.08,
+      "speaker": null,
+      "text": "You remember if we ever had if anybody did benchmarking on performance?"
+    },
+    {
+      "start_sec": 103.04,
+      "speaker": null,
+      "text": "Yeah, but I think it was ideal suggestion from the data team, like not to"
+    },
+    {
+      "start_sec": 108.96,
+      "speaker": null,
+      "text": "use custom properties, right? Like try to have label property value first."
+    },
+    {
+      "start_sec": 114.0,
+      "speaker": null,
+      "text": "You know. Yeah, but that was I do remember just before I went on leave. I"
+    },
+    {
+      "start_sec": 123.28,
+      "speaker": null,
+      "text": "reviewed an MR where the auto actually did not use the first properties, the index ones,"
+    },
+    {
+      "start_sec": 136.72,
+      "speaker": null,
+      "text": "because they are team thoughts. It didn't make sense for them to name their property value, like it"
+    },
+    {
+      "start_sec": 145.2,
+      "speaker": null,
+      "text": "wasn't the best option for them. So even though it was indexed, they instead of not using this"
+    },
+    {
+      "start_sec": 152.32,
+      "speaker": null,
+      "text": "property. So that's still something that's with this concern."
+    },
+    {
+      "start_sec": 170.77,
+      "speaker": null,
+      "text": "Well, I wanted to say that maybe we should discuss it with the data team to see"
+    },
+    {
+      "start_sec": 177.57,
+      "speaker": null,
+      "text": "what are the consequences of using the extra properties like are they really much slower?"
+    },
+    {
+      "start_sec": 185.17,
+      "speaker": null,
+      "text": "Yeah, I think that's a good end. And there's a cost a whole lot more to query data this way."
+    },
+    {
+      "start_sec": 193.33,
+      "speaker": null,
+      "text": "I think that's a great idea. So do we have any action items?"
+    },
+    {
+      "start_sec": 215.7,
+      "speaker": null,
+      "text": "I will add a comment in the issue that Stanwo J. posted and maybe tag someone from the data team."
+    },
+    {
+      "start_sec": 221.54,
+      "speaker": null,
+      "text": "Good. Yeah. And we can see if it returns to us, if we just have to update the documentation."
+    },
+    {
+      "start_sec": 242.29,
+      "speaker": null,
+      "text": "Me how you have done this, there's anything else to add here? I mean, we've also gone there."
+    },
+    {
+      "start_sec": 248.93,
+      "speaker": null,
+      "text": "Like we've previously discussed, actually, we have some kind of like doing aliasing where we people"
+    },
+    {
+      "start_sec": 254.69,
+      "speaker": null,
+      "text": "could call it what they want, but still store the value in label and property. But to me, it seems"
+    },
+    {
+      "start_sec": 262.77,
+      "speaker": null,
+      "text": "like the right thing to do now is what me how suggested and get some, maybe just check is a feasible"
+    },
+    {
+      "start_sec": 270.61,
+      "speaker": null,
+      "text": "that we call it whatever people want. And then we can get into haggar mode later and try to optimize it."
+    },
+    {
+      "start_sec": 279.41,
+      "speaker": null,
+      "text": "But if it's not a problem, that might as well pick the right other simple solution. So we just leave it"
+    },
+    {
+      "start_sec": 291.22,
+      "speaker": null,
+      "text": "with that for now. That sounds good. You have the next one. Okay, so I added a comment about back"
+    },
+    {
+      "start_sec": 303.63,
+      "speaker": null,
+      "text": "and testing about whether we should replace the test example group with collectible matters."
+    },
+    {
+      "start_sec": 309.71,
+      "speaker": null,
+      "text": "So basically, these are two different ways to test back end. And at the current stage,"
+    },
+    {
+      "start_sec": 317.63,
+      "speaker": null,
+      "text": "the composable matters are more capable than the test example group."
+    },
+    {
+      "start_sec": 323.55,
+      "speaker": null,
+      "text": "And they are also kind of as buggy because they don't talk with the outer context of the tests."
+    },
+    {
+      "start_sec": 332.27,
+      "speaker": null,
+      "text": "So I was wondering if we should just make them move and make it so that the test example group"
+    },
+    {
+      "start_sec": 339.55,
+      "speaker": null,
+      "text": "becomes deprecated and we only have to maintain one style of testing."
+    },
+    {
+      "start_sec": 345.07,
+      "speaker": null,
+      "text": "Yes, I think my favorite of this. And I think like you pointed at it's better like we just follow one"
+    },
+    {
+      "start_sec": 358.88,
+      "speaker": null,
+      "text": "and test them format, which is, I think it's better. If you also look at like Sarah's comments,"
+    },
+    {
+      "start_sec": 369.04,
+      "speaker": null,
+      "text": "you also mentioned like the, the, the, the shell examples are using the composable"
+    },
+    {
+      "start_sec": 377.52,
+      "speaker": null,
+      "text": "matches on the root. So I think it makes sense that we just maintain the composable matches."
+    },
+    {
+      "start_sec": 391.36,
+      "speaker": null,
+      "text": "Yeah, I also added a plus one, a plus on the issue. So you suggest deprecating it."
+    },
+    {
+      "start_sec": 405.38,
+      "speaker": null,
+      "text": "Just that mean we just remove it from the documentation or"
+    },
+    {
+      "start_sec": 412.3,
+      "speaker": null,
+      "text": "yeah, try to migrate them. As a first step, I think I would remove them from"
+    },
+    {
+      "start_sec": 419.1,
+      "speaker": null,
+      "text": "documentation. And then I didn't really would also migrate it. But I don't know, maybe it will be"
+    },
+    {
+      "start_sec": 425.02,
+      "speaker": null,
+      "text": "something that could be done by an AI or something because it's like a bit of a manual task."
+    },
+    {
+      "start_sec": 434.85,
+      "speaker": null,
+      "text": "Since it's spread over the cold base and it could be that the changes will be a bit different"
+    },
+    {
+      "start_sec": 439.01,
+      "speaker": null,
+      "text": "depending on the context of the test. But at first, I would just remove them from the"
+    },
+    {
+      "start_sec": 448.93,
+      "speaker": null,
+      "text": "documentation so that we don't have to keep on maintaining them. We have like a, a cup"
+    },
+    {
+      "start_sec": 462.42,
+      "speaker": null,
+      "text": "rule also, like a warning about it. Yeah, sounds good. We could do something like that."
+    },
+    {
+      "start_sec": 469.7,
+      "speaker": null,
+      "text": "How is it? Can we do it? Can we do just a warning? A robot cup warning. Yeah, isn't it said?"
+    },
+    {
+      "start_sec": 480.22,
+      "speaker": null,
+      "text": "I mean, that's something that would give you a message about not fail the built."
+    },
+    {
+      "start_sec": 484.3,
+      "speaker": null,
+      "text": "Yeah, yeah, because we still have a lot of these small frameworks that people build. And"
+    },
+    {
+      "start_sec": 493.42,
+      "speaker": null,
+      "text": "it also sucks if they cannot modify that without. We could make it so that we still failed the"
+    },
+    {
+      "start_sec": 504.78,
+      "speaker": null,
+      "text": "built and we ask them to disable the robot cup in these cases. Yeah, yeah, good point. Yeah."
+    },
+    {
+      "start_sec": 510.54,
+      "speaker": null,
+      "text": "Yeah. But I like the feeling the build would be a blocker, right? In that case, maybe we should just"
+    },
+    {
+      "start_sec": 517.34,
+      "speaker": null,
+      "text": "have a warning. Because like I was in the example of like some of the features which they're"
+    },
+    {
+      "start_sec": 524.38,
+      "speaker": null,
+      "text": "deprecating they just add a robot cup rule. And it actually highlights in the editor, right?"
+    },
+    {
+      "start_sec": 530.14,
+      "speaker": null,
+      "text": "But it doesn't break the pipeline."
+    },
+    {
+      "start_sec": 534.7,
+      "speaker": null,
+      "text": "Yeah, so we could. So the action item could be that we"
+    },
+    {
+      "start_sec": 540.94,
+      "speaker": null,
+      "text": "move from the documentation and then add a warning, right? So like you have mentioned."
+    },
+    {
+      "start_sec": 553.66,
+      "speaker": null,
+      "text": "Yeah. Okay, sounds good."
+    },
+    {
+      "start_sec": 558.62,
+      "speaker": null,
+      "text": "We create new issues for that. I will probably edit the existing issue."
+    },
+    {
+      "start_sec": 565.9,
+      "speaker": null,
+      "text": "Since we will most likely want to do it in one step, like both remove it from documentation and"
+    },
+    {
+      "start_sec": 571.18,
+      "speaker": null,
+      "text": "add a robot cup rule. Okay, right? And you have an unplanned issue. Okay. Yeah, sounds good."
+    },
+    {
+      "start_sec": 581.02,
+      "speaker": null,
+      "text": "I just mostly I wanted here to make a decision together so that we decided if we want to move into"
+    },
+    {
+      "start_sec": 588.14,
+      "speaker": null,
+      "text": "this direction or not. And then now that we decided, we have many votes, I think it would be okay to tag"
+    },
+    {
+      "start_sec": 596.62,
+      "speaker": null,
+      "text": "like the Argentine for example and have its plans for some future master. Yeah, sounds great."
+    },
+    {
+      "start_sec": 622.91,
+      "speaker": null,
+      "text": "But okay, but regarding the warning, it would be a robot cup rule, right? And then you would"
+    },
+    {
+      "start_sec": 628.99,
+      "speaker": null,
+      "text": "you would disable it. How is it? We would then, then we would need to add, then we add a file"
+    },
+    {
+      "start_sec": 640.27,
+      "speaker": null,
+      "text": "with that excludes all the existing cases. And then I was, but it's fine. Like we can always"
+    },
+    {
+      "start_sec": 649.23,
+      "speaker": null,
+      "text": "discuss the implementation details further down the line. Yeah. Yeah, as long as we have the main"
+    },
+    {
+      "start_sec": 656.51,
+      "speaker": null,
+      "text": "decision to go this direction. It's more or two to have some kind of common understanding of what we"
+    },
+    {
+      "start_sec": 665.55,
+      "speaker": null,
+      "text": "mean with a robot cup warning. Okay. I can start a new thread on the issue and ask about it."
+    },
+    {
+      "start_sec": 676.35,
+      "speaker": null,
+      "text": "Yeah. Okay, so Ashwin is not here, but he has a point in the agenda. He asked you would like"
+    },
+    {
+      "start_sec": 693.81,
+      "speaker": null,
+      "text": "consensus from the team on the issue regarding logging to new chair and Jonas made some good points"
+    },
+    {
+      "start_sec": 707.41,
+      "speaker": null,
+      "text": "and I'm all in agreement. Also from what I understand implementation is fairly straightforward and"
+    },
+    {
+      "start_sec": 714.77,
+      "speaker": null,
+      "text": "doesn't add too much overhead with favor of moving ahead with the logging implementation"
+    },
+    {
+      "start_sec": 723.25,
+      "speaker": null,
+      "text": "that Jonas proposed. However, I would like the team to be on the same page on this"
+    },
+    {
+      "start_sec": 732.35,
+      "speaker": null,
+      "text": "end kit is epic. You also want to verbalize. Yeah, so I think I agree. Like I think the initial"
+    },
+    {
+      "start_sec": 739.47,
+      "speaker": null,
+      "text": "requirement was like to have a confidence in the customer like what we are sending the data."
+    },
+    {
+      "start_sec": 745.31,
+      "speaker": null,
+      "text": "So the logging would be initially like good first iteration, I guess. You also supported"
+    },
+    {
+      "start_sec": 766.72,
+      "speaker": null,
+      "text": "me. Oh yeah, I haven't read this thread yet. The next one. But before I think I already made a comment"
+    },
+    {
+      "start_sec": 778.24,
+      "speaker": null,
+      "text": "that I think logging the events is a good idea. Thank you to trade now and we'll leave my thoughts"
+    },
+    {
+      "start_sec": 794.4,
+      "speaker": null,
+      "text": "and the issue. That's also final. All right, we were getting to the end of the agenda but I get"
+    },
+    {
+      "start_sec": 809.78,
+      "speaker": null,
+      "text": "is having something. Yeah, I just now remember like we'll be able to check how many customers has"
+    },
+    {
+      "start_sec": 818.02,
+      "speaker": null,
+      "text": "opted out since like last Thursday we released it. Like if we can keep tap on like"
+    },
+    {
+      "start_sec": 825.38,
+      "speaker": null,
+      "text": "vcore, vcore, how it is progressing. Yeah, I can pull the numbers after the call."
+    },
+    {
+      "start_sec": 831.86,
+      "speaker": null,
+      "text": "I will say we released Wednesday, right? So I think we'll see if maybe a few thousand"
+    },
+    {
+      "start_sec": 844.9,
+      "speaker": null,
+      "text": "service pings already. Yeah, I can create a, do we have an issue? I guess we have an issue for"
+    },
+    {
+      "start_sec": 860.5,
+      "speaker": null,
+      "text": "when we added it. Yes, yeah, I'll pull the numbers and add it. Just add a comment there and link to that"
+    },
+    {
+      "start_sec": 869.22,
+      "speaker": null,
+      "text": "in the here and in the, I'm posted on Slack. Yeah, thanks. And then we can get of"
+    },
+    {
+      "start_sec": 879.94,
+      "speaker": null,
+      "text": "call the numbers once in a while and and update the issues. That's the end of the agenda. Oh,"
+    },
+    {
+      "start_sec": 905.73,
+      "speaker": null,
+      "text": "thanks. I'll stop recording again. Yeah."
+    }
+  ],
+  "expected": [
+    {
+      "keywords": [
+        [
+          "propert",
+          "data team"
+        ]
+      ],
+      "assignee": null,
+      "due_text": null,
+      "due_date": null,
+      "note": "[17-21] 'maybe we should discuss it with the data team ... are they really much slower?' -> 'So do we have any action items?' -> 'I will add a comment in the issue ... and maybe tag someone from the data team.' Speaker unnamed.",
+      "segments": [
+        [
+          17,
+          21
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "example group",
+          "rubocop",
+          "robocop",
+          "robot cup",
+          "composable",
+          "deprecat",
+          "matcher"
+        ]
+      ],
+      "assignee": null,
+      "due_text": null,
+      "due_date": null,
+      "note": "[58-63] 'So the action item could be that we [re]move from the documentation and then add a warning' -> 'I will probably edit the existing issue ... both remove it from documentation and add a robot cup [RuboCop] rule'. One item (doc removal + cop warning in one issue). Speaker unnamed.",
+      "segments": [
+        [
+          58,
+          63
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "opt-out",
+          "opt out",
+          "opted out",
+          "optout",
+          "number",
+          "statistic",
+          "metrics"
+        ]
+      ],
+      "assignee": null,
+      "due_text": "after the call",
+      "due_date": null,
+      "note": "[84-91] 'check how many customers has opted out since ... we released it' -> 'Yeah, I can pull the numbers after the call' / 'I'll pull the numbers and add it. Just add a comment there and link to that ... posted on Slack'. Speaker unnamed (possibly Ankit, garbled as 'I get' in [83]).",
+      "segments": [
+        [
+          84,
+          91
+        ],
+        [
+          83,
+          83
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "thread",
+          "clarif",
+          "implementation"
+        ]
+      ],
+      "optional": true,
+      "due_text": null,
+      "due_date": null,
+      "note": "[67-72] what a RuboCop 'warning' means: 'I can start a new thread on the issue and ask about it.' Small follow-up of the item above; may be merged with it.",
+      "assignee": null,
+      "segments": [
+        [
+          67,
+          72
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "milestone",
+          "schedul",
+          "prioriti"
+        ]
+      ],
+      "optional": true,
+      "due_text": null,
+      "due_date": null,
+      "note": "[64-66] 'it would be okay to tag like the [EM, garbled 'Argentine'] ... and have its plans for some future [milestone]'. Hedged.",
+      "assignee": null,
+      "segments": [
+        [
+          64,
+          66
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "logging",
+          "log "
+        ]
+      ],
+      "optional": true,
+      "due_text": null,
+      "due_date": null,
+      "note": "[73-83] Ashwin's item: consensus on logging the events as Jonas proposed; 'I'll read it now and leave my thoughts in the issue'. Mostly agreement/feedback, no concrete owner.",
+      "assignee": null,
+      "segments": [
+        [
+          73,
+          83
+        ]
+      ]
+    }
+  ]
+}
