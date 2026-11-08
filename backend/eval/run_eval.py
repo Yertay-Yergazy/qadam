@@ -1,7 +1,7 @@
 """Score a drafter against hand-written answer keys (see eval/README.md).
 
     python eval/run_eval.py                                   # CI gate on eval/meetings
-    python eval/run_eval.py --meetings eval/local --report-only --json out.json
+    python eval/run_eval.py --meetings eval/real --report-only --json out.json
 """
 from __future__ import annotations
 

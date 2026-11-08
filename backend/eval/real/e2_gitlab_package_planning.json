@@ -1,0 +1,979 @@
+{
+  "name": "e2: GitLab Package team milestone 13.12 planning (mostly plan walkthrough, a few follow-ups)",
+  "source": "https://www.youtube.com/watch?v=YxTJmr91308",
+  "language": "en",
+  "duration_sec": 1446,
+  "meeting_date": "2021-04-13",
+  "people": [
+    "Tim",
+    "Hailey",
+    "Steve",
+    "David",
+    "Nick",
+    "Sophia"
+  ],
+  "segments": [
+    {
+      "start_sec": 0.94,
+      "speaker": null,
+      "text": "Welcome everyone to the package team quad planning meeting for April the 13th 2021"
+    },
+    {
+      "start_sec": 8.34,
+      "speaker": null,
+      "text": "Team you have the first item"
+    },
+    {
+      "start_sec": 11.74,
+      "speaker": null,
+      "text": "Yeah, well, this is week four at this agenda. So we're supposed to be going through the upcoming milestone plan"
+    },
+    {
+      "start_sec": 18.94,
+      "speaker": null,
+      "text": "So that that's the plan for 13.12"
+    },
+    {
+      "start_sec": 23.02,
+      "speaker": null,
+      "text": "And so I linked here to the milestone planning issue if you think it would be helpful to bring that up on my screen or should we just go through it?"
+    },
+    {
+      "start_sec": 30.86,
+      "speaker": null,
+      "text": "As long as it's nothing confidential, it's going to show up."
+    },
+    {
+      "start_sec": 38.86,
+      "speaker": null,
+      "text": "I really hope that"
+    },
+    {
+      "start_sec": 44.86,
+      "speaker": null,
+      "text": "Okay, so"
+    },
+    {
+      "start_sec": 49.88,
+      "speaker": null,
+      "text": "I tried to match the number of deliverable issues that we had last milestone"
+    },
+    {
+      "start_sec": 54.88,
+      "speaker": null,
+      "text": "Just because it seemed like 1311 was successful for us. We had time to get to all of our deliverable issues"
+    },
+    {
+      "start_sec": 60.88,
+      "speaker": null,
+      "text": "And we got to some of our stretch goals and other things as well"
+    },
+    {
+      "start_sec": 64.88,
+      "speaker": null,
+      "text": "There's a one security issue that I prioritize. It's identified here under the security and confidential section. So this may not share in the public live stream"
+    },
+    {
+      "start_sec": 76.88,
+      "speaker": null,
+      "text": "And then yeah, here's the issues that I brought in. So starting out for the container registry. I thought the for most useful issues would be testing unlike garbage collection on pre-prod"
+    },
+    {
+      "start_sec": 90.88,
+      "speaker": null,
+      "text": "Doing some of the important work and this will require some help from the database team as well"
+    },
+    {
+      "start_sec": 97.88,
+      "speaker": null,
+      "text": "Exposing the database related metrics in Guaffana. That's something that we're going to do self service and then creating an inventory tool to scan the registry"
+    },
+    {
+      "start_sec": 106.88,
+      "speaker": null,
+      "text": "So we are trying to get a sense of the shape of the data in production so we could better model future development plans"
+    },
+    {
+      "start_sec": 117.9,
+      "speaker": null,
+      "text": "Pause there. I think you had a comment on the container registry stuff"
+    },
+    {
+      "start_sec": 124.9,
+      "speaker": null,
+      "text": "Yeah, yeah, I think it's probably better to leave the second one in that list for the next milestone or maybe make it a stretchable"
+    },
+    {
+      "start_sec": 135.9,
+      "speaker": null,
+      "text": "Because we have a lot going on right now. We're still working on something that was on currently this which is changing the number of partitions and that is giving us a lot more work than we anticipated because this was never done before. So"
+    },
+    {
+      "start_sec": 151.9,
+      "speaker": null,
+      "text": "And then there is also the work for the inventory and the pre-prod deployment. So I think it would be better to push it forward."
+    },
+    {
+      "start_sec": 162.88,
+      "speaker": null,
+      "text": "And hailey, no concerns about that right there. I know you opened that issue."
+    },
+    {
+      "start_sec": 173.25,
+      "speaker": null,
+      "text": "Yeah, I mean, the stretch goal makes sense. I mean, this is kind of a cross team work with the database team so we can't"
+    },
+    {
+      "start_sec": 183.25,
+      "speaker": null,
+      "text": "It'd be nice to be kind to them and not put a lot of pressure on them so we make our milestone."
+    },
+    {
+      "start_sec": 190.25,
+      "speaker": null,
+      "text": "Okay, all right, as a stretch goal and we could always move it out if it doesn't make sense this way we could just keep it on their plate."
+    },
+    {
+      "start_sec": 197.25,
+      "speaker": null,
+      "text": "Okay, I lost everyone."
+    },
+    {
+      "start_sec": 201.85,
+      "speaker": null,
+      "text": "Okay, any other, the other stretch goal that I had, as you all know, was this for the container registry is considered caching the list of tags for container repositories."
+    },
+    {
+      "start_sec": 215.45,
+      "speaker": null,
+      "text": "Do you think that we could get to, if I had to choose, if you had to choose between the investigation here and the input, the importer, which one do you think we should focus on?"
+    },
+    {
+      "start_sec": 228.45,
+      "speaker": null,
+      "text": "That that cash caching the list of tags is on the real side, not on the container registry side."
+    },
+    {
+      "start_sec": 235.45,
+      "speaker": null,
+      "text": "And I think that's probably the most important one because it's one of the slowest endpoints right now."
+    },
+    {
+      "start_sec": 243.45,
+      "speaker": null,
+      "text": "Okay, so maybe we should find a way to move this up into the deliverable issues list."
+    },
+    {
+      "start_sec": 249.45,
+      "speaker": null,
+      "text": "Yeah, at least at least the investigation, the implementation should take a bit more of it, at least the investigation."
+    },
+    {
+      "start_sec": 256.45,
+      "speaker": null,
+      "text": "I think it's important."
+    },
+    {
+      "start_sec": 258.45,
+      "speaker": null,
+      "text": "Okay."
+    },
+    {
+      "start_sec": 262.24,
+      "speaker": null,
+      "text": "Okay, and then then back some, we have some back end issues prior to next."
+    },
+    {
+      "start_sec": 268.24,
+      "speaker": null,
+      "text": "I really wanted to focus on performance and scalability of this milestone."
+    },
+    {
+      "start_sec": 273.24,
+      "speaker": null,
+      "text": "So we brought in this improved maven response times for the 404."
+    },
+    {
+      "start_sec": 279.24,
+      "speaker": null,
+      "text": "So a lot of the maven responds with for with 404s for many of the requests."
+    },
+    {
+      "start_sec": 284.24,
+      "speaker": null,
+      "text": "And so we have some query optimizations that we could do for that."
+    },
+    {
+      "start_sec": 288.24,
+      "speaker": null,
+      "text": "There's the package manager API, there's some permissions and coherence that came up last milestone that we wanted to tackle."
+    },
+    {
+      "start_sec": 298.24,
+      "speaker": null,
+      "text": "We wanted to filter the package binders by the default. So this will allow us to display our messages in the future in the user interface and return them back to users, which would be really valuable."
+    },
+    {
+      "start_sec": 310.24,
+      "speaker": null,
+      "text": "Something that we're not doing now."
+    },
+    {
+      "start_sec": 312.24,
+      "speaker": null,
+      "text": "And then we have a customer request for someone who's heavily using the generic package feature."
+    },
+    {
+      "start_sec": 318.24,
+      "speaker": null,
+      "text": "And they really, it's a requirement for them to finish their migration to get lab to have a way of preventing or allowing duplicates for generic packages."
+    },
+    {
+      "start_sec": 328.24,
+      "speaker": null,
+      "text": "And that's kind of the what I try to include for the back end. So Steve or David, do you have any questions about that?"
+    },
+    {
+      "start_sec": 336.24,
+      "speaker": null,
+      "text": "I know."
+    },
+    {
+      "start_sec": 341.14,
+      "speaker": null,
+      "text": "Okay. And then on the I did include a couple of stretch goals there that I thought would be great if we can get to."
+    },
+    {
+      "start_sec": 349.14,
+      "speaker": null,
+      "text": "The group there's a group."
+    },
+    {
+      "start_sec": 352.14,
+      "speaker": null,
+      "text": "Level Pi Pi endpoint. So the reason I'm it would be excited about this is because when we added this for you get we saw like a 50% increase in adoption."
+    },
+    {
+      "start_sec": 361.14,
+      "speaker": null,
+      "text": "So love to see that same level of see test it and see if it works the same for Python."
+    },
+    {
+      "start_sec": 367.14,
+      "speaker": null,
+      "text": "A request that's been coming up frequently is to delete files from a package is no way to currently do that. And when you publish a package, especially something like maven, it can publish several many different files. So people have asked her a way to delete files from a given package."
+    },
+    {
+      "start_sec": 386.03,
+      "speaker": null,
+      "text": "And then adding in the or some of the finishing up the Ruby gems work. So adding the download endpoint for Ruby gems."
+    },
+    {
+      "start_sec": 396.03,
+      "speaker": null,
+      "text": "Any questions on on on those?"
+    },
+    {
+      "start_sec": 401.54,
+      "speaker": null,
+      "text": "Yes, for the API, are we planning a restaurant point or we want a graphical mutation for that."
+    },
+    {
+      "start_sec": 407.54,
+      "speaker": null,
+      "text": "That's a good question. I probably makes what do you think this would go in the rest API to go along with all of the other user facing API and points that are documented."
+    },
+    {
+      "start_sec": 423.36,
+      "speaker": null,
+      "text": "Okay, so this needs to be added to the list of the graphical work to sort to keep it on par. Yeah, okay, yeah, especially with you both."
+    },
+    {
+      "start_sec": 432.36,
+      "speaker": null,
+      "text": "And then there's a front end issue that could be a follow up to this as well."
+    },
+    {
+      "start_sec": 437.8,
+      "speaker": null,
+      "text": "We go to add the delete functionality to the files in the UI."
+    },
+    {
+      "start_sec": 445.17,
+      "speaker": null,
+      "text": "Okay. And then on to the front end stuff. So"
+    },
+    {
+      "start_sec": 450.17,
+      "speaker": null,
+      "text": "So we last milestone, I guess, we added, we split out, we added an instruction setup and install instructions for maven and Gradle."
+    },
+    {
+      "start_sec": 460.17,
+      "speaker": null,
+      "text": "And we really like this new drop down new light remembers your previous selection. So you don't see the same choice every time."
+    },
+    {
+      "start_sec": 467.17,
+      "speaker": null,
+      "text": "It'd be great to do that for NPM and yarn, which basically think it's similar functionality."
+    },
+    {
+      "start_sec": 473.17,
+      "speaker": null,
+      "text": "And then even though we added Gradle, there's another flavor of Gradle called Kotlin. So we want to add those installation commands as well."
+    },
+    {
+      "start_sec": 483.17,
+      "speaker": null,
+      "text": "We are in the process of adding support for Ruby gems to the package registry and it's possible for when a package is being processed that an errors returned but we don't return those errors to the user in the front end."
+    },
+    {
+      "start_sec": 497.17,
+      "speaker": null,
+      "text": "So this is in line with the item number seven here and"
+    },
+    {
+      "start_sec": 501.17,
+      "speaker": null,
+      "text": "so that we can return those errors to the user in the front end for when a package is processed improperly."
+    },
+    {
+      "start_sec": 507.17,
+      "speaker": null,
+      "text": "Another change I'm excited about. This is also working in conjunction with the create team. It's remapping some of our settings navigation. So right now we have in the group settings the package and register packages and registries has their own settings page."
+    },
+    {
+      "start_sec": 526.09,
+      "speaker": null,
+      "text": "But in the project level, they're under CI. This could be confusing for folks. So we're going to bring those basically make the project level have their own packages and registry setting."
+    },
+    {
+      "start_sec": 539.49,
+      "speaker": null,
+      "text": "And then from a testing perspective, we added in adding API performance tests for packages and registries expanding the test conditions for all package managers and coaching the package team members on end to end level testing."
+    },
+    {
+      "start_sec": 555.49,
+      "speaker": null,
+      "text": "Oh, Nick, there was one other front end one here, which is like a minor documentation change on the cleanup policies. So right now, if you go to set up a policy, it's can be confusing."
+    },
+    {
+      "start_sec": 567.49,
+      "speaker": null,
+      "text": "If they're disabled for your instance, it doesn't necessarily say that when you go to use them at the project. So this just clears up some of the language and links."
+    },
+    {
+      "start_sec": 576.49,
+      "speaker": null,
+      "text": "Sorry, I think we have an issue with the deliverable label on the move all package and container is at things because we have been asked to put it behind a feature fact that create the other team is using and they're going to lift that on 14. So this is technically non deliverable."
+    },
+    {
+      "start_sec": 594.49,
+      "speaker": null,
+      "text": "Okay, I mean, I can do the full work, but since we can't deliver until the feature flag is out, it can be a deliverable for this milestone."
+    },
+    {
+      "start_sec": 603.49,
+      "speaker": null,
+      "text": "Okay, I'll stop sharing for a second. That's what we had in mind is anything jump out is missing or misprioritized or any other comments."
+    },
+    {
+      "start_sec": 619.21,
+      "speaker": null,
+      "text": "I don't know if you want to add the GraphQL work as a stretch, because I definitely won't manage to finish it. I had I underestimated extremity, but yeah, hopefully I won't encounter more performance issues."
+    },
+    {
+      "start_sec": 633.21,
+      "speaker": null,
+      "text": "Okay, I was going to I can move that over now to right because we know it's going to slip. So it's better to move it. Okay."
+    },
+    {
+      "start_sec": 642.1,
+      "speaker": null,
+      "text": "Which issue were you talking about the deliverable label? Was that the settings? Yes."
+    },
+    {
+      "start_sec": 650.37,
+      "speaker": null,
+      "text": "Okay, so I should just."
+    },
+    {
+      "start_sec": 654.87,
+      "speaker": null,
+      "text": "Okay, so I'm not going to add deliverable to that."
+    },
+    {
+      "start_sec": 657.87,
+      "speaker": null,
+      "text": "Yes, it can be worked in the 15 to have absolutely. There is no blocker for it. It's just it can't be delivered until a feature flag is removed."
+    },
+    {
+      "start_sec": 668.62,
+      "speaker": null,
+      "text": "Because of that, does it make sense to have a separate issue to track for removing the feature flag?"
+    },
+    {
+      "start_sec": 674.62,
+      "speaker": null,
+      "text": "The feature flag will never roll out issue. They always have. So we can maybe track that for 14 because it's not asked that it's going to remove that."
+    },
+    {
+      "start_sec": 683.62,
+      "speaker": null,
+      "text": "Right. And at the end of the day, it's going to be the team that put the feature flag to remove it all at once for them. We were in the code. Right. They will just remove the if block from us for us."
+    },
+    {
+      "start_sec": 693.62,
+      "speaker": null,
+      "text": "So yeah, I'm done after everything."
+    },
+    {
+      "start_sec": 696.62,
+      "speaker": null,
+      "text": "Yeah. Okay. So that to me means that just the organizing of the issues because we're delivering something in this milestone. Right."
+    },
+    {
+      "start_sec": 704.62,
+      "speaker": null,
+      "text": "And that's once that's delivered, we're good. And then there's some other work that has to happen before the feature itself is actually released, which would be the release post happening on behalf of the other team. It's completing that quite probably or something along those lines."
+    },
+    {
+      "start_sec": 717.62,
+      "speaker": null,
+      "text": "We just don't usually don't cause the issue until the future flag is removed. And this, but, I don't know."
+    },
+    {
+      "start_sec": 724.62,
+      "speaker": null,
+      "text": "Yeah, that's procedures. Some add things."
+    },
+    {
+      "start_sec": 726.62,
+      "speaker": null,
+      "text": "Yeah, no, it totally makes sense. I get why I'm happy to leave it off. But the thing is it is deliverable in this milestone because we're planning on finishing the work. So that's why it's kind of a little bit mixed messages. Right."
+    },
+    {
+      "start_sec": 739.94,
+      "speaker": null,
+      "text": "I'm happy to leave it. Whatever's easier, but just wanted to clarify. Thank you."
+    },
+    {
+      "start_sec": 746.05,
+      "speaker": null,
+      "text": "I'm curious with the Ruby gems processing errors. Should we try to include the new get issue, the new get version of that, or even prioritize that one over the Ruby gems one since new get has the same problem, but it's already fully in production."
+    },
+    {
+      "start_sec": 768.05,
+      "speaker": null,
+      "text": "I think that's a good adjustment and we'd be able to have more immediate value. I could swap those issues."
+    },
+    {
+      "start_sec": 776.05,
+      "speaker": null,
+      "text": "Or just make that issue focus on new get and then open it."
+    },
+    {
+      "start_sec": 780.05,
+      "speaker": null,
+      "text": "It might be possible that we could do both because from the standpoint of the back end, there might not be that much different changes."
+    },
+    {
+      "start_sec": 788.05,
+      "speaker": null,
+      "text": "And then I think the front end adding the error messages should automatically apply to all the package types."
+    },
+    {
+      "start_sec": 795.42,
+      "speaker": null,
+      "text": "Awesome. I'll adjust the descriptions to make sure that's clear."
+    },
+    {
+      "start_sec": 800.42,
+      "speaker": null,
+      "text": "Which which issue we referring to you see number 11."
+    },
+    {
+      "start_sec": 808.42,
+      "speaker": null,
+      "text": "Got it. Yeah. And then yeah, right in that issue, I think actually in the description or in the first comment, there's a link to the new get version of the issue."
+    },
+    {
+      "start_sec": 822.55,
+      "speaker": null,
+      "text": "Yeah, in the first comment discussion."
+    },
+    {
+      "start_sec": 826.93,
+      "speaker": null,
+      "text": "Yeah, two, one, eight, three, three. Yep. Yeah. Cool. Thanks for that. Steve. Good suggestion."
+    },
+    {
+      "start_sec": 838.15,
+      "speaker": null,
+      "text": "Trying to deal with this glare and not look like Gandalf coming over the hill and the first letterings. There we go."
+    },
+    {
+      "start_sec": 845.15,
+      "speaker": null,
+      "text": "You don't want to look like Gandalf coming over the hill. I mean, isn't that more like an Apple beard. Yeah."
+    },
+    {
+      "start_sec": 853.15,
+      "speaker": null,
+      "text": "You had a comment in the document. But you already covered that. Yeah."
+    },
+    {
+      "start_sec": 859.15,
+      "speaker": null,
+      "text": "And then I think Sophia looks like you had a comment in the agenda as well."
+    },
+    {
+      "start_sec": 866.15,
+      "speaker": null,
+      "text": "Yeah, I'm sorry Tim. I just I just changed the milestone issue."
+    },
+    {
+      "start_sec": 872.15,
+      "speaker": null,
+      "text": "Just a couple of hours ago to swap some some testing because we we had a couple of blocked."
+    },
+    {
+      "start_sec": 881.15,
+      "speaker": null,
+      "text": "So this means that the NPM pool and some other pool tests are already done for this milestone as a bonus."
+    },
+    {
+      "start_sec": 889.15,
+      "speaker": null,
+      "text": "But, but yeah, I also move the API performance testing for the upcoming milestone."
+    },
+    {
+      "start_sec": 897.15,
+      "speaker": null,
+      "text": "That was just the main, but you have information in the comments."
+    },
+    {
+      "start_sec": 902.15,
+      "speaker": null,
+      "text": "That's great. I saw that. That was really helpful. And I think adding these performance tests will help us."
+    },
+    {
+      "start_sec": 907.15,
+      "speaker": null,
+      "text": "Maybe prioritize future performance and scalability gains in the future. So that's great."
+    },
+    {
+      "start_sec": 913.15,
+      "speaker": null,
+      "text": "And mine was more of just a question about the milestone planning issue as goofy as it was. I was wondering if it made sense to add like functional labels on the work."
+    },
+    {
+      "start_sec": 929.85,
+      "speaker": null,
+      "text": "So that when I'm looking at the milestone issue, I get a sort of a quick view of how much with planning for each area."
+    },
+    {
+      "start_sec": 936.85,
+      "speaker": null,
+      "text": "I don't know that's helpful. And I'm happy to actually just go into the workflow board to get that as well."
+    },
+    {
+      "start_sec": 943.85,
+      "speaker": null,
+      "text": "Just because that's what got into that list, I'm like having to read it and figure out where, you know, if there's a heap of say back in front and, you know, contain registry work."
+    },
+    {
+      "start_sec": 954.85,
+      "speaker": null,
+      "text": "I think that would be helpful. And even if it's not in the main issue, it could be there as a comment or something. I know Steve has generated stuff like that when the milestone."
+    },
+    {
+      "start_sec": 965.85,
+      "speaker": null,
+      "text": "It's been heavy. And he's kind of in like, okay, Ruby has just many issues this way. I can add that to the template and start to populate that."
+    },
+    {
+      "start_sec": 975.85,
+      "speaker": null,
+      "text": "I find the functional board is super helpful for visualizing some of that."
+    },
+    {
+      "start_sec": 982.85,
+      "speaker": null,
+      "text": "Okay."
+    },
+    {
+      "start_sec": 983.85,
+      "speaker": null,
+      "text": "And we still have mixed issue like issue that double from the back end."
+    },
+    {
+      "start_sec": 992.72,
+      "speaker": null,
+      "text": "Yeah, I mean, I was thinking, I don't know if it's helpful. Again, we have boards to do it. We often refer to this issue and other people refer to this issue as well. So, you know, it gives a quick snapshot."
+    },
+    {
+      "start_sec": 1002.72,
+      "speaker": null,
+      "text": "It once was sort of finalize the milestone planning to show, you know, here's the issues that have both running in the back end. Here's the stuff that is happening and go."
+    },
+    {
+      "start_sec": 1011.72,
+      "speaker": null,
+      "text": "Here's our testing effort. You know, so you can get a quick snapshot of what's going on. I'd be good with just like even having a summary of weights. And I can do that to, to a summary of number of issues and weights at the top of the top of the, or some point in the milestone planning issue, but just to give that overview for people."
+    },
+    {
+      "start_sec": 1028.72,
+      "speaker": null,
+      "text": "I know Steve's always been really good at calling this stuff out. And that's always been really helpful. Someone, if we could end up sharing that more broadly in the masa playing issues, why I'm asking."
+    },
+    {
+      "start_sec": 1040.72,
+      "speaker": null,
+      "text": "Let's try it. I like that I can't hurt."
+    },
+    {
+      "start_sec": 1050.06,
+      "speaker": null,
+      "text": "I'll take that as an action item. I'll add in some table. And then I'll, I'll ping you down and you let me know if it meets your requirements."
+    },
+    {
+      "start_sec": 1058.06,
+      "speaker": null,
+      "text": "Yeah, I mean, I just sort of, even though go with the summary, maybe it's the easy, which is easier for you, go with the summary of whatever it is and throw that in. And that would probably be sufficient. And I can do it too, because I'm the one making the suggestion. So I can happily check that in the two teams, if you need me to."
+    },
+    {
+      "start_sec": 1076.06,
+      "speaker": null,
+      "text": "Cool."
+    },
+    {
+      "start_sec": 1078.06,
+      "speaker": null,
+      "text": "I was, yeah, we were talking about the idea of scheduling some community contribution support in upcoming milestones."
+    },
+    {
+      "start_sec": 1087.08,
+      "speaker": null,
+      "text": "I added an item there. I know we're just coming up on time, which is what I moved on to that item. I hope that was okay."
+    },
+    {
+      "start_sec": 1097.08,
+      "speaker": null,
+      "text": "Thoughts on this, like we definitely had scenarios where people feel under pressure is with a lot of work right now or in general, I want to make sure that we have time to support the community is what I wanted to raise this."
+    },
+    {
+      "start_sec": 1116.04,
+      "speaker": null,
+      "text": "It's a long list."
+    },
+    {
+      "start_sec": 1118.04,
+      "speaker": null,
+      "text": "I think I'm not, yeah, I think this is I'm not sure the best way to look at this and make decisions about this, but I can say that right now, I think we have maybe four or five community MRs that are in various stages of review."
+    },
+    {
+      "start_sec": 1141.04,
+      "speaker": null,
+      "text": "And actually looking at that list, there's a lot more assigned to people than four or five, it looks like."
+    },
+    {
+      "start_sec": 1151.04,
+      "speaker": null,
+      "text": "So yeah, I'm not sure what the best way to go about, you know, picking out some additional ones to to bump up and start looking at in the next week or two, I'm not sure the best way to do that."
+    },
+    {
+      "start_sec": 1164.04,
+      "speaker": null,
+      "text": "Does it feel like not not all community contributions are created equal like some of them are sort of popcorn issues where you could look at and resolve quickly and it's not that much of a burden, but then some of them are like home charts or deviant and they require months of work."
+    },
+    {
+      "start_sec": 1182.8,
+      "speaker": null,
+      "text": "Yeah, yeah, some of them are like a one minute review and some of them are, you know, a one month review."
+    },
+    {
+      "start_sec": 1187.8,
+      "speaker": null,
+      "text": "I think we had discussed previously that we can do some sort of like a, like a waiting system on like how intensive is this to review, I can't recall that conversation though, if we had come to any resolution on whether or not we should do that or how we should do that."
+    },
+    {
+      "start_sec": 1211.8,
+      "speaker": null,
+      "text": "Yeah, I think a waiting system there, I wouldn't want to put a like actually use the way just because I don't want to suggest to the community contributor that what efforts are involved in the thing that they're doing that feels a little awkward, maybe we could use the like back end wait labels to indicate that we consider this a significant amount of support required because it's a significant contribution."
+    },
+    {
+      "start_sec": 1238.8,
+      "speaker": null,
+      "text": "But that does take the time to go through and have a look at it. I'm not sure what time you don't need to evaluate that, you know, I mean, I think we usually do try to like triage and like, you know, say thank you and whatnot as soon as possible so that would be an okay time to do that, I think."
+    },
+    {
+      "start_sec": 1256.8,
+      "speaker": null,
+      "text": "So I can look through I think I feel like I've seen most of these already, so I can add labels to most of them and then any that I haven't all make some time and maybe see if David has some time for the next week to add any missing labels and then we can revisit and."
+    },
+    {
+      "start_sec": 1273.8,
+      "speaker": null,
+      "text": "And, you know, picking shoes, which ones we want to look at first of the larger ones or I call this out in the issue, but for me, the big three community contributions right now are the DBN home charts and the instance level new get point of kind of the big where we're spending most of our time and probably the most important ones. So if that helps your as you're filtering through."
+    },
+    {
+      "start_sec": 1303.37,
+      "speaker": null,
+      "text": "Hopefully."
+    },
+    {
+      "start_sec": 1305.68,
+      "speaker": null,
+      "text": "And those ones definitely are all getting attention right now."
+    },
+    {
+      "start_sec": 1308.68,
+      "speaker": null,
+      "text": "Yeah."
+    },
+    {
+      "start_sec": 1311.38,
+      "speaker": null,
+      "text": "All right, but we don't we still have a solution on how we're going to schedule the work so until we can figure something out and make sense with we're sort of still on the head go check it every week and make sure we're evaluating if people need support."
+    },
+    {
+      "start_sec": 1325.38,
+      "speaker": null,
+      "text": "I did try to accommodate that knowing how much work that they're the community contributions are taking, especially from Stephen David's time right now."
+    },
+    {
+      "start_sec": 1337.38,
+      "speaker": null,
+      "text": "I tried to make the deliverable list a little bit shorter, but if that doesn't feel like the case and it doesn't feel like enough time that that should be something we consider when we're evaluating how much work we can handle."
+    },
+    {
+      "start_sec": 1349.38,
+      "speaker": null,
+      "text": "And I agree we need a more formal or more formal system would be helpful."
+    },
+    {
+      "start_sec": 1354.72,
+      "speaker": null,
+      "text": "I honestly like that I think people are doing a great job of supporting the community contributions, but when we sort of miss things."
+    },
+    {
+      "start_sec": 1362.72,
+      "speaker": null,
+      "text": "It can just result in a poor experience for people."
+    },
+    {
+      "start_sec": 1364.72,
+      "speaker": null,
+      "text": "So if there's some kind of regular check in that people feel like it's satisfactory, that's okay with me too, but just sort of thinking about how."
+    },
+    {
+      "start_sec": 1373.72,
+      "speaker": null,
+      "text": "Not only can we make sure that the community contributors feel supported, but also the team doesn't feel like there's you know 30 of these and how do I get to the mall and I can feel overwhelming."
+    },
+    {
+      "start_sec": 1383.72,
+      "speaker": null,
+      "text": "That flip side of that scenario as well."
+    },
+    {
+      "start_sec": 1387.72,
+      "speaker": null,
+      "text": "But yeah, let's let's I'll go take a look at what's in the list we have you've called out the big ones that we consider significant team and that's good."
+    },
+    {
+      "start_sec": 1396.72,
+      "speaker": null,
+      "text": "We just have to come maybe follow up on this conversation and see if there's another way we can, you know, look at sort of just scheduling support for some of these things."
+    },
+    {
+      "start_sec": 1405.72,
+      "speaker": null,
+      "text": "And then the last thought when we're over time we're in get lab overtime."
+    },
+    {
+      "start_sec": 1410.72,
+      "speaker": null,
+      "text": "So the last thing that I wanted to call out is, you know, we brought our average weight down in the last milestone, which is really good."
+    },
+    {
+      "start_sec": 1421.72,
+      "speaker": null,
+      "text": "It's not necessarily indicative of us being amazing, but it is something that I try to track to show that we're sort of making smaller issues and getting through those so thanks everyone for that nice work."
+    },
+    {
+      "start_sec": 1434.72,
+      "speaker": null,
+      "text": "Having sit a little bit."
+    },
+    {
+      "start_sec": 1437.72,
+      "speaker": null,
+      "text": "It's time and to go I hope everyone has a great rest of the day and thanks for following along at home."
+    }
+  ],
+  "expected": [
+    {
+      "keywords": [
+        [
+          "nuget",
+          "new get",
+          "ruby",
+          "gem"
+        ]
+      ],
+      "assignee": null,
+      "due_text": null,
+      "due_date": null,
+      "note": "[89-98] Steve suggests prioritizing the NuGet ('new get') processing-errors issue over Ruby gems -> 'I could swap those issues' ... 'Awesome. I'll adjust the descriptions to make sure that's clear.' Speaker (PM) unnamed; Steve only made the suggestion.",
+      "segments": [
+        [
+          89,
+          98
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "label",
+          "triage",
+          "weight"
+        ],
+        [
+          "communit",
+          "contribut",
+          "merge request"
+        ]
+      ],
+      "assignee": null,
+      "due_text": null,
+      "due_date": null,
+      "note": "[136-140] 'I can add labels to most of them and then any that I haven't ... maybe see if David has some time for the next week to add any missing labels and then we can revisit'. Owner is the unnamed speaker; David only hedged ('see if David has some time'). 'next week' attaches to David's part, so no due date.",
+      "segments": [
+        [
+          136,
+          140
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "summar",
+          "table",
+          "overview",
+          "breakdown",
+          "functional"
+        ]
+      ],
+      "assignee": null,
+      "due_text": null,
+      "due_date": null,
+      "note": "[110-125] request for a per-area view of the milestone planning issue -> 'Let's try it' / 'I'll take that as an action item. I'll add in some table. And then I'll ping you'. Speaker unnamed.",
+      "segments": [
+        [
+          110,
+          125
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "graphql",
+          "graphical"
+        ]
+      ],
+      "optional": true,
+      "due_text": null,
+      "due_date": null,
+      "note": "[73-74] 'I don't know if you want to add the GraphQL work as a stretch' -> 'I can move that over now ... it's better to move it'. Debatable: done live in the planning issue.",
+      "assignee": null,
+      "segments": [
+        [
+          73,
+          74
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "import"
+        ]
+      ],
+      "optional": true,
+      "due_text": null,
+      "due_date": null,
+      "note": "[17-23] registry import work 'better to leave ... for the next milestone or maybe make it a stretch' -> 'Okay, all right, as a stretch goal'. Debatable: a planning decision applied in the planning issue.",
+      "assignee": null,
+      "segments": [
+        [
+          17,
+          23
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "cach",
+          "tags"
+        ]
+      ],
+      "optional": true,
+      "due_text": null,
+      "due_date": null,
+      "note": "[25-31] caching the list of tags: 'maybe we should find a way to move this up into the deliverable issues list' / 'at least the investigation'. Hedged planning change.",
+      "assignee": null,
+      "segments": [
+        [
+          25,
+          31
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "delete"
+        ],
+        [
+          "file"
+        ]
+      ],
+      "optional": true,
+      "due_text": null,
+      "due_date": null,
+      "note": "[52-56] delete files from a package: REST endpoint, 'this needs to be added to the list of the graphical [GraphQL] work ... to keep it on par'; frontend follow-up mentioned. Vague, no owner.",
+      "assignee": null,
+      "segments": [
+        [
+          52,
+          56
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "schedul"
+        ]
+      ],
+      "optional": true,
+      "due_text": null,
+      "due_date": null,
+      "note": "[153-154] 'I'll go take a look at what's in the list ... maybe follow up on this conversation and see if there's another way we can ... schedule support'. Hedged follow-up.",
+      "assignee": null,
+      "segments": [
+        [
+          153,
+          154
+        ]
+      ]
+    }
+  ]
+}

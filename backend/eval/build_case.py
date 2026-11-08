@@ -1,6 +1,6 @@
 """Turn a meeting recording into an eval case: transcribe it exactly like production, leave `expected` empty.
 
-    python eval/build_case.py audio.opus --out eval/local/m10_sales.json \
+    python eval/build_case.py audio.opus --out eval/real/m10_sales.json \
         --people "Анна,Иван" --date 2022-06-17 --source https://youtu.be/...
 
 Fill `expected` by hand afterwards (see eval/README.md). Whisper runs with WHISPER_MODEL=base by default, the

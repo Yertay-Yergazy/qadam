@@ -1,0 +1,767 @@
+{
+  "name": "e4: GitLab Database Decomposition stakeholders standup 2022-05-18 (rollback, replication-slot risk assessment, vault backup)",
+  "source": "https://www.youtube.com/watch?v=kmMLgE8Dubg",
+  "language": "en",
+  "duration_sec": 1456,
+  "meeting_date": "2022-05-18",
+  "people": [
+    "Dylan",
+    "Nick",
+    "Steve",
+    "Nikolai",
+    "Fabian",
+    "Jose",
+    "Rafael",
+    "Jerry",
+    "Gonzalo",
+    "Marcel"
+  ],
+  "segments": [
+    {
+      "start_sec": 2.22,
+      "speaker": null,
+      "text": "Everyone, this is the weekly decomposition stakeholders stand up one day May 18th and I have the first item so just an update on progress the first dry run on staging was conducted this past Monday."
+    },
+    {
+      "start_sec": 20.22,
+      "speaker": null,
+      "text": "That went pretty smoothly. There were some valuable insights gained and follow ups are being worked on. There's a second dry run scheduled for Monday May 23rd in APAC hours so we'll have to adjust the just the timeline on phase seven accordingly."
+    },
+    {
+      "start_sec": 42.22,
+      "speaker": null,
+      "text": "But yeah, that's it's encouraging to see see all the collaboration that's been going on there. So yeah, thanks for everyone for continuing to support the rollout planning."
+    },
+    {
+      "start_sec": 56.22,
+      "speaker": null,
+      "text": "Many comments on the the dry runs before we go on."
+    },
+    {
+      "start_sec": 67.16,
+      "speaker": null,
+      "text": "Yeah, we had some discussion in the starting groups think earlier and there were kind of like three actions that we just wanted to our items for consideration that we wanted to bring to this meeting. So one is just to make sure that we are all in agreement about a rollback strategy."
+    },
+    {
+      "start_sec": 90.16,
+      "speaker": null,
+      "text": "There is and we we may want to link to the the com the threatened slat where kind of the updated strategy is is discussed, but I think to summarize there's some discussion now about instead of using a second CI cluster essentially rolling back by pointing reads to the main cluster."
+    },
+    {
+      "start_sec": 120.16,
+      "speaker": null,
+      "text": "So kind of like rolling back phase three, but then keeping phase four in place. So still we still keeping connections going through the CPG bounce or CI but pointed to the main cluster."
+    },
+    {
+      "start_sec": 134.16,
+      "speaker": null,
+      "text": "And so and I think Dylan is working on a draft MR to with those configuration changes."
+    },
+    {
+      "start_sec": 146.16,
+      "speaker": null,
+      "text": "So that's kind of being seen right now as a potentially simpler rollback strategy."
+    },
+    {
+      "start_sec": 154.16,
+      "speaker": null,
+      "text": "And I don't think there's been any major disagreement on that, but I think we just need to as that plan gets developed, just make sure everyone's aligned on it."
+    },
+    {
+      "start_sec": 168.17,
+      "speaker": null,
+      "text": "So one point is this kind of came up today."
+    },
+    {
+      "start_sec": 174.17,
+      "speaker": null,
+      "text": "We need to decide if we want to change how replications hand handled specifically, whether we need a replication slot or not."
+    },
+    {
+      "start_sec": 183.17,
+      "speaker": null,
+      "text": "And so I think this is something where hopefully I don't know who we can decide on who the DRI is for this, because I think there's maybe some some opinions, I think."
+    },
+    {
+      "start_sec": 195.17,
+      "speaker": null,
+      "text": "And then I think on the other side, it's like, okay, well, do we that's maybe to be extra safe during this time until we actually fail over to the CI cluster, but then all that change would go away anyways. And so I think there's kind of this trade off between whether we want to implement this replication slot, but that could further delay the decomposition rollout or whether we want to just kind of continue as"
+    },
+    {
+      "start_sec": 220.17,
+      "speaker": null,
+      "text": "in the current state and continue moving forward. So, yeah, I'm not sure who the DRI necessarily is on that decision, but I think that's something we want to bring to this meeting and see what everyone thought."
+    },
+    {
+      "start_sec": 252.29,
+      "speaker": null,
+      "text": "Maybe one question I have is that does that impact kind of our resulting approach to, for example, the having delayed replica information, the backup approach, both the GCP backup approach as well as the AWS vault backup approach."
+    },
+    {
+      "start_sec": 279.57,
+      "speaker": null,
+      "text": "I think the intent is that we should end up with all of those capabilities, just like we have today with the main cluster. And so, so it would be good to know if this impacts or anything else impacts like the end result of having all those capabilities."
+    },
+    {
+      "start_sec": 308.78,
+      "speaker": null,
+      "text": "I realize I joint late and I apologize. So is this specific a question regarding the replication slot versus not replication slot."
+    },
+    {
+      "start_sec": 317.78,
+      "speaker": null,
+      "text": "Yeah, I'm actually not sure. So I'm not sure, but specifically related to that. I think I see the discussion about the replication slot. It wasn't clear to me whether or not."
+    },
+    {
+      "start_sec": 332.78,
+      "speaker": null,
+      "text": "I mean, that was a sub topic Steve, but if we're just reverting to like phase four, then we're not replicating to another cluster. So I'm talking about full."
+    },
+    {
+      "start_sec": 344.22,
+      "speaker": null,
+      "text": "So, but that replicating to a backup cluster for doing that, we needed to decide on the solution of how we would replicate to the back out strategy cluster. But if we're not going to do that, we just revert reads like Nick was saying, then the replication slot discussion is kind of moot."
+    },
+    {
+      "start_sec": 363.22,
+      "speaker": null,
+      "text": "All right, I mean, maybe what I'm, so I guess maybe what I'm bringing up is a separate topic and potentially is something that maybe we should walk back and just ensure that we're ending up with the same capabilities at the end."
+    },
+    {
+      "start_sec": 380.36,
+      "speaker": null,
+      "text": "So I mean, today with the given cluster, there's an existing capability for delayed replica, there's existing capabilities for restores from different backups, both directly and GCP and also the immutable vault backups that are in AWS."
+    },
+    {
+      "start_sec": 402.36,
+      "speaker": null,
+      "text": "We just wouldn't want to, you know, and end up a couple months in the future with the needed to restore and to then discover that for all the CI data, we don't have consistency with the rest of the database."
+    },
+    {
+      "start_sec": 416.36,
+      "speaker": null,
+      "text": "Yeah, so I think Nick, please go ahead."
+    },
+    {
+      "start_sec": 422.77,
+      "speaker": null,
+      "text": "So I don't know all of the details here, but my understanding was that the CI cluster was provisioned providing the same capabilities as for the main cluster. So I think data is backed up in a similar way."
+    },
+    {
+      "start_sec": 440.77,
+      "speaker": null,
+      "text": "So these capabilities should be there. I have not provisioned it myself, so I can't really say if that is factually the case, but I believe that was the intent."
+    },
+    {
+      "start_sec": 450.77,
+      "speaker": null,
+      "text": "It is the case."
+    },
+    {
+      "start_sec": 453.77,
+      "speaker": null,
+      "text": "It's the case."
+    },
+    {
+      "start_sec": 454.77,
+      "speaker": null,
+      "text": "So when we are provisioning all this, we how we copied exactly what's happening with the main cluster."
+    },
+    {
+      "start_sec": 460.77,
+      "speaker": null,
+      "text": "Yes, so let's say the capability should be the same."
+    },
+    {
+      "start_sec": 466.77,
+      "speaker": null,
+      "text": "However, and this is I think an important thing to be aware of as we've started thinking about the rollback in case something goes wrong."
+    },
+    {
+      "start_sec": 474.77,
+      "speaker": null,
+      "text": "I think what is the case now is that in the future, rather than having a single cluster, we now have two clusters, they have different state."
+    },
+    {
+      "start_sec": 483.77,
+      "speaker": null,
+      "text": "So in case one of those, let's say, goes down in a few months, right, and we we will have to manage a situation where we have to resolve these consistency challenges between these two databases in a similar issue way that we would have in case we roll back."
+    },
+    {
+      "start_sec": 503.77,
+      "speaker": null,
+      "text": "So I think there's potential sequence bumping like ID buffering and what not going on that the engineers are discussing."
+    },
+    {
+      "start_sec": 513.77,
+      "speaker": null,
+      "text": "So I don't think it is fair to say that there won't be any additional complexity in case of a restore just because we now have two databases and we have to account for that, but I think the base capabilities should be there."
+    },
+    {
+      "start_sec": 525.77,
+      "speaker": null,
+      "text": "Okay, all right, again, I mean the complexity, I definitely get I just don't want to be in a situation where I get will be in a complex situation. I just don't want to be in a situation where we don't actually have the data."
+    },
+    {
+      "start_sec": 538.77,
+      "speaker": null,
+      "text": "I think the data should be there as candidly said."
+    },
+    {
+      "start_sec": 541.77,
+      "speaker": null,
+      "text": "I think if one additional follow up you could do is just to validate the the vault back up because because that is unless, unless you recall for sure that we have, and we've we've got, you know, an issue tracking the work that intersect would have done on that."
+    },
+    {
+      "start_sec": 562.77,
+      "speaker": null,
+      "text": "Like nobody in infrastructure has access to that vault infrastructure deliberately."
+    },
+    {
+      "start_sec": 569.77,
+      "speaker": null,
+      "text": "We're prevented from that as by design and so you know there are pipelines and access and everything that intersect would have had to set up in order to accomplish that."
+    },
+    {
+      "start_sec": 580.77,
+      "speaker": null,
+      "text": "Yep, the general backup, specifically on the vault on the infosex site, that one we might not have done, but the general capabilities of backup and restoring that one that we currently do we already have that one in place."
+    },
+    {
+      "start_sec": 594.77,
+      "speaker": null,
+      "text": "If we are sending extra one to infosex, then that's something I can definitely verify and confirm today."
+    },
+    {
+      "start_sec": 601.77,
+      "speaker": null,
+      "text": "Yes."
+    },
+    {
+      "start_sec": 603.77,
+      "speaker": null,
+      "text": "I mean, it's not to be done today, but we need to move forward that is to be part of solution. So thank you."
+    },
+    {
+      "start_sec": 611.77,
+      "speaker": null,
+      "text": "Yeah, and I think for this kind of decision point on item number two, I'm my understanding and please come to me from wrong. This is where we're kind of talking about this period between now and when we actually complete phase seven."
+    },
+    {
+      "start_sec": 627.77,
+      "speaker": null,
+      "text": "So there's a certain concern there is so on one hand that there was in an issue some advice from Nicolay our post press consultant that said, hey, we."
+    },
+    {
+      "start_sec": 638.77,
+      "speaker": null,
+      "text": "You know, he really thinks we should have a replication slot."
+    },
+    {
+      "start_sec": 642.77,
+      "speaker": null,
+      "text": "Because if certain things happen, we could have certain things happen right now with."
+    },
+    {
+      "start_sec": 650.77,
+      "speaker": null,
+      "text": "We could see eye cluster replicating from main, we could have some performance degradation, degradation, so we're kind of there's some some risks there and not having it."
+    },
+    {
+      "start_sec": 660.77,
+      "speaker": null,
+      "text": "And then I think on the other side of that argument, debate there's there's this thought that okay, well, we, you know, that might help, but at the same time, like we're kind of in the state for maybe a little over a month."
+    },
+    {
+      "start_sec": 676.77,
+      "speaker": null,
+      "text": "If we do this, we'll have to, if we put in place the replication slot, we'll have to maybe go back and re execute a bunch of tests and kind of replant things and that could further push back the decomposition effort."
+    },
+    {
+      "start_sec": 690.77,
+      "speaker": null,
+      "text": "And then I think the other point to that was that we already have if something does happen like we, you know, potentially lose wall or something like that."
+    },
+    {
+      "start_sec": 699.77,
+      "speaker": null,
+      "text": "There's already a plan in place to recover that and so the thought was that that may just going down this path of adding the replication slot at this point may just be extra work for something that's not really for a state that's really only going to be there for, you know, another month, month and a half, hopefully."
+    },
+    {
+      "start_sec": 721.77,
+      "speaker": null,
+      "text": "And also the replication slot is looks like it's a temporary thing and once we fix seven deployment is complete, this thing will go away, we don't need it at all."
+    },
+    {
+      "start_sec": 733.77,
+      "speaker": null,
+      "text": "So basically this is for the next month, one half months, a solution for one half months."
+    },
+    {
+      "start_sec": 740.77,
+      "speaker": null,
+      "text": "So this is a trade off with risk taking what kind of risks we want to take."
+    },
+    {
+      "start_sec": 751.45,
+      "speaker": null,
+      "text": "Yeah, and so I think that's kind of the question we want to pose here is who's kind of who's the DRI for, I guess, you know, weighing that trade off and making that call."
+    },
+    {
+      "start_sec": 766.45,
+      "speaker": null,
+      "text": "I'm not sure yeah, I certainly don't don't feel qualified to."
+    },
+    {
+      "start_sec": 774.45,
+      "speaker": null,
+      "text": "I mean, I think the, at least to add my even less qualified opinion here is like this is essentially a question is like can we live with the step scroll for some time longer despite nuclear raising concerns that may create a problem."
+    },
+    {
+      "start_sec": 790.89,
+      "speaker": null,
+      "text": "I have no way of knowing how bad this is right it's just a if we need to fix this first, it may create other things that we then need to mitigate that's I think the question that we just need to."
+    },
+    {
+      "start_sec": 804.89,
+      "speaker": null,
+      "text": "So I guess one one thing around this I've kind of reading reading through the description and I hear that there's a here a desire for for there to be like a DRI assignment for this decision here and it kind of sounds unclear to me like who that should be."
+    },
+    {
+      "start_sec": 832.54,
+      "speaker": null,
+      "text": "So if the question is that you know we're all reading this and think that there needs to be some kind of like higher level business risk decision made."
+    },
+    {
+      "start_sec": 844.54,
+      "speaker": null,
+      "text": "I think what what we need is like the comment from Nikolai is written at a level in which it's not ready for that business risk decision like I can't read this."
+    },
+    {
+      "start_sec": 859.82,
+      "speaker": null,
+      "text": "And figure out like what the business risk is in order to take on that decision and be the DRI which I would be happy to do but we would need some kind of additional enhancement of this before I'd be able to do that."
+    },
+    {
+      "start_sec": 874.82,
+      "speaker": null,
+      "text": "So but if that's not what we're asking for and there's somebody else on here who you know fully is kind of rooted in the details of this uncomfortable being the DRI for the decision that's fine as well I don't want to I don't want to like stick my nose in but but it it sounds like there's an ask here for somebody to be a DRI."
+    },
+    {
+      "start_sec": 901.82,
+      "speaker": null,
+      "text": "Yeah maybe first go ahead Fabia."
+    },
+    {
+      "start_sec": 906.71,
+      "speaker": null,
+      "text": "I think Steve you're quite right because I think I have the same questions you I don't know how like if this is something I even need to worry about and I think the I think this needs a technical assessment first saying like yes this is this is a severe business risk or no actually we are okay."
+    },
+    {
+      "start_sec": 927.71,
+      "speaker": null,
+      "text": "But and then you know but as it stands it's been there for two weeks I think we've seen it now for the first time at least I've seen it today for the first time."
+    },
+    {
+      "start_sec": 936.71,
+      "speaker": null,
+      "text": "So I think my ass would be at least from the infrastructure side somebody who is sort of knowledgeable enough to say like Nikolai is right this is a risk and I recommend we do something because of that and I think none of the team members in the starting."
+    },
+    {
+      "start_sec": 953.71,
+      "speaker": null,
+      "text": "Group that are from a development perspective have enough knowledge to do that and may it may actually be something where for say we're."
+    },
+    {
+      "start_sec": 963.71,
+      "speaker": null,
+      "text": "Someone else you can say like this is actually okay but I don't I don't know anything that's where we need some clarification."
+    },
+    {
+      "start_sec": 971.71,
+      "speaker": null,
+      "text": "So I would suggest maybe first step we need a DRI to write off assessment or write off the information that can evaluate supported evaluating the business impact here basically take a Nick Nick's input and also other inputs like what it will be impact impacting the roll out process so that you know either."
+    },
+    {
+      "start_sec": 1000.71,
+      "speaker": null,
+      "text": "Either Steve or a combined you know leadership have sufficient information to evaluate the business risk they make a call there after that yeah that sounds good can we have the."
+    },
+    {
+      "start_sec": 1013.71,
+      "speaker": null,
+      "text": "Like can then Dave can we have the DRI's basically provide some enhanced kind of business risk assessment of this and then if it's about accepting or not accepting a business risk i'm happy to do that I just don't understand."
+    },
+    {
+      "start_sec": 1028.71,
+      "speaker": null,
+      "text": "I feel like it would lean on a tech lead usually like in this case Jose to translate Nick to that next level for what you're looking for so I don't know how you feel about that can but I know Rafael had brought some of this up so I can also ask him to do it I just."
+    },
+    {
+      "start_sec": 1046.71,
+      "speaker": null,
+      "text": "Yes, eight of them should be should be able to do this I can work with Jose during my time and then we check in with a sort of a although select to hear."
+    },
+    {
+      "start_sec": 1062.78,
+      "speaker": null,
+      "text": "I know Jerry's not here but Jerry's opinion also on this one given that he's."
+    },
+    {
+      "start_sec": 1068.78,
+      "speaker": null,
+      "text": "Towards the area there are staff in our DE so they're the ones that should be translating that all right then I will take it up with Jose and then we will try and have it in the in a way that he can be evaluated for for this assessment and decision making."
+    },
+    {
+      "start_sec": 1100.43,
+      "speaker": null,
+      "text": "That's great thank you."
+    },
+    {
+      "start_sec": 1105.73,
+      "speaker": null,
+      "text": "And then yeah just a third point here which I think is kind of related to this specific decision we're talking about I think."
+    },
+    {
+      "start_sec": 1113.73,
+      "speaker": null,
+      "text": "Just a general discussion about yeah these these changes that are maybe."
+    },
+    {
+      "start_sec": 1120.73,
+      "speaker": null,
+      "text": "And multiple viewpoints that are viewed as more impactful are that there's a process to review and agree upon them."
+    },
+    {
+      "start_sec": 1129.73,
+      "speaker": null,
+      "text": "I don't know if five year Chen you had more to say say on that point as it came up in in our last chat."
+    },
+    {
+      "start_sec": 1141.95,
+      "speaker": null,
+      "text": "Yeah I can quickly speak to this I think the I think there was a little bit of a concern and we're just trying to be transparent and highlight that we're making changes and the DB integration environment which is not staging nor production."
+    },
+    {
+      "start_sec": 1153.95,
+      "speaker": null,
+      "text": "And I think the desire here is to ensure that if changes are being made that you know before they get applied in other environments you know we have agreement that's a good idea they get reviewed and want to make sure that that process also respected to avoid any you know like upsets in it that was just something that came up I think today."
+    },
+    {
+      "start_sec": 1181.82,
+      "speaker": null,
+      "text": "And essentially maybe maybe maybe like the by questions like is it normal that before changes are being made to staging and production that things get reviewed before they get merged because then maybe the easiest thing is to say if you can actually make a standard change."
+    },
+    {
+      "start_sec": 1196.82,
+      "speaker": null,
+      "text": "Change process should have a change plan and does it go and staging and and in all change plans have to have two sets of eyes so because this maybe that's a little broader than the two sets of eyes also needs to include the plan so maybe we need to communicate that out but."
+    },
+    {
+      "start_sec": 1214.82,
+      "speaker": null,
+      "text": "In general everything gets."
+    },
+    {
+      "start_sec": 1217.82,
+      "speaker": null,
+      "text": "And with the team members on this would use somebody inside the team as a second set of eyes yeah."
+    },
+    {
+      "start_sec": 1225.87,
+      "speaker": null,
+      "text": "The recommendation is just to follow up."
+    },
+    {
+      "start_sec": 1229.87,
+      "speaker": null,
+      "text": "Change process."
+    },
+    {
+      "start_sec": 1232.87,
+      "speaker": null,
+      "text": "Yeah."
+    },
+    {
+      "start_sec": 1234.87,
+      "speaker": null,
+      "text": "I agree with that."
+    },
+    {
+      "start_sec": 1243.43,
+      "speaker": null,
+      "text": "All right yeah and I have our standing item here for any updates on the DB OS upgrade timing yeah do we have any updates."
+    },
+    {
+      "start_sec": 1256.48,
+      "speaker": null,
+      "text": "So sorry let's just talk about to the point here so can you go or be coordinating that at first do we need and having do we have a timeline that we need this decision to be made."
+    },
+    {
+      "start_sec": 1270.86,
+      "speaker": null,
+      "text": "I mean what this is."
+    },
+    {
+      "start_sec": 1272.86,
+      "speaker": null,
+      "text": "I mean yeah replication whether we need it I mean what's a timeline we need the decision so that we can coordinate when we need to need this information or something about the four leaders to."
+    },
+    {
+      "start_sec": 1285.86,
+      "speaker": null,
+      "text": "I think if we could if we could evaluate that you know by the end of this week or by the beginning of next week I think will be will be useful."
+    },
+    {
+      "start_sec": 1297.86,
+      "speaker": null,
+      "text": "I think there's this this may be a little bit of a complication is like I think this is a less severe if we don't have to provision a second CI cluster."
+    },
+    {
+      "start_sec": 1308.86,
+      "speaker": null,
+      "text": "So we're going to be able to do a staging and production because then we wouldn't have to decide if we."
+    },
+    {
+      "start_sec": 1313.86,
+      "speaker": null,
+      "text": "Add a replication slot or not, which is, it becomes a keep the status quo yes or not."
+    },
+    {
+      "start_sec": 1319.86,
+      "speaker": null,
+      "text": "So I would hope that we can decide on the rollback strategy within a day or two."
+    },
+    {
+      "start_sec": 1325.86,
+      "speaker": null,
+      "text": "And we should probably aim to get a risk assessment of some kind done by Monday I'd say the latest."
+    },
+    {
+      "start_sec": 1332.86,
+      "speaker": null,
+      "text": "That feels like enough time to at least take a look."
+    },
+    {
+      "start_sec": 1335.86,
+      "speaker": null,
+      "text": "And I'm not looking for something super elaborate right I think similar to Steve I think we're just looking for a."
+    },
+    {
+      "start_sec": 1341.86,
+      "speaker": null,
+      "text": "Is this fine right can we continue to do this or is it going to be the blocker."
+    },
+    {
+      "start_sec": 1348.86,
+      "speaker": null,
+      "text": "And can hope that helps you know sort of the rough timeline so maybe early next week let's say Lexi Monday we have some kind of you know the right up summary of the concerns so that the leaders have the."
+    },
+    {
+      "start_sec": 1362.86,
+      "speaker": null,
+      "text": "Information to evaluate business impacts and then make this issue."
+    },
+    {
+      "start_sec": 1368.86,
+      "speaker": null,
+      "text": "Yes that's clear for me."
+    },
+    {
+      "start_sec": 1370.86,
+      "speaker": null,
+      "text": "I think we should be able to get an answer by early next week."
+    },
+    {
+      "start_sec": 1374.86,
+      "speaker": null,
+      "text": "Yeah thank you."
+    },
+    {
+      "start_sec": 1376.86,
+      "speaker": null,
+      "text": "Thank you."
+    },
+    {
+      "start_sec": 1382.14,
+      "speaker": null,
+      "text": "And then yes I'll give you a providing update on the OS upgrade."
+    },
+    {
+      "start_sec": 1389.14,
+      "speaker": null,
+      "text": "Yeah so are you talking so can hopefully didn't steal your thunder there but I was just going to say the OS upgrade from what I've seen on updates is still on track to be ready at end of June."
+    },
+    {
+      "start_sec": 1399.14,
+      "speaker": null,
+      "text": "But they have obviously haven't made any announcements for maintenance windows or anything so."
+    },
+    {
+      "start_sec": 1406.14,
+      "speaker": null,
+      "text": "But but everybody on you know Rafael and Gonzalo and Marcel everybody I've talked to we've said you know the assumption is still we're doing decomposition phase seven roll out first."
+    },
+    {
+      "start_sec": 1418.14,
+      "speaker": null,
+      "text": "Yeah I would you do need to get on that maintenance window announcement soon though."
+    },
+    {
+      "start_sec": 1425.14,
+      "speaker": null,
+      "text": "At this point I think it will make sense for us from the team perspective discussing we do know that the composition will go we'll have to go fast before the the OS upgrade anyway so we can start working around communication and that."
+    },
+    {
+      "start_sec": 1442.14,
+      "speaker": null,
+      "text": "And I'm host of the infer group conversation that's coming up in five minutes so I'm going to drop and go make sure the live streaming stuff is ready to go."
+    },
+    {
+      "start_sec": 1449.14,
+      "speaker": null,
+      "text": "I think we're about time anyways thanks everyone."
+    },
+    {
+      "start_sec": 1451.14,
+      "speaker": null,
+      "text": "Thanks you bye bye."
+    }
+  ],
+  "expected": [
+    {
+      "keywords": [
+        [
+          "risk",
+          "assess"
+        ]
+      ],
+      "assignee": [
+        "Jose",
+        null
+      ],
+      "due_text": "monday",
+      "due_date": "2022-05-23",
+      "note": "[57-78], [98-110] need a DRI to write up the replication-slot business risk: 'it would lean on a tech lead usually like in this case Jose to translate Nick[olai] to that next level' / 'I will take it up with Jose' / 'we should probably aim to get a risk assessment of some kind done by Monday I'd say the latest' / 'answer by early next week'. Committing speaker is unnamed (maybe 'can' = Chun, garbled), Jose is the named owner of the write-up.",
+      "segments": [
+        [
+          57,
+          78
+        ],
+        [
+          98,
+          110
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "vault",
+          "backup",
+          "back up",
+          "back-up"
+        ]
+      ],
+      "assignee": null,
+      "due_text": null,
+      "due_date": null,
+      "note": "[38-44] 'one additional follow up you could do is just to validate the vault back up' -> 'that's something I can definitely verify and confirm today' -> 'it's not to be done today, but we need to move forward'. 'you' unnamed -> null; 'today' was explicitly waived, so no due date.",
+      "segments": [
+        [
+          38,
+          44
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "rollback",
+          "roll back",
+          "roll-back"
+        ]
+      ],
+      "optional": true,
+      "due_text": "within a day or two",
+      "due_date": null,
+      "note": "[4-9], [102] 'make sure that we are all in agreement about a rollback strategy' / 'I would hope that we can decide on the rollback strategy within a day or two'. Hedged; Dylan's draft MR in [7] is ongoing work, not an assignment.",
+      "assignee": null,
+      "segments": [
+        [
+          4,
+          9
+        ],
+        [
+          102,
+          102
+        ],
+        [
+          7,
+          7
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "change process",
+          "change plan",
+          "change management",
+          "review process"
+        ]
+      ],
+      "optional": true,
+      "due_text": null,
+      "due_date": null,
+      "note": "[84-93] changes in DB integration env should be reviewed: 'maybe we need to communicate that out' / 'The recommendation is just to follow [the] change process' / 'I agree'. Vague, no owner.",
+      "assignee": null,
+      "segments": [
+        [
+          84,
+          93
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "maintenance",
+          "announce",
+          "communicat"
+        ]
+      ],
+      "optional": true,
+      "due_text": null,
+      "due_date": null,
+      "note": "[117-118] OS upgrade: 'you do need to get on that maintenance window announcement soon' / 'we can start working around communication'. Hedged, no owner.",
+      "assignee": null,
+      "segments": [
+        [
+          117,
+          118
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "timeline",
+          "phase 7",
+          "phase seven"
+        ]
+      ],
+      "optional": true,
+      "due_text": null,
+      "due_date": null,
+      "note": "[1] 'second dry run scheduled for Monday May 23rd ... so we'll have to adjust the timeline on phase seven accordingly'. Status-update consequence rather than an assignment.",
+      "assignee": null,
+      "segments": [
+        [
+          1,
+          1
+        ]
+      ]
+    }
+  ]
+}

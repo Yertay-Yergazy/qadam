@@ -1,0 +1,2491 @@
+{
+  "name": "e1: Kubernetes SIG Release weekly meeting (patch release delay, post-release playbook, endpoint coverage)",
+  "source": "https://www.youtube.com/watch?v=D9jcBYMQtvA",
+  "language": "en",
+  "duration_sec": 1535,
+  "meeting_date": "2025-02-11",
+  "people": [
+    "Jeremy",
+    "Melanie",
+    "Mario",
+    "Sasha",
+    "Nina",
+    "Marco",
+    "Kat",
+    "Adolfo"
+  ],
+  "segments": [
+    {
+      "start_sec": 2.19,
+      "speaker": null,
+      "text": "Hey everyone, welcome to the Tuesday February 11th"
+    },
+    {
+      "start_sec": 6.87,
+      "speaker": null,
+      "text": "Sig release meeting."
+    },
+    {
+      "start_sec": 7.83,
+      "speaker": null,
+      "text": "My name's Jeremy and I will be the host today."
+    },
+    {
+      "start_sec": 10.27,
+      "speaker": null,
+      "text": "Before we get going, just a reminder that this meeting"
+    },
+    {
+      "start_sec": 12.51,
+      "speaker": null,
+      "text": "is covered by the Kubernetes Code of Conduct,"
+    },
+    {
+      "start_sec": 15.83,
+      "speaker": null,
+      "text": "which essentially means be excellent to one another"
+    },
+    {
+      "start_sec": 19.43,
+      "speaker": null,
+      "text": "and treat each other with respect."
+    },
+    {
+      "start_sec": 22.39,
+      "speaker": null,
+      "text": "This is recorded and will be available on YouTube at some point."
+    },
+    {
+      "start_sec": 25.27,
+      "speaker": null,
+      "text": "I think we still need to fix the automation for that."
+    },
+    {
+      "start_sec": 27.87,
+      "speaker": null,
+      "text": "But hopefully we'll be on YouTube shortly."
+    },
+    {
+      "start_sec": 31.03,
+      "speaker": null,
+      "text": "If you have any items you'd like to add to the agenda,"
+    },
+    {
+      "start_sec": 33.71,
+      "speaker": null,
+      "text": "please feel free to do that."
+    },
+    {
+      "start_sec": 36.19,
+      "speaker": null,
+      "text": "We have an open discussion section at the end."
+    },
+    {
+      "start_sec": 37.87,
+      "speaker": null,
+      "text": "It's probably the best place for things,"
+    },
+    {
+      "start_sec": 38.99,
+      "speaker": null,
+      "text": "and the less it slots into one of the other sections."
+    },
+    {
+      "start_sec": 43.39,
+      "speaker": null,
+      "text": "If anybody would like to volunteer to note take today,"
+    },
+    {
+      "start_sec": 46.11,
+      "speaker": null,
+      "text": "that would be super great."
+    },
+    {
+      "start_sec": 48.11,
+      "speaker": null,
+      "text": "Otherwise, I can try to juggle both of those things."
+    },
+    {
+      "start_sec": 53.81,
+      "speaker": null,
+      "text": "And in the chat, Melanie asked, if we are"
+    },
+    {
+      "start_sec": 58.81,
+      "speaker": null,
+      "text": "going to have a CubeCon EU London, are we all going?"
+    },
+    {
+      "start_sec": 62.37,
+      "speaker": null,
+      "text": "I think probably large chunks of us are going."
+    },
+    {
+      "start_sec": 64.73,
+      "speaker": null,
+      "text": "At least some mass of us will be there."
+    },
+    {
+      "start_sec": 67.09,
+      "speaker": null,
+      "text": "And it would be really great to meet up."
+    },
+    {
+      "start_sec": 68.89,
+      "speaker": null,
+      "text": "We did that at the Meet the Contributors"
+    },
+    {
+      "start_sec": 72.41,
+      "speaker": null,
+      "text": "during the Salt Lake City."
+    },
+    {
+      "start_sec": 73.69,
+      "speaker": null,
+      "text": "That was pretty cool."
+    },
+    {
+      "start_sec": 75.09,
+      "speaker": null,
+      "text": "Got to meet a lot of great people."
+    },
+    {
+      "start_sec": 76.81,
+      "speaker": null,
+      "text": "So hopefully we can do the same thing, fingers crossed."
+    },
+    {
+      "start_sec": 81.62,
+      "speaker": null,
+      "text": "All right."
+    },
+    {
+      "start_sec": 82.38,
+      "speaker": null,
+      "text": "Anybody that would like to introduce themselves,"
+    },
+    {
+      "start_sec": 84.38,
+      "speaker": null,
+      "text": "if you haven't been to a single release meeting"
+    },
+    {
+      "start_sec": 86.5,
+      "speaker": null,
+      "text": "before, I think I recognize most people here."
+    },
+    {
+      "start_sec": 91.75,
+      "speaker": null,
+      "text": "But here's the opportunity."
+    },
+    {
+      "start_sec": 92.83,
+      "speaker": null,
+      "text": "So if you'd like to feel free to unmute and say hello."
+    },
+    {
+      "start_sec": 96.75,
+      "speaker": null,
+      "text": "Hi, I've never been to a sick release meeting."
+    },
+    {
+      "start_sec": 100.87,
+      "speaker": null,
+      "text": "Maybe that's a quick intro."
+    },
+    {
+      "start_sec": 103.87,
+      "speaker": null,
+      "text": "So hi, I'm Mario."
+    },
+    {
+      "start_sec": 105.03,
+      "speaker": null,
+      "text": "I am co-chair for SickContribX."
+    },
+    {
+      "start_sec": 108.79,
+      "speaker": null,
+      "text": "But the reason why I am here is that we took over API snoop"
+    },
+    {
+      "start_sec": 115.27,
+      "speaker": null,
+      "text": "and the conformer updating and maintaining the conformance"
+    },
+    {
+      "start_sec": 122.15,
+      "speaker": null,
+      "text": "test for Kubernetes since December last year."
+    },
+    {
+      "start_sec": 127.27,
+      "speaker": null,
+      "text": "And yeah, that's why I'm here."
+    },
+    {
+      "start_sec": 131.03,
+      "speaker": null,
+      "text": "So when you say we, Mario, just for clarity,"
+    },
+    {
+      "start_sec": 134.03,
+      "speaker": null,
+      "text": "are you trying to contribute?"
+    },
+    {
+      "start_sec": 135.11,
+      "speaker": null,
+      "text": "Because I don't think you do."
+    },
+    {
+      "start_sec": 136.99,
+      "speaker": null,
+      "text": "No, sorry, yeah."
+    },
+    {
+      "start_sec": 138.67,
+      "speaker": null,
+      "text": "We are, I mean, with Kubernetes."
+    },
+    {
+      "start_sec": 141.07,
+      "speaker": null,
+      "text": "So we took this over from AI who maintained this in the past"
+    },
+    {
+      "start_sec": 145.27,
+      "speaker": null,
+      "text": "and this torch now passed down to Kubernetes."
+    },
+    {
+      "start_sec": 149.83,
+      "speaker": null,
+      "text": "Officially beginning from 1 January 2025."
+    },
+    {
+      "start_sec": 158.68,
+      "speaker": null,
+      "text": "Awesome."
+    },
+    {
+      "start_sec": 160.56,
+      "speaker": null,
+      "text": "Great to get to work with you more on release-related things."
+    },
+    {
+      "start_sec": 168.19,
+      "speaker": null,
+      "text": "All right, anybody else?"
+    },
+    {
+      "start_sec": 174.84,
+      "speaker": null,
+      "text": "OK, then we will jump into sub-project updates."
+    },
+    {
+      "start_sec": 178.16,
+      "speaker": null,
+      "text": "And we will start off with the patch releases."
+    },
+    {
+      "start_sec": 180.32,
+      "speaker": null,
+      "text": "So I think we've got patch release to schedule for today."
+    },
+    {
+      "start_sec": 182.48,
+      "speaker": null,
+      "text": "But I believe we wanted to wait for the go updates to be done."
+    },
+    {
+      "start_sec": 186.56,
+      "speaker": null,
+      "text": "Go updates to Lionel."
+    },
+    {
+      "start_sec": 187.76,
+      "speaker": null,
+      "text": "Yeah, and they still haven't."
+    },
+    {
+      "start_sec": 190.6,
+      "speaker": null,
+      "text": "I would guess at this point, it would probably"
+    },
+    {
+      "start_sec": 193.24,
+      "speaker": null,
+      "text": "be advantageous for us to communicate"
+    },
+    {
+      "start_sec": 195.16,
+      "speaker": null,
+      "text": "that we're going to delay those at least a day."
+    },
+    {
+      "start_sec": 198.08,
+      "speaker": null,
+      "text": "Yeah, I think just given the timeline, right?"
+    },
+    {
+      "start_sec": 200.32,
+      "speaker": null,
+      "text": "It's almost one over here."
+    },
+    {
+      "start_sec": 203.12,
+      "speaker": null,
+      "text": "Yeah."
+    },
+    {
+      "start_sec": 204.12,
+      "speaker": null,
+      "text": "It's one over here."
+    },
+    {
+      "start_sec": 205.12,
+      "speaker": null,
+      "text": "So yeah, it might make sense to push."
+    },
+    {
+      "start_sec": 208.4,
+      "speaker": null,
+      "text": "Do we know if we have approvals?"
+    },
+    {
+      "start_sec": 210.28,
+      "speaker": null,
+      "text": "Are we waiting for the cherry picks?"
+    },
+    {
+      "start_sec": 211.96,
+      "speaker": null,
+      "text": "Or it's just, I think when I just looked a few minutes ago,"
+    },
+    {
+      "start_sec": 217.0,
+      "speaker": null,
+      "text": "it looks like they're all approved."
+    },
+    {
+      "start_sec": 219.64,
+      "speaker": null,
+      "text": "I haven't gone through the whole checklist yet to make sure."
+    },
+    {
+      "start_sec": 221.44,
+      "speaker": null,
+      "text": "But I think the last round of things I saw were approved."
+    },
+    {
+      "start_sec": 224.04,
+      "speaker": null,
+      "text": "And we still had the holds."
+    },
+    {
+      "start_sec": 225.2,
+      "speaker": null,
+      "text": "We probably need to go through and just kind of get those"
+    },
+    {
+      "start_sec": 228.6,
+      "speaker": null,
+      "text": "over the line, which I will try to work on this afternoon."
+    },
+    {
+      "start_sec": 237.36,
+      "speaker": null,
+      "text": "Yeah, Sasha said he thinks they're ready to go."
+    },
+    {
+      "start_sec": 239.2,
+      "speaker": null,
+      "text": "So once we're done with this meeting,"
+    },
+    {
+      "start_sec": 241.76,
+      "speaker": null,
+      "text": "I will start dropping the holds and follow through those things."
+    },
+    {
+      "start_sec": 245.52,
+      "speaker": null,
+      "text": "And then I'll also all draft a note to send that we're"
+    },
+    {
+      "start_sec": 248.2,
+      "speaker": null,
+      "text": "going to delay the releases just to get the go bumps in."
+    },
+    {
+      "start_sec": 255.78,
+      "speaker": null,
+      "text": "All right, so patches do today, waiting on the go bumps."
+    },
+    {
+      "start_sec": 263.66,
+      "speaker": null,
+      "text": "And AI, oops."
+    },
+    {
+      "start_sec": 267.82,
+      "speaker": null,
+      "text": "Sorry, I'm no taking while I'm talking."
+    },
+    {
+      "start_sec": 272.8,
+      "speaker": null,
+      "text": "Keep going, I'll capture it."
+    },
+    {
+      "start_sec": 274.24,
+      "speaker": null,
+      "text": "OK."
+    },
+    {
+      "start_sec": 277.22,
+      "speaker": null,
+      "text": "All right."
+    },
+    {
+      "start_sec": 277.94,
+      "speaker": null,
+      "text": "Any questions or anything else about patch releases"
+    },
+    {
+      "start_sec": 281.06,
+      "speaker": null,
+      "text": "that we want to dive into before we move on?"
+    },
+    {
+      "start_sec": 289.26,
+      "speaker": null,
+      "text": "All right."
+    },
+    {
+      "start_sec": 290.66,
+      "speaker": null,
+      "text": "Next up is OBS Packages."
+    },
+    {
+      "start_sec": 292.54,
+      "speaker": null,
+      "text": "I don't know if we have anybody to give an update on those."
+    },
+    {
+      "start_sec": 296.02,
+      "speaker": null,
+      "text": "I think that's kind of been Marcos thing I don't see a month."
+    },
+    {
+      "start_sec": 299.18,
+      "speaker": null,
+      "text": "Yeah, we don't have anyone."
+    },
+    {
+      "start_sec": 301.78,
+      "speaker": null,
+      "text": "Probably the same for supply chain stuff."
+    },
+    {
+      "start_sec": 303.38,
+      "speaker": null,
+      "text": "I don't see Puerto."
+    },
+    {
+      "start_sec": 305.9,
+      "speaker": null,
+      "text": "So I guess we can probably skip over to the release team stuff."
+    },
+    {
+      "start_sec": 309.78,
+      "speaker": null,
+      "text": "It's an exciting time for the release team."
+    },
+    {
+      "start_sec": 312.58,
+      "speaker": null,
+      "text": "And the handsmen's freeze is pretty soon."
+    },
+    {
+      "start_sec": 315.42,
+      "speaker": null,
+      "text": "Nina, do you want to walk us through?"
+    },
+    {
+      "start_sec": 318.02,
+      "speaker": null,
+      "text": "So yeah, pretty exciting."
+    },
+    {
+      "start_sec": 320.26,
+      "speaker": null,
+      "text": "Enhancements freeze is scheduled for Thursday."
+    },
+    {
+      "start_sec": 323.34,
+      "speaker": null,
+      "text": "So if anyone has any questions about that,"
+    },
+    {
+      "start_sec": 325.74,
+      "speaker": null,
+      "text": "post in the release channel or the enhancements channel,"
+    },
+    {
+      "start_sec": 330.26,
+      "speaker": null,
+      "text": "I link the tracking sheet so you can see all the pretty enhancements"
+    },
+    {
+      "start_sec": 334.26,
+      "speaker": null,
+      "text": "of the different breakdown in the burn down view."
+    },
+    {
+      "start_sec": 339.1,
+      "speaker": null,
+      "text": "But to recap, we have 87 enhancements currently on the tracking board."
+    },
+    {
+      "start_sec": 346.3,
+      "speaker": null,
+      "text": "There are 36 that are actually tracked."
+    },
+    {
+      "start_sec": 349.02,
+      "speaker": null,
+      "text": "And 47 that are at risk."
+    },
+    {
+      "start_sec": 350.82,
+      "speaker": null,
+      "text": "So we'll see what the actual number is after the freeze."
+    },
+    {
+      "start_sec": 355.06,
+      "speaker": null,
+      "text": "Yeah, and then enhancements seem to an amazing job,"
+    },
+    {
+      "start_sec": 357.66,
+      "speaker": null,
+      "text": "handling the influx in the last couple of weeks."
+    },
+    {
+      "start_sec": 360.38,
+      "speaker": null,
+      "text": "So shout out to them."
+    },
+    {
+      "start_sec": 370.58,
+      "speaker": null,
+      "text": "Cool."
+    },
+    {
+      "start_sec": 371.26,
+      "speaker": null,
+      "text": "I love seeing those numbers."
+    },
+    {
+      "start_sec": 372.18,
+      "speaker": null,
+      "text": "They're so high."
+    },
+    {
+      "start_sec": 374.38,
+      "speaker": null,
+      "text": "They stress me out when they're high."
+    },
+    {
+      "start_sec": 375.7,
+      "speaker": null,
+      "text": "But they'll drop it."
+    },
+    {
+      "start_sec": 376.62,
+      "speaker": null,
+      "text": "They'll drop it."
+    },
+    {
+      "start_sec": 377.62,
+      "speaker": null,
+      "text": "Yeah, they'll drop it."
+    },
+    {
+      "start_sec": 378.62,
+      "speaker": null,
+      "text": "They'll drop it."
+    },
+    {
+      "start_sec": 379.62,
+      "speaker": null,
+      "text": "They'll drop it."
+    },
+    {
+      "start_sec": 380.62,
+      "speaker": null,
+      "text": "They'll drop it."
+    },
+    {
+      "start_sec": 382.62,
+      "speaker": null,
+      "text": "It was a very interesting thing."
+    },
+    {
+      "start_sec": 384.5,
+      "speaker": null,
+      "text": "It was very reasonable at the beginning of the release."
+    },
+    {
+      "start_sec": 386.62,
+      "speaker": null,
+      "text": "And then suddenly in the last two weeks is like, oh, every time."
+    },
+    {
+      "start_sec": 390.62,
+      "speaker": null,
+      "text": "We're just waiting for the prayers for deadline extensions"
+    },
+    {
+      "start_sec": 395.62,
+      "speaker": null,
+      "text": "to come in a bit if they haven't started floating in already."
+    },
+    {
+      "start_sec": 399.74,
+      "speaker": null,
+      "text": "They have it."
+    },
+    {
+      "start_sec": 400.74,
+      "speaker": null,
+      "text": "Do you need anything, Nina, from me?"
+    },
+    {
+      "start_sec": 403.86,
+      "speaker": null,
+      "text": "Or are you good?"
+    },
+    {
+      "start_sec": 404.7,
+      "speaker": null,
+      "text": "I think we're good."
+    },
+    {
+      "start_sec": 406.1,
+      "speaker": null,
+      "text": "It is, I guess, a little surprising that there hasn't"
+    },
+    {
+      "start_sec": 408.7,
+      "speaker": null,
+      "text": "been any enhancements like deadline."
+    },
+    {
+      "start_sec": 410.9,
+      "speaker": null,
+      "text": "But I guess that's more of a code freeze thing that you will get."
+    },
+    {
+      "start_sec": 413.54,
+      "speaker": null,
+      "text": "You'll get really deadline."
+    },
+    {
+      "start_sec": 414.42,
+      "speaker": null,
+      "text": "You'll still get some, just not that many."
+    },
+    {
+      "start_sec": 416.98,
+      "speaker": null,
+      "text": "And they will come in at the 11th hour."
+    },
+    {
+      "start_sec": 419.14,
+      "speaker": null,
+      "text": "Yeah, nobody ever, nobody ever proactively has."
+    },
+    {
+      "start_sec": 422.62,
+      "speaker": null,
+      "text": "It doesn't have to accept it."
+    },
+    {
+      "start_sec": 424.38,
+      "speaker": null,
+      "text": "No, and really for code freeze, people only proactively do them by like a day."
+    },
+    {
+      "start_sec": 429.54,
+      "speaker": null,
+      "text": "Yeah, maybe two if we're lucky."
+    },
+    {
+      "start_sec": 433.06,
+      "speaker": null,
+      "text": "Though I do want to force people to do them early for dox freeze."
+    },
+    {
+      "start_sec": 435.7,
+      "speaker": null,
+      "text": "But like that's, I do like when I call out that if you look at the new like"
+    },
+    {
+      "start_sec": 441.1,
+      "speaker": null,
+      "text": "the SIGs that have submitted enhancements, SIG node does have a lot."
+    },
+    {
+      "start_sec": 446.62,
+      "speaker": null,
+      "text": "They always do."
+    },
+    {
+      "start_sec": 447.94,
+      "speaker": null,
+      "text": "That is the ongoing issue."
+    },
+    {
+      "start_sec": 449.7,
+      "speaker": null,
+      "text": "Like proportionally, it's kind of funny."
+    },
+    {
+      "start_sec": 452.54,
+      "speaker": null,
+      "text": "There's 34 enhancements from SIG node."
+    },
+    {
+      "start_sec": 454.98,
+      "speaker": null,
+      "text": "And yeah, that's that's also typical."
+    },
+    {
+      "start_sec": 459.26,
+      "speaker": null,
+      "text": "And if we continue to have issues with SIG node and deadlines,"
+    },
+    {
+      "start_sec": 463.94,
+      "speaker": null,
+      "text": "we have a potential solution."
+    },
+    {
+      "start_sec": 468.26,
+      "speaker": null,
+      "text": "Yep, sounds good."
+    },
+    {
+      "start_sec": 474.43,
+      "speaker": null,
+      "text": "All right, cool, thanks for the update."
+    },
+    {
+      "start_sec": 476.11,
+      "speaker": null,
+      "text": "If there's anything that you need from SIG release in general,"
+    },
+    {
+      "start_sec": 480.31,
+      "speaker": null,
+      "text": "please feel free to reach out and ping."
+    },
+    {
+      "start_sec": 483.23,
+      "speaker": null,
+      "text": "I'm back this week so I can totally approve things and review."
+    },
+    {
+      "start_sec": 486.71,
+      "speaker": null,
+      "text": "And yeah, I was going to ask, are there any ending access things?"
+    },
+    {
+      "start_sec": 492.39,
+      "speaker": null,
+      "text": "I know that there were a few that are loaded by that I looked at."
+    },
+    {
+      "start_sec": 495.35,
+      "speaker": null,
+      "text": "But are there any good, I'll double check."
+    },
+    {
+      "start_sec": 499.99,
+      "speaker": null,
+      "text": "But the last couple or request I think were merged in."
+    },
+    {
+      "start_sec": 502.95,
+      "speaker": null,
+      "text": "So we should be all set."
+    },
+    {
+      "start_sec": 506.27,
+      "speaker": null,
+      "text": "Cool."
+    },
+    {
+      "start_sec": 509.62,
+      "speaker": null,
+      "text": "All right, awesome."
+    },
+    {
+      "start_sec": 511.26,
+      "speaker": null,
+      "text": "Any questions for Frenina or the release team?"
+    },
+    {
+      "start_sec": 517.3,
+      "speaker": null,
+      "text": "I just one last thing to call out is next week is the alpha 2 cut."
+    },
+    {
+      "start_sec": 523.14,
+      "speaker": null,
+      "text": "So I know we had some issues with the OBS stage."
+    },
+    {
+      "start_sec": 530.7,
+      "speaker": null,
+      "text": "I don't know if this is like the bright time to bring it up."
+    },
+    {
+      "start_sec": 533.38,
+      "speaker": null,
+      "text": "But is that resolved now or is there someone I should ask"
+    },
+    {
+      "start_sec": 539.42,
+      "speaker": null,
+      "text": "to touch base to make sure that next week's release is going to go smoothly?"
+    },
+    {
+      "start_sec": 544.46,
+      "speaker": null,
+      "text": "I think Sasha created the project for it."
+    },
+    {
+      "start_sec": 546.82,
+      "speaker": null,
+      "text": "I think it's an ongoing thing where every time there's a release now,"
+    },
+    {
+      "start_sec": 550.38,
+      "speaker": null,
+      "text": "we need to do the new OBS project so that that stuff is there"
+    },
+    {
+      "start_sec": 554.7,
+      "speaker": null,
+      "text": "and ready for publishing."
+    },
+    {
+      "start_sec": 555.94,
+      "speaker": null,
+      "text": "It doesn't create it by default."
+    },
+    {
+      "start_sec": 557.7,
+      "speaker": null,
+      "text": "Yeah, we probably want that as a post release step."
+    },
+    {
+      "start_sec": 561.62,
+      "speaker": null,
+      "text": "I think we need to work on our post release playbook."
+    },
+    {
+      "start_sec": 564.7,
+      "speaker": null,
+      "text": "There are a few things that need to happen at all."
+    },
+    {
+      "start_sec": 566.22,
+      "speaker": null,
+      "text": "Then become trouble for the next release."
+    },
+    {
+      "start_sec": 571.92,
+      "speaker": null,
+      "text": "Yeah, let's add that as an action here too so we can."
+    },
+    {
+      "start_sec": 585.05,
+      "speaker": null,
+      "text": "Yeah, that sounds great."
+    },
+    {
+      "start_sec": 585.85,
+      "speaker": null,
+      "text": "So I think it managed to be good for next week."
+    },
+    {
+      "start_sec": 589.65,
+      "speaker": null,
+      "text": "And then action item will have an updated playbook for like what"
+    },
+    {
+      "start_sec": 594.33,
+      "speaker": null,
+      "text": "to do after the final release."
+    },
+    {
+      "start_sec": 596.41,
+      "speaker": null,
+      "text": "So the next time the first cut goes a little smoother."
+    },
+    {
+      "start_sec": 605.78,
+      "speaker": null,
+      "text": "Well, thank you for mentioning that so we could write it down and make sure we track that."
+    },
+    {
+      "start_sec": 613.03,
+      "speaker": null,
+      "text": "Okay, open discussion items."
+    },
+    {
+      "start_sec": 615.95,
+      "speaker": null,
+      "text": "Looks like Mario, he added something for 132, 133."
+    },
+    {
+      "start_sec": 619.67,
+      "speaker": null,
+      "text": "Yes, basically, this is more of a question."
+    },
+    {
+      "start_sec": 623.15,
+      "speaker": null,
+      "text": "So we were approached by Rian because no one told us the process."
+    },
+    {
+      "start_sec": 631.55,
+      "speaker": null,
+      "text": "If we should do something or not."
+    },
+    {
+      "start_sec": 634.55,
+      "speaker": null,
+      "text": "So basically what we did is we built,"
+    },
+    {
+      "start_sec": 637.15,
+      "speaker": null,
+      "text": "we rebuilt the website every week."
+    },
+    {
+      "start_sec": 640.07,
+      "speaker": null,
+      "text": "It's in the Monday or Tuesday."
+    },
+    {
+      "start_sec": 643.07,
+      "speaker": null,
+      "text": "And there we basically also list all the promoted features that don't have tests."
+    },
+    {
+      "start_sec": 651.11,
+      "speaker": null,
+      "text": "And apparently in 132, we had three end points that were promoted that don't have a test."
+    },
+    {
+      "start_sec": 664.07,
+      "speaker": null,
+      "text": "Which is a namespace pottery size patch read and also the replace endpoint."
+    },
+    {
+      "start_sec": 672.99,
+      "speaker": null,
+      "text": "And I think this should not happen."
+    },
+    {
+      "start_sec": 676.07,
+      "speaker": null,
+      "text": "I don't know where to address this."
+    },
+    {
+      "start_sec": 677.99,
+      "speaker": null,
+      "text": "I don't know if sick release is the right place to do this or if we should ping the corresponding"
+    },
+    {
+      "start_sec": 686.31,
+      "speaker": null,
+      "text": "sick who owns those end points."
+    },
+    {
+      "start_sec": 690.31,
+      "speaker": null,
+      "text": "And for 133, I mean 133 is not yet out."
+    },
+    {
+      "start_sec": 694.03,
+      "speaker": null,
+      "text": "Do this is longer."
+    },
+    {
+      "start_sec": 696.03,
+      "speaker": null,
+      "text": "We just want to make sure that we don't build technical debt for."
+    },
+    {
+      "start_sec": 702.03,
+      "speaker": null,
+      "text": "Yeah."
+    },
+    {
+      "start_sec": 703.03,
+      "speaker": null,
+      "text": "Yeah."
+    },
+    {
+      "start_sec": 704.03,
+      "speaker": null,
+      "text": "So I know that, you know, was it last coupon or something we went to full coverage."
+    },
+    {
+      "start_sec": 711.03,
+      "speaker": null,
+      "text": "So we definitely don't want to regret from that."
+    },
+    {
+      "start_sec": 714.03,
+      "speaker": null,
+      "text": "I would say the right, I think, I think flagging us for awareness is the right thing to do."
+    },
+    {
+      "start_sec": 721.03,
+      "speaker": null,
+      "text": "Also reaching out for their own things for those end points is going to bring that to resolution."
+    },
+    {
+      "start_sec": 726.03,
+      "speaker": null,
+      "text": "Yeah, they're ultimately going to own those test."
+    },
+    {
+      "start_sec": 731.03,
+      "speaker": null,
+      "text": "So, okay, so we basically would also ping."
+    },
+    {
+      "start_sec": 735.03,
+      "speaker": null,
+      "text": "Yeah, the six and basically make the release team aware of it."
+    },
+    {
+      "start_sec": 740.03,
+      "speaker": null,
+      "text": "I wrote it to Nina as well."
+    },
+    {
+      "start_sec": 742.03,
+      "speaker": null,
+      "text": "I think yesterday, so that she's aware of 133."
+    },
+    {
+      "start_sec": 748.03,
+      "speaker": null,
+      "text": "Yeah, for 132, we just need to ping the folks, I guess."
+    },
+    {
+      "start_sec": 757.89,
+      "speaker": null,
+      "text": "Yeah."
+    },
+    {
+      "start_sec": 758.89,
+      "speaker": null,
+      "text": "And then officially, I mean, from the conformance perspective, that is sick architecture."
+    },
+    {
+      "start_sec": 764.89,
+      "speaker": null,
+      "text": "So also give them a heads up, but this is happening."
+    },
+    {
+      "start_sec": 768.89,
+      "speaker": null,
+      "text": "Yeah."
+    },
+    {
+      "start_sec": 769.89,
+      "speaker": null,
+      "text": "Okay."
+    },
+    {
+      "start_sec": 770.89,
+      "speaker": null,
+      "text": "That basically answers my question."
+    },
+    {
+      "start_sec": 772.89,
+      "speaker": null,
+      "text": "So I will pop in once in a while and say, hey."
+    },
+    {
+      "start_sec": 777.89,
+      "speaker": null,
+      "text": "Yeah, that's a long ago."
+    },
+    {
+      "start_sec": 780.89,
+      "speaker": null,
+      "text": "We think we'd ever want to get to the point where we would block releases."
+    },
+    {
+      "start_sec": 784.89,
+      "speaker": null,
+      "text": "If we are expanding the list of untested end points, feels kind of like a."
+    },
+    {
+      "start_sec": 792.89,
+      "speaker": null,
+      "text": "A thing that should be there for."
+    },
+    {
+      "start_sec": 794.89,
+      "speaker": null,
+      "text": "For code, like when something's cooked and it's."
+    },
+    {
+      "start_sec": 797.89,
+      "speaker": null,
+      "text": "It's getting in."
+    },
+    {
+      "start_sec": 799.89,
+      "speaker": null,
+      "text": "Yeah."
+    },
+    {
+      "start_sec": 800.89,
+      "speaker": null,
+      "text": "I do think that that is kind of like a."
+    },
+    {
+      "start_sec": 803.89,
+      "speaker": null,
+      "text": "Yeah."
+    },
+    {
+      "start_sec": 806.89,
+      "speaker": null,
+      "text": "Yeah."
+    },
+    {
+      "start_sec": 807.89,
+      "speaker": null,
+      "text": "Yeah."
+    },
+    {
+      "start_sec": 808.89,
+      "speaker": null,
+      "text": "The."
+    },
+    {
+      "start_sec": 809.89,
+      "speaker": null,
+      "text": "I think in the past, there has been reluctance to consider doing something like that."
+    },
+    {
+      "start_sec": 813.89,
+      "speaker": null,
+      "text": "Because coverage wasn't complete."
+    },
+    {
+      "start_sec": 817.89,
+      "speaker": null,
+      "text": "So I think now that we're."
+    },
+    {
+      "start_sec": 820.89,
+      "speaker": null,
+      "text": "In the in the motions of regressing that we should."
+    },
+    {
+      "start_sec": 823.89,
+      "speaker": null,
+      "text": "We should look at that."
+    },
+    {
+      "start_sec": 827.9,
+      "speaker": null,
+      "text": "And I was just going to say that until like code freeze or testries."
+    },
+    {
+      "start_sec": 833.9,
+      "speaker": null,
+      "text": "I think normal to have."
+    },
+    {
+      "start_sec": 835.9,
+      "speaker": null,
+      "text": "Like not conformance coverage rate because things are going in."
+    },
+    {
+      "start_sec": 839.9,
+      "speaker": null,
+      "text": "But a certain point like we should evaluate like what are the gaps and then reach out to the six and make sure that."
+    },
+    {
+      "start_sec": 845.9,
+      "speaker": null,
+      "text": "They know that this new feature that they added doesn't have complete coverage."
+    },
+    {
+      "start_sec": 850.9,
+      "speaker": null,
+      "text": "But right now, like, yeah, I agree."
+    },
+    {
+      "start_sec": 852.9,
+      "speaker": null,
+      "text": "I think we should talk to say a scripture."
+    },
+    {
+      "start_sec": 854.9,
+      "speaker": null,
+      "text": "Get a process in place and then also figure out which team should own it."
+    },
+    {
+      "start_sec": 858.9,
+      "speaker": null,
+      "text": "Because right now, like code freeze is owned by enhancements."
+    },
+    {
+      "start_sec": 862.9,
+      "speaker": null,
+      "text": "But this feels more like a."
+    },
+    {
+      "start_sec": 865.9,
+      "speaker": null,
+      "text": "You know, a release signal kind of job."
+    },
+    {
+      "start_sec": 869.9,
+      "speaker": null,
+      "text": "So."
+    },
+    {
+      "start_sec": 870.9,
+      "speaker": null,
+      "text": "And kind of unclear where the responsibility lies."
+    },
+    {
+      "start_sec": 873.9,
+      "speaker": null,
+      "text": "I'm not sure that it's a 17 responsibility actually."
+    },
+    {
+      "start_sec": 876.9,
+      "speaker": null,
+      "text": "I think this is a."
+    },
+    {
+      "start_sec": 877.9,
+      "speaker": null,
+      "text": "This is a."
+    },
+    {
+      "start_sec": 878.9,
+      "speaker": null,
+      "text": "Thick release top level."
+    },
+    {
+      "start_sec": 879.9,
+      "speaker": null,
+      "text": "This is a."
+    },
+    {
+      "start_sec": 880.9,
+      "speaker": null,
+      "text": "Is it really stop level?"
+    },
+    {
+      "start_sec": 881.9,
+      "speaker": null,
+      "text": "Like architecture."
+    },
+    {
+      "start_sec": 882.9,
+      "speaker": null,
+      "text": "And the owning."
+    },
+    {
+      "start_sec": 883.9,
+      "speaker": null,
+      "text": "And the only owning teams, right?"
+    },
+    {
+      "start_sec": 884.9,
+      "speaker": null,
+      "text": "So from the perspective of."
+    },
+    {
+      "start_sec": 887.9,
+      "speaker": null,
+      "text": "The past."
+    },
+    {
+      "start_sec": 888.9,
+      "speaker": null,
+      "text": "On."
+    },
+    {
+      "start_sec": 889.9,
+      "speaker": null,
+      "text": "Kubernetes Kubernetes."
+    },
+    {
+      "start_sec": 891.9,
+      "speaker": null,
+      "text": "It really owns the process for accepting a release blocking test."
+    },
+    {
+      "start_sec": 894.9,
+      "speaker": null,
+      "text": "Right."
+    },
+    {
+      "start_sec": 895.9,
+      "speaker": null,
+      "text": "So in that we have that."
+    },
+    {
+      "start_sec": 896.9,
+      "speaker": null,
+      "text": "That's under our purview."
+    },
+    {
+      "start_sec": 898.9,
+      "speaker": null,
+      "text": "But getting those tests to a state where they would be release blocking is under the earnings say."
+    },
+    {
+      "start_sec": 903.9,
+      "speaker": null,
+      "text": "Right."
+    },
+    {
+      "start_sec": 904.9,
+      "speaker": null,
+      "text": "So this is."
+    },
+    {
+      "start_sec": 905.9,
+      "speaker": null,
+      "text": "This is a top level."
+    },
+    {
+      "start_sec": 907.9,
+      "speaker": null,
+      "text": "Crossing conversation."
+    },
+    {
+      "start_sec": 909.9,
+      "speaker": null,
+      "text": "I think really signal."
+    },
+    {
+      "start_sec": 910.9,
+      "speaker": null,
+      "text": "It makes sense for really signal to be in the loop."
+    },
+    {
+      "start_sec": 913.9,
+      "speaker": null,
+      "text": "I think we do need to get a sense of at what point"
+    },
+    {
+      "start_sec": 917.54,
+      "speaker": null,
+      "text": "of the release do we start to get worried"
+    },
+    {
+      "start_sec": 920.86,
+      "speaker": null,
+      "text": "about coming in new endpoints,"
+    },
+    {
+      "start_sec": 923.46,
+      "speaker": null,
+      "text": "coming in without coverage."
+    },
+    {
+      "start_sec": 926.89,
+      "speaker": null,
+      "text": "Like this is definitely probably okayish right now"
+    },
+    {
+      "start_sec": 930.01,
+      "speaker": null,
+      "text": "because we're not, but this is probably not right."
+    },
+    {
+      "start_sec": 933.41,
+      "speaker": null,
+      "text": "Like we've, I mean it's okay and it's not okay"
+    },
+    {
+      "start_sec": 936.37,
+      "speaker": null,
+      "text": "in the sense that like 132 is out the door"
+    },
+    {
+      "start_sec": 939.73,
+      "speaker": null,
+      "text": "and we have endpoints that are uncovered."
+    },
+    {
+      "start_sec": 941.09,
+      "speaker": null,
+      "text": "Yeah, that's what I mean."
+    },
+    {
+      "start_sec": 942.09,
+      "speaker": null,
+      "text": "Yeah."
+    },
+    {
+      "start_sec": 943.93,
+      "speaker": null,
+      "text": "Okay."
+    },
+    {
+      "start_sec": 945.93,
+      "speaker": null,
+      "text": "Would it be okay if I started an email thread"
+    },
+    {
+      "start_sec": 948.73,
+      "speaker": null,
+      "text": "with sick architecture and sick release"
+    },
+    {
+      "start_sec": 950.25,
+      "speaker": null,
+      "text": "to start discussing that?"
+    },
+    {
+      "start_sec": 952.01,
+      "speaker": null,
+      "text": "I think that Mario should start it."
+    },
+    {
+      "start_sec": 954.17,
+      "speaker": null,
+      "text": "Oh, okay."
+    },
+    {
+      "start_sec": 955.53,
+      "speaker": null,
+      "text": "Mario, you want to take that?"
+    },
+    {
+      "start_sec": 956.85,
+      "speaker": null,
+      "text": "Yeah, I can't do this."
+    },
+    {
+      "start_sec": 959.09,
+      "speaker": null,
+      "text": "I can go to your, you came to our sign meeting for work."
+    },
+    {
+      "start_sec": 962.77,
+      "speaker": null,
+      "text": "So we'll provide."
+    },
+    {
+      "start_sec": 964.85,
+      "speaker": null,
+      "text": "We will give you work for sure."
+    },
+    {
+      "start_sec": 967.21,
+      "speaker": null,
+      "text": "No, I'm fine with this."
+    },
+    {
+      "start_sec": 969.45,
+      "speaker": null,
+      "text": "I think there's basically, we, this is the topic"
+    },
+    {
+      "start_sec": 973.53,
+      "speaker": null,
+      "text": "for the upcoming releases for one not 32."
+    },
+    {
+      "start_sec": 977.25,
+      "speaker": null,
+      "text": "This I will basically ping the sick directly, I guess."
+    },
+    {
+      "start_sec": 985.17,
+      "speaker": null,
+      "text": "All right, that answers my question."
+    },
+    {
+      "start_sec": 987.53,
+      "speaker": null,
+      "text": "Thanks."
+    },
+    {
+      "start_sec": 991.94,
+      "speaker": null,
+      "text": "So yeah, just to just to know outside of the endpoint,"
+    },
+    {
+      "start_sec": 994.78,
+      "speaker": null,
+      "text": "I think kicking off the conversation with architecture,"
+    },
+    {
+      "start_sec": 998.14,
+      "speaker": null,
+      "text": "like we went to say release, we have the discussion,"
+    },
+    {
+      "start_sec": 1001.18,
+      "speaker": null,
+      "text": "we know that conformance is kind of under your purview,"
+    },
+    {
+      "start_sec": 1003.58,
+      "speaker": null,
+      "text": "wanted to have like what does this look like in the future"
+    },
+    {
+      "start_sec": 1006.62,
+      "speaker": null,
+      "text": "because we have endpoints that have slipped already"
+    },
+    {
+      "start_sec": 1008.54,
+      "speaker": null,
+      "text": "for one, 32, right?"
+    },
+    {
+      "start_sec": 1009.54,
+      "speaker": null,
+      "text": "So I would start the conversation that way."
+    },
+    {
+      "start_sec": 1014.54,
+      "speaker": null,
+      "text": "Yeah, thanks."
+    },
+    {
+      "start_sec": 1019.84,
+      "speaker": null,
+      "text": "All right."
+    },
+    {
+      "start_sec": 1021.08,
+      "speaker": null,
+      "text": "I see Adolfo joined us."
+    },
+    {
+      "start_sec": 1024.76,
+      "speaker": null,
+      "text": "Do you want to go, do you have any updates"
+    },
+    {
+      "start_sec": 1027.92,
+      "speaker": null,
+      "text": "for splashing security related things?"
+    },
+    {
+      "start_sec": 1031.24,
+      "speaker": null,
+      "text": "We can bounce back to that if so."
+    },
+    {
+      "start_sec": 1033.52,
+      "speaker": null,
+      "text": "If not, then I think we are probably through the agenda."
+    },
+    {
+      "start_sec": 1037.52,
+      "speaker": null,
+      "text": "I have a brief one."
+    },
+    {
+      "start_sec": 1038.96,
+      "speaker": null,
+      "text": "OK."
+    },
+    {
+      "start_sec": 1040.16,
+      "speaker": null,
+      "text": "So we've been having a bunch of discussions"
+    },
+    {
+      "start_sec": 1043.84,
+      "speaker": null,
+      "text": "with mostly with the folks working on the community security"
+    },
+    {
+      "start_sec": 1052.0,
+      "speaker": null,
+      "text": "field because apparently there was some duplication"
+    },
+    {
+      "start_sec": 1057.76,
+      "speaker": null,
+      "text": "of efforts last year."
+    },
+    {
+      "start_sec": 1060.84,
+      "speaker": null,
+      "text": "They were working on, they were working on."
+    },
+    {
+      "start_sec": 1064.16,
+      "speaker": null,
+      "text": "So we have a discussion last year"
+    },
+    {
+      "start_sec": 1066.12,
+      "speaker": null,
+      "text": "to start moving all of the vulnerability information"
+    },
+    {
+      "start_sec": 1069.8,
+      "speaker": null,
+      "text": "in the project internally in OSV and the open source vulnerabilities"
+    },
+    {
+      "start_sec": 1073.68,
+      "speaker": null,
+      "text": "format."
+    },
+    {
+      "start_sec": 1076.04,
+      "speaker": null,
+      "text": "And then some folks from working, I don't know,"
+    },
+    {
+      "start_sec": 1082.8,
+      "speaker": null,
+      "text": "if they were coordinating with six security,"
+    },
+    {
+      "start_sec": 1085.92,
+      "speaker": null,
+      "text": "started working on an OSV field that it's already available."
+    },
+    {
+      "start_sec": 1089.88,
+      "speaker": null,
+      "text": "But instead of starting with the information in OSV directly"
+    },
+    {
+      "start_sec": 1096.04,
+      "speaker": null,
+      "text": "when the FRC generates the vulnerability information,"
+    },
+    {
+      "start_sec": 1100.2,
+      "speaker": null,
+      "text": "they essentially wrote a field that reads"
+    },
+    {
+      "start_sec": 1105.52,
+      "speaker": null,
+      "text": "of the Kubernetes field as it is already published."
+    },
+    {
+      "start_sec": 1109.76,
+      "speaker": null,
+      "text": "And then they translate that into OSV."
+    },
+    {
+      "start_sec": 1112.28,
+      "speaker": null,
+      "text": "So within the project to rewrite all of this"
+    },
+    {
+      "start_sec": 1118.08,
+      "speaker": null,
+      "text": "and the Vex field and all of those ideas that we had last year,"
+    },
+    {
+      "start_sec": 1123.2,
+      "speaker": null,
+      "text": "it seems that there was some miscoordination about the stakeholders."
+    },
+    {
+      "start_sec": 1127.68,
+      "speaker": null,
+      "text": "But we've been having some discussions,"
+    },
+    {
+      "start_sec": 1129.6,
+      "speaker": null,
+      "text": "and I think we're on the same page."
+    },
+    {
+      "start_sec": 1133.12,
+      "speaker": null,
+      "text": "There is, and I would like to get some feedback from the group"
+    },
+    {
+      "start_sec": 1137.76,
+      "speaker": null,
+      "text": "as whether or not this requires us to write a get."
+    },
+    {
+      "start_sec": 1142.56,
+      "speaker": null,
+      "text": "It is not outside facing."
+    },
+    {
+      "start_sec": 1145.8,
+      "speaker": null,
+      "text": "So the idea is, as we rewrite the internal flow of vulnerability"
+    },
+    {
+      "start_sec": 1151.68,
+      "speaker": null,
+      "text": "data for the project, the experience for people outside,"
+    },
+    {
+      "start_sec": 1156.88,
+      "speaker": null,
+      "text": "consuming the data and of that will not change."
+    },
+    {
+      "start_sec": 1161.72,
+      "speaker": null,
+      "text": "We have the coordination between the six"
+    },
+    {
+      "start_sec": 1163.68,
+      "speaker": null,
+      "text": "or almost done and it's already working."
+    },
+    {
+      "start_sec": 1170.28,
+      "speaker": null,
+      "text": "But it does involve inter-acid coordination."
+    },
+    {
+      "start_sec": 1175.28,
+      "speaker": null,
+      "text": "So I'm not sure if this would require us to write a get"
+    },
+    {
+      "start_sec": 1179.0,
+      "speaker": null,
+      "text": "or we can just move faster by coordinating"
+    },
+    {
+      "start_sec": 1182.0,
+      "speaker": null,
+      "text": "between the stakeholders in both six."
+    },
+    {
+      "start_sec": 1194.46,
+      "speaker": null,
+      "text": "What's your take?"
+    },
+    {
+      "start_sec": 1197.98,
+      "speaker": null,
+      "text": "My feeling is that since we're not"
+    },
+    {
+      "start_sec": 1201.14,
+      "speaker": null,
+      "text": "altering any contracts or breaking anyone,"
+    },
+    {
+      "start_sec": 1206.78,
+      "speaker": null,
+      "text": "but it's just like an internal remodeling of the same information,"
+    },
+    {
+      "start_sec": 1213.42,
+      "speaker": null,
+      "text": "my feeling is that we don't require a get."
+    },
+    {
+      "start_sec": 1217.58,
+      "speaker": null,
+      "text": "So just great documentation for the community would be enough."
+    },
+    {
+      "start_sec": 1229.25,
+      "speaker": null,
+      "text": "So I think we've never made it official,"
+    },
+    {
+      "start_sec": 1232.53,
+      "speaker": null,
+      "text": "but we as in the community,"
+    },
+    {
+      "start_sec": 1236.49,
+      "speaker": null,
+      "text": "SIG release has written a few of these."
+    },
+    {
+      "start_sec": 1239.13,
+      "speaker": null,
+      "text": "So it may be something that we want to consider,"
+    },
+    {
+      "start_sec": 1241.85,
+      "speaker": null,
+      "text": "but policy caps for SIG architecture,"
+    },
+    {
+      "start_sec": 1247.73,
+      "speaker": null,
+      "text": "we do have like meta caps, like the cap about the cap."
+    },
+    {
+      "start_sec": 1252.05,
+      "speaker": null,
+      "text": "Saying so because it is a policy thing,"
+    },
+    {
+      "start_sec": 1254.77,
+      "speaker": null,
+      "text": "we may still want to consider a cap"
+    },
+    {
+      "start_sec": 1256.37,
+      "speaker": null,
+      "text": "even if it's super lightweight."
+    },
+    {
+      "start_sec": 1260.29,
+      "speaker": null,
+      "text": "Because I think documentation is easy to change in the sense"
+    },
+    {
+      "start_sec": 1265.41,
+      "speaker": null,
+      "text": "that theoretically any contributor can do it and it"
+    },
+    {
+      "start_sec": 1268.37,
+      "speaker": null,
+      "text": "doesn't necessarily have the same level of vetting that cap would."
+    },
+    {
+      "start_sec": 1275.45,
+      "speaker": null,
+      "text": "So I think if it is,"
+    },
+    {
+      "start_sec": 1276.85,
+      "speaker": null,
+      "text": "if we're feeling that it is a larger policy discussion,"
+    },
+    {
+      "start_sec": 1280.33,
+      "speaker": null,
+      "text": "we may want to lay down."
+    },
+    {
+      "start_sec": 1282.65,
+      "speaker": null,
+      "text": "I would plus one that I think it's also a really good way"
+    },
+    {
+      "start_sec": 1284.93,
+      "speaker": null,
+      "text": "to solicit any other input or feedback during that process."
+    },
+    {
+      "start_sec": 1290.33,
+      "speaker": null,
+      "text": "OK, all right."
+    },
+    {
+      "start_sec": 1294.14,
+      "speaker": null,
+      "text": "Yeah, so what I would like to do is,"
+    },
+    {
+      "start_sec": 1297.98,
+      "speaker": null,
+      "text": "so even as we go through that process,"
+    },
+    {
+      "start_sec": 1300.22,
+      "speaker": null,
+      "text": "I would really like to start working on the,"
+    },
+    {
+      "start_sec": 1305.42,
+      "speaker": null,
+      "text": "on maybe a POC or something so that we can start learning out the,"
+    },
+    {
+      "start_sec": 1313.82,
+      "speaker": null,
+      "text": "especially the, the process that would involve"
+    },
+    {
+      "start_sec": 1319.5,
+      "speaker": null,
+      "text": "in trying to find what kind of tooling we would need"
+    },
+    {
+      "start_sec": 1324.74,
+      "speaker": null,
+      "text": "for the SRC for contributors for all of those."
+    },
+    {
+      "start_sec": 1329.42,
+      "speaker": null,
+      "text": "So yeah, that's it."
+    },
+    {
+      "start_sec": 1335.42,
+      "speaker": null,
+      "text": "So I'll probably go maybe next week"
+    },
+    {
+      "start_sec": 1340.34,
+      "speaker": null,
+      "text": "to some of the security meetings,"
+    },
+    {
+      "start_sec": 1343.42,
+      "speaker": null,
+      "text": "probably security tooling."
+    },
+    {
+      "start_sec": 1345.34,
+      "speaker": null,
+      "text": "I don't know how to check with them."
+    },
+    {
+      "start_sec": 1347.62,
+      "speaker": null,
+      "text": "Just to finish pushing out the details."
+    },
+    {
+      "start_sec": 1354.99,
+      "speaker": null,
+      "text": "That's it, pretty."
+    },
+    {
+      "start_sec": 1357.27,
+      "speaker": null,
+      "text": "Cool."
+    },
+    {
+      "start_sec": 1358.47,
+      "speaker": null,
+      "text": "Thank you for the update on that."
+    },
+    {
+      "start_sec": 1364.3,
+      "speaker": null,
+      "text": "All right, just paying the docs again."
+    },
+    {
+      "start_sec": 1375.77,
+      "speaker": null,
+      "text": "All right, anybody have any last minute additions"
+    },
+    {
+      "start_sec": 1379.13,
+      "speaker": null,
+      "text": "or other topics they'd like to discuss today?"
+    },
+    {
+      "start_sec": 1388.67,
+      "speaker": null,
+      "text": "All right, so I'll summarize some actions."
+    },
+    {
+      "start_sec": 1391.71,
+      "speaker": null,
+      "text": "We are going to delay the patch releases"
+    },
+    {
+      "start_sec": 1393.75,
+      "speaker": null,
+      "text": "so we can focus on getting in the Go Bumps today."
+    },
+    {
+      "start_sec": 1396.43,
+      "speaker": null,
+      "text": "I'll send an email to communicate the delay."
+    },
+    {
+      "start_sec": 1399.95,
+      "speaker": null,
+      "text": "I think we assigned a action item to Marco"
+    },
+    {
+      "start_sec": 1403.07,
+      "speaker": null,
+      "text": "to kind of do a update of the post-release playbook specifically"
+    },
+    {
+      "start_sec": 1408.11,
+      "speaker": null,
+      "text": "to add OBS related stuff,"
+    },
+    {
+      "start_sec": 1409.75,
+      "speaker": null,
+      "text": "but we'll do a general sweep of that as well."
+    },
+    {
+      "start_sec": 1412.15,
+      "speaker": null,
+      "text": "Mario is going to start a discussion"
+    },
+    {
+      "start_sec": 1414.03,
+      "speaker": null,
+      "text": "between sig release and sig arch"
+    },
+    {
+      "start_sec": 1415.79,
+      "speaker": null,
+      "text": "about talking about endpoint coverage"
+    },
+    {
+      "start_sec": 1418.79,
+      "speaker": null,
+      "text": "and I think that's about it."
+    },
+    {
+      "start_sec": 1425.41,
+      "speaker": null,
+      "text": "Cool, anything else?"
+    },
+    {
+      "start_sec": 1427.09,
+      "speaker": null,
+      "text": "Last call."
+    },
+    {
+      "start_sec": 1433.58,
+      "speaker": null,
+      "text": "All right."
+    },
+    {
+      "start_sec": 1434.42,
+      "speaker": null,
+      "text": "Oh, and in the chat response to,"
+    },
+    {
+      "start_sec": 1436.78,
+      "speaker": null,
+      "text": "can we meet up at CubeCon?"
+    },
+    {
+      "start_sec": 1438.42,
+      "speaker": null,
+      "text": "Kat said, we can set up something informal"
+    },
+    {
+      "start_sec": 1440.5,
+      "speaker": null,
+      "text": "at the maintainer summit or we can do the sig meet and greet."
+    },
+    {
+      "start_sec": 1444.38,
+      "speaker": null,
+      "text": "I think both of those will be fun options."
+    },
+    {
+      "start_sec": 1446.46,
+      "speaker": null,
+      "text": "We have large spaces before the actual session rooms"
+    },
+    {
+      "start_sec": 1451.66,
+      "speaker": null,
+      "text": "with tables and stuff like this,"
+    },
+    {
+      "start_sec": 1453.34,
+      "speaker": null,
+      "text": "where people can meet."
+    },
+    {
+      "start_sec": 1454.82,
+      "speaker": null,
+      "text": "Oh, cool."
+    },
+    {
+      "start_sec": 1455.98,
+      "speaker": null,
+      "text": "Can we borrow them with signage, Mario?"
+    },
+    {
+      "start_sec": 1459.78,
+      "speaker": null,
+      "text": "Like if we steal the sign from sig meet and greet?"
+    },
+    {
+      "start_sec": 1464.98,
+      "speaker": null,
+      "text": "The problem is we usually only get this signage"
+    },
+    {
+      "start_sec": 1468.62,
+      "speaker": null,
+      "text": "at the day of sig meet and greet"
+    },
+    {
+      "start_sec": 1470.9,
+      "speaker": null,
+      "text": "because they have it in some storage thingy thing,"
+    },
+    {
+      "start_sec": 1474.5,
+      "speaker": null,
+      "text": "but you can for sure put something up."
+    },
+    {
+      "start_sec": 1477.62,
+      "speaker": null,
+      "text": "So if you bring something you can put something up"
+    },
+    {
+      "start_sec": 1481.06,
+      "speaker": null,
+      "text": "and no one will say anything."
+    },
+    {
+      "start_sec": 1483.66,
+      "speaker": null,
+      "text": "We could go buy some post-report in some sharpies."
+    },
+    {
+      "start_sec": 1486.54,
+      "speaker": null,
+      "text": "Like, you know what, I live next to a craft store."
+    },
+    {
+      "start_sec": 1489.42,
+      "speaker": null,
+      "text": "So that's fine."
+    },
+    {
+      "start_sec": 1491.38,
+      "speaker": null,
+      "text": "That's cool."
+    },
+    {
+      "start_sec": 1492.22,
+      "speaker": null,
+      "text": "Yeah."
+    },
+    {
+      "start_sec": 1493.06,
+      "speaker": null,
+      "text": "And we have plenty of space."
+    },
+    {
+      "start_sec": 1494.22,
+      "speaker": null,
+      "text": "So there should be release there."
+    },
+    {
+      "start_sec": 1496.3,
+      "speaker": null,
+      "text": "There was originally the idea to also have"
+    },
+    {
+      "start_sec": 1498.34,
+      "speaker": null,
+      "text": "like unconofran sessions outside in this hallway"
+    },
+    {
+      "start_sec": 1501.74,
+      "speaker": null,
+      "text": "because it's so big and so spacious,"
+    },
+    {
+      "start_sec": 1503.98,
+      "speaker": null,
+      "text": "but we skipped this because we edit some more rooms."
+    },
+    {
+      "start_sec": 1513.0,
+      "speaker": null,
+      "text": "All right."
+    },
+    {
+      "start_sec": 1513.84,
+      "speaker": null,
+      "text": "Well, have a great rest of your Tuesday."
+    },
+    {
+      "start_sec": 1517.4,
+      "speaker": null,
+      "text": "However much that is,"
+    },
+    {
+      "start_sec": 1519.96,
+      "speaker": null,
+      "text": "we're in a lot of different time zones."
+    },
+    {
+      "start_sec": 1522.56,
+      "speaker": null,
+      "text": "All right, well, have a great rest of your week too."
+    },
+    {
+      "start_sec": 1524.88,
+      "speaker": null,
+      "text": "We'll see folks next week,"
+    },
+    {
+      "start_sec": 1527.4,
+      "speaker": null,
+      "text": "or tomorrow for sig release."
+    },
+    {
+      "start_sec": 1529.64,
+      "speaker": null,
+      "text": "Later y'all."
+    },
+    {
+      "start_sec": 1530.88,
+      "speaker": null,
+      "text": "Bye."
+    }
+  ],
+  "expected": [
+    {
+      "keywords": [
+        [
+          "delay",
+          "postpon",
+          "reschedul"
+        ]
+      ],
+      "assignee": null,
+      "due_text": null,
+      "due_date": null,
+      "note": "[59-61], [79-80], [400-402] 'I'll also draft a note to send that we're going to delay the releases' / summary 'I'll send an email to communicate the delay.' Speaker unnamed (the summary is presumably the host Jeremy, but he is not named as owner) -> null. 'today' in [401] is about the Go bumps, not the email.",
+      "segments": [
+        [
+          59,
+          61
+        ],
+        [
+          79,
+          80
+        ],
+        [
+          400,
+          402
+        ],
+        [
+          401,
+          401
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "playbook",
+          "post-release",
+          "post release"
+        ]
+      ],
+      "assignee": "Marco",
+      "due_text": null,
+      "due_date": null,
+      "note": "[175-184], [403-406] 'action item will have an updated playbook for like what to do after the final release' / 'we assigned a action item to Marco to kind of do a update of the post-release playbook specifically to add OBS related stuff'. Real name is Marko (Mudrinic); Whisper writes 'Marco' ([403]) and 'Marcos' ([92]), so 'Marco' is used. 'next week' in [181] is about the alpha 2 cut, not the playbook.",
+      "segments": [
+        [
+          175,
+          184
+        ],
+        [
+          403,
+          406
+        ],
+        [
+          403,
+          403
+        ],
+        [
+          92,
+          92
+        ],
+        [
+          181,
+          181
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "arch",
+          "thread",
+          "discuss",
+          "conversation"
+        ]
+      ],
+      "assignee": "Mario",
+      "due_text": null,
+      "due_date": null,
+      "note": "[289-312], [407-409] 'Would it be okay if I started an email thread with sick architecture and sick release' -> 'I think that Mario should start it. Mario, you want to take that?' 'Yeah, I can't [can] do this' / summary 'Mario is going to start a discussion between sig release and sig arch about talking about endpoint coverage'.",
+      "segments": [
+        [
+          289,
+          312
+        ],
+        [
+          407,
+          409
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "ping",
+          "untested",
+          "owner",
+          "owning"
+        ]
+      ],
+      "assignee": "Mario",
+      "optional": true,
+      "due_text": null,
+      "due_date": null,
+      "note": "[208-218], [302] 'reaching out for their own things for those end points' / 'for 132, we just need to ping the folks' / 'This I will basically ping the sick directly'. Mario raised the topic and is the likely speaker, but the ping is said without an explicit name; may also be folded into the SIG Arch discussion item.",
+      "segments": [
+        [
+          208,
+          218
+        ],
+        [
+          302,
+          302
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "hold",
+          "cherry"
+        ]
+      ],
+      "optional": true,
+      "due_text": "this afternoon",
+      "due_date": null,
+      "note": "[74-78] 'get those over the line, which I will try to work on this afternoon' / 'I will start dropping the holds and follow through'. Debatable: continuation of the patch-release work the speaker already owns; speaker unnamed.",
+      "assignee": null,
+      "segments": [
+        [
+          74,
+          78
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "kep",
+          "proposal"
+        ]
+      ],
+      "optional": true,
+      "due_text": null,
+      "due_date": null,
+      "note": "[362-379] 'we may still want to consider a cap [KEP] even if it's super lightweight' / 'I would plus one that'. Hedged suggestion, no owner named (Adolfo presented the topic); Whisper writes KEP as 'get'/'cap'.",
+      "assignee": null,
+      "segments": [
+        [
+          362,
+          379
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "poc",
+          "proof",
+          "prototype"
+        ]
+      ],
+      "optional": true,
+      "due_text": null,
+      "due_date": null,
+      "note": "[380-386] 'I would really like to start working on ... maybe a POC'. Personal plan by the presenter (Adolfo), hedged.",
+      "assignee": null,
+      "segments": [
+        [
+          380,
+          386
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "attend",
+          "security meeting",
+          "security tooling"
+        ]
+      ],
+      "optional": true,
+      "due_text": "next week",
+      "due_date": null,
+      "note": "[388-392] 'I'll probably go maybe next week to some of the security meetings, probably security tooling'. Hedged personal plan.",
+      "assignee": null,
+      "segments": [
+        [
+          388,
+          392
+        ]
+      ]
+    },
+    {
+      "keywords": [
+        [
+          "signage",
+          "kubecon",
+          "meetup",
+          "meet up",
+          "meet-up"
+        ]
+      ],
+      "optional": true,
+      "due_text": null,
+      "due_date": null,
+      "note": "[414-433] KubeCon meetup: 'you can for sure put something up' / 'We could go buy some post-[its] and some sharpies ... I live next to a craft store'. Informal logistics, no clear decision.",
+      "assignee": null,
+      "segments": [
+        [
+          414,
+          433
+        ]
+      ]
+    }
+  ]
+}

@@ -6,7 +6,7 @@ answer key stored in the same file (`expected`). Exit code 1 if a target is miss
 ```bash
 python eval/run_eval.py                                  # CI gate: eval/meetings, rule drafter
 python eval/run_eval.py --drafter llm                    # same gate, another drafter (DRAFTER values)
-python eval/run_eval.py --meetings eval/local --report-only --json report.json   # benchmark, never fails
+python eval/run_eval.py --meetings eval/real --report-only --json report.json    # benchmark, never fails
 ```
 
 The report prints recall, precision (matched drafts / all drafts), invented values and the time the drafter took.
@@ -56,8 +56,15 @@ rules cannot date matches by containment ("до 1 апреля" ≈ "1 апре�
 * `eval/meetings/` — small, clean regression set, committed, gates CI.
 * `eval/synthetic/` — committed hard cases written by hand: several tasks in a row, self-assignment, a discussion
   without decisions, recognition-style run-ons, English, Kazakh. Report only (the rule drafter is not expected to pass).
-* `eval/local/` — git-ignored. Meetings built from third-party recordings (e.g. YouTube) whose transcripts we may
-  not redistribute. Same file format; run with `--meetings eval/local --report-only`.
+* `eval/real/` — 12 real meetings (6 ru, 6 en, ~4 h of speech) from public YouTube recordings: municipal and regional
+  government meetings, an IT retro and standup, sales meetings, Kubernetes and GitLab team syncs. Report only.
+  Run with `--meetings eval/real --report-only`.
+* `eval/local/` — git-ignored scratch space: downloaded audio and anything that must not be committed.
+
+### Sources of `eval/real`
+Each case names its recording in `source`. Only our own Whisper `base` transcript and our annotation are stored
+here, no audio. The recordings were published by their owners; the transcripts are kept for evaluating the drafter
+only. If you are in one of these recordings and want it removed, open an issue and we will delete the case.
 
 Synthetic cases flatter a drafter: on clean one-sentence segments Qwen3-1.7B scored 100 %, on real Whisper output it
 found a fraction of that. Decide on real recordings.
@@ -65,7 +72,7 @@ found a fraction of that. Decide on real recordings.
 ## Adding a meeting
 From a recording (transcribed exactly like production, Whisper `base`):
 ```bash
-python eval/build_case.py audio.opus --out eval/local/m10_sales.json --date 2022-06-17 --people "Анна,Иван"
+python eval/build_case.py audio.opus --out eval/real/m10_sales.json --date 2022-06-17 --people "Анна,Иван"
 ```
 Then fill `expected` by hand from the transcript (never from a drafter's output). Give every item `segments` (the
 inclusive index ranges of the segments where it was said) so evidence matching works. `meeting_date` is the
