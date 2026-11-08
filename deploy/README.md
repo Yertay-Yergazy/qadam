@@ -21,4 +21,7 @@ After CI is green on `main` the workflow builds the images on the runner, ships 
 `qadam` compose project and rolls back if `/api/health` does not come up. Files for this stand: `deploy/stand/`.
 Repository secrets: `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY` (a dedicated key, never a personal one),
 `DEPLOY_KNOWN_HOSTS` (output of `ssh-keyscan -t ed25519 <host>`). Run manually: Actions → Deploy → Run workflow.
-The server's `~/qadam/.env` (secrets, `IMAGE_TAG`) is never touched by CD except for `IMAGE_TAG`.
+The CD key is restricted in the server's `authorized_keys` (`restrict,command="/home/ubuntu/qadam/deploy.sh"`): it can
+only run `load` and `deploy <tag>` (`deploy/stand/deploy.sh`), cannot read `~/qadam/.env` and cannot open a shell.
+The compose file lives on the server and is NOT uploaded by CD: when it changes, copy `deploy/stand/docker-compose.yml`
+to `~/qadam/` by hand, and add new variables to `~/qadam/.env` by hand.

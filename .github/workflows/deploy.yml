@@ -1,6 +1,7 @@
 name: Deploy
 # CD to the shared dev VM: after CI is green on main, build linux/amd64 images on the runner (the VM has 1 vCPU,
 # it must not build), ship them over SSH, restart the `qadam` compose project, roll back if /api/health fails.
+# Server side: ~/qadam/deploy.sh (see deploy/stand/deploy.sh).
 on:
   workflow_run:
     workflows: [CI]
@@ -45,22 +46,11 @@ jobs:
           printf '%s\n' "${{ secrets.DEPLOY_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
           printf 'Host target\n  HostName %s\n  User %s\n  IdentityFile ~/.ssh/deploy_key\n  StrictHostKeyChecking yes\n  ServerAliveInterval 15\n' "$HOST" "$USER_NAME" > ~/.ssh/config
 
-      - name: Upload images and compose file
-        run: |
-          docker save qadam-backend:$TAG qadam-web:$TAG | gzip | ssh target 'gunzip | docker load'
-          scp deploy/stand/docker-compose.yml target:qadam/docker-compose.yml
+      # The key is restricted on the server (authorized_keys: restrict,command=deploy.sh): it can only run
+      # `load` (docker load from stdin) and `deploy <tag>` (switch IMAGE_TAG, restart, health-check, roll back).
+      # It cannot read .env or run anything else. The compose file lives on the server and is not uploaded.
+      - name: Upload images
+        run: docker save qadam-backend:$TAG qadam-web:$TAG | gzip | ssh target load
 
-      - name: Restart and health-check (rollback on failure)
-        run: |
-          ssh target "TAG=$TAG bash -s" <<'REMOTE'
-          set -uo pipefail
-          cd ~/qadam
-          PREV=$(grep '^IMAGE_TAG=' .env | cut -d= -f2)
-          setTag() { sed -i "s/^IMAGE_TAG=.*/IMAGE_TAG=$1/" .env; docker compose -p qadam up -d; }
-          healthy() { for i in $(seq 1 20); do curl -fs localhost:8081/api/health >/dev/null && return 0; sleep 3; done; return 1; }
-          setTag "$TAG"
-          if healthy; then echo "Deployed $TAG (was $PREV)"; exit 0; fi
-          echo "Health check failed, rolling back to $PREV" >&2
-          setTag "$PREV"; healthy || echo "Rollback also unhealthy!" >&2
-          exit 1
-          REMOTE
+      - name: Deploy (rolls back automatically if /api/health fails)
+        run: ssh target "deploy $TAG"
