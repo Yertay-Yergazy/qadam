@@ -4,6 +4,7 @@ sqlmodel>=0.0.22
 pydantic-settings>=2.4
 python-multipart>=0.0.9
 faster-whisper>=1.0.3
+av>=11,<19  # PyAV 19 dropped `metadata_errors`, which faster-whisper 1.2.1 passes to av.open()
 livekit-api>=0.8
 bcrypt>=4.2
 pyjwt>=2.9
