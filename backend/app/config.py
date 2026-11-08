@@ -18,8 +18,14 @@ class Settings(BaseSettings):
     whisper_compute_type: str = "int8"  # int8 on CPU, float16 on GPU
     whisper_language: str = ""  # "" = auto-detect, or "ru", "kk", "en"...
 
-    # NLP step: "placeholder" (regex stub) | "none". A real LLM drafter plugs in here.
+    # NLP step: "placeholder" (rules) | "llm" (self-hosted model, falls back to rules) | "none"
     drafter: str = "placeholder"
+    # LLM drafter: any OpenAI-compatible server (llama.cpp `llama-server`, Ollama /v1).
+    llm_base_url: str = "http://localhost:8080/v1"
+    llm_model: str = "qwen"  # llama-server ignores it, Ollama needs the pulled tag (e.g. "qwen3:1.7b")
+    llm_mode: str = "extract"  # refine | extract | full, see services/llm_drafting.py
+    llm_timeout_sec: float = 120  # per request; one CPU core is slow
+    llm_max_tokens: int = 400
 
     # LiveKit (audio calls). url = what the BROWSER connects to, api_url = what the BACKEND calls.
     livekit_url: str = "ws://localhost:7880"
