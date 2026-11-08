@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
+from datetime import date, timedelta
 from typing import Optional, Protocol, Sequence
 
 
@@ -30,7 +31,8 @@ class DraftProposal:
     description: str = ""
     acceptance_criteria: list[str] = field(default_factory=list)
     assignee_name: Optional[str] = None  # must be one of `known_people` or None
-    due_text: Optional[str] = None
+    due_text: Optional[str] = None  # human wording, normalised ('пятница'), None = not specified
+    due_date: Optional[date] = None  # resolved calendar date, None if the wording is vague
     source_quote: str = ""
 
 
@@ -42,26 +44,58 @@ class DraftingResult:
 
 
 class DraftGenerator(Protocol):
-    def generate(self, segments: Sequence[SegmentIn], known_people: Sequence[str]) -> DraftingResult: ...
+    def generate(
+        self, segments: Sequence[SegmentIn], known_people: Sequence[str], today: Optional[date] = None
+    ) -> DraftingResult: ...
 
 
 class NoopDrafter:
-    def generate(self, segments, known_people) -> DraftingResult:
+    def generate(self, segments, known_people, today=None) -> DraftingResult:
         return DraftingResult()
 
 
 # ---------------------------------------------------------------- placeholder (regex, ru + en)
 _PROPOSE = re.compile(r"\b(давайте|надо|нужно|необходимо|добавим|сделаем|let\x27s|we need to|we should)\b", re.I)
-_OWNER = re.compile(r"\b(сделает|возьмёт|возьмет|займётся|займется|will do|will take)\b", re.I)
+_OWNER = re.compile(r"\b(сделает|возьмёт|возьмет|займётся|займется|пусть|поручим|назначим|will do|will take)\b", re.I)
 _HEDGE = re.compile(r"когда-нибудь|без решения|потом решим|someday|maybe|not decided", re.I)
 _DONE_WHEN = re.compile(r"^(?:готово|done|принято)[,:]?\s*(?:когда|when)\s+(.*)$", re.I)
 _TOPIC = re.compile(r"\b(?:про|about)\s+(.+?)[.!?]*$", re.I)
 _DUE = re.compile(
-    r"\b(сегодня|завтра|послезавтра|понедельник\w*|вторник\w*|сред[уаы]|четверг\w*|пятниц\w*|суббот\w*"
+    r"\b(сегодня|завтра|послезавтра|понедельник\w*|вторник\w*|сред[уаыой]\w*|четверг\w*|пятниц\w*|суббот\w*"
     r"|воскресень\w*|на следующей неделе|до конца (?:недели|месяца)|today|tomorrow|next week"
-    r"|(?:next )?(?:monday|tuesday|wednesday|thursday|friday))\b",
+    r"|(?:next )?(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday))\b",
     re.I,
 )
+# (stem regex, canonical nominative, weekday index Mon=0). Handles cases: в пятницу, к пятнице, до пятницы...
+_WEEKDAYS = [
+    (r"^понедельник", "понедельник", 0), (r"^вторник", "вторник", 1), (r"^сред", "среда", 2),
+    (r"^четверг", "четверг", 3), (r"^пятниц", "пятница", 4), (r"^суббот", "суббота", 5), (r"^воскресень", "воскресенье", 6),
+    (r"^monday", "monday", 0), (r"^tuesday", "tuesday", 1), (r"^wednesday", "wednesday", 2),
+    (r"^thursday", "thursday", 3), (r"^friday", "friday", 4), (r"^saturday", "saturday", 5), (r"^sunday", "sunday", 6),
+]
+
+
+def normalise_due(raw: str, today: Optional[date] = None) -> tuple[str, Optional[date]]:
+    """'в пятницу' -> ('пятница', next Friday). Vague phrases keep their text and get no date (never guess)."""
+    word = raw.lower().replace("next ", "").strip()
+    today = today or date.today()
+    if word in ("сегодня", "today"):
+        return word, today
+    if word in ("завтра", "tomorrow"):
+        return word, today + timedelta(days=1)
+    if word == "послезавтра":
+        return word, today + timedelta(days=2)
+    for stem, canonical, idx in _WEEKDAYS:
+        if re.match(stem, word):
+            ahead = (idx - today.weekday()) % 7 or 7  # a weekday named today means next week
+            return canonical, today + timedelta(days=ahead)
+    return word, None
+
+
+def resolve_due_text(text: str, today: Optional[date] = None) -> Optional[date]:
+    """Used when a reviewer edits the free-text due field: recompute the date, or None if not parseable."""
+    m = _DUE.search(text or "")
+    return normalise_due(m.group(1), today)[1] if m else None
 
 
 def _cap(s: str) -> str:
@@ -80,18 +114,28 @@ def _title(sentence: str) -> str:
     return _cap(t.strip(" .!?,;—-"))
 
 
+def _name_pattern(name: str) -> re.Pattern:
+    """Matches a name in any Russian case: Ерлан / Ерлана / Ерлану / Ерланом; Алия / Алии / Алию / Алией."""
+    stem = name[:-1] if name[-1].lower() in "аяйь" and len(name) > 3 else name
+    return re.compile(r"(?<![\w])" + re.escape(stem) + r"[а-яёa-z]{0,3}(?![\w])", re.I)
+
+
 def _find_person(sentence: str, people: Sequence[str]) -> Optional[str]:
+    """Only a person who is actually named in the sentence and is in `known_people`; otherwise None (F5 AC2)."""
+    best: tuple[int, str] | None = None
     for name in people:
-        stem = name[: max(3, len(name) - 2)]  # crude handling of Russian case endings
-        if re.search(r"\b" + re.escape(stem), sentence, re.I):
-            return name
-    return None
+        m = _name_pattern(name).search(sentence)
+        if m and (best is None or m.start() < best[0]):
+            best = (m.start(), name)
+    return best[1] if best else None
 
 
-class PlaceholderDrafter:
-    """Keyword heuristics. NOT the product\x27s NLP -- exists so the pipeline can be demoed and tested."""
+class RuleDrafter:
+    """Rule-based drafter (ru + a bit of en): case-aware names, weekday -> date. No network, deterministic."""
 
-    def generate(self, segments: Sequence[SegmentIn], known_people: Sequence[str]) -> DraftingResult:
+    def generate(
+        self, segments: Sequence[SegmentIn], known_people: Sequence[str], today: Optional[date] = None
+    ) -> DraftingResult:
         result = DraftingResult()
         current: Optional[DraftProposal] = None
 
@@ -102,7 +146,7 @@ class PlaceholderDrafter:
                 draft.assignee_name = person
                 draft.source_quote = sentence
             if due:
-                draft.due_text = due.group(1).lower()
+                draft.due_text, draft.due_date = normalise_due(due.group(1), today)
                 draft.source_quote = sentence
 
         for seg in segments:
@@ -138,8 +182,11 @@ class PlaceholderDrafter:
         return result
 
 
+PlaceholderDrafter = RuleDrafter  # backwards-compatible alias
+
+
 def get_drafter(kind: str) -> DraftGenerator:
     if kind == "none":
         return NoopDrafter()
-    # TODO(N6): return LlmDrafter() once the prompt + parser from T5 are productionised.
-    return PlaceholderDrafter()
+    # An LLM-backed drafter can be added here (DRAFTER=llm) behind the same DraftGenerator protocol.
+    return RuleDrafter()

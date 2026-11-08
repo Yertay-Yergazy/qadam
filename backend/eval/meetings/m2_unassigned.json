@@ -1,0 +1,13 @@
+{
+  "name": "m2_unassigned: tasks with no owner and no date must stay 'не указан'",
+  "meeting_date": "2026-11-06",
+  "people": ["Алия", "Ерлан", "Айгерим"],
+  "segments": [
+    {"speaker": "Ерлан", "text": "Нужно обновить документацию по API."},
+    {"speaker": "Алия", "text": "Надо починить логин. Пусть Ерлану дадут доступ к серверу, завтра."}
+  ],
+  "expected": [
+    {"title_contains": "обновить документацию", "assignee": null, "due_text": null, "due_date": null},
+    {"title_contains": "починить логин", "assignee": "Ерлан", "due_text": "завтра", "due_date": "2026-11-07"}
+  ]
+}
