@@ -58,8 +58,10 @@ _OWNER = re.compile(r"\b(сделает|возьмёт|возьмет|займё
 _HEDGE = re.compile(r"когда-нибудь|без решения|потом решим|someday|maybe|not decided", re.I)
 _DONE_WHEN = re.compile(r"^(?:готово|done|принято)[,:]?\s*(?:когда|when)\s+(.*)$", re.I)
 _TOPIC = re.compile(r"\b(?:про|about)\s+(.+?)[.!?]*$", re.I)
+_MONTHS = {"января": 1, "февраля": 2, "марта": 3, "апреля": 4, "мая": 5, "июня": 6, "июля": 7,
+           "августа": 8, "сентября": 9, "октября": 10, "ноября": 11, "декабря": 12}
 _DUE = re.compile(
-    r"\b(сегодня|завтра|послезавтра|понедельник\w*|вторник\w*|сред[уаыой]\w*|четверг\w*|пятниц\w*|суббот\w*"
+    r"\b(\d{1,2}\s+(?:" + "|".join(_MONTHS) + r")|сегодня|завтра|послезавтра|понедельник\w*|вторник\w*|сред[уаыой]\w*|четверг\w*|пятниц\w*|суббот\w*"
     r"|воскресень\w*|на следующей неделе|до конца (?:недели|месяца)|today|tomorrow|next week"
     r"|(?:next )?(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday))\b",
     re.I,
@@ -77,6 +79,13 @@ def normalise_due(raw: str, today: Optional[date] = None) -> tuple[str, Optional
     """'в пятницу' -> ('пятница', next Friday). Vague phrases keep their text and get no date (never guess)."""
     word = raw.lower().strip()
     today = today or date.today()
+    m = re.match(r"^(\d{1,2})\s+(\w+)$", word)
+    if m and m.group(2) in _MONTHS:  # "12 ноября": this year, or next year if that day has already passed
+        try:
+            d = date(today.year, _MONTHS[m.group(2)], int(m.group(1)))
+        except ValueError:
+            return word, None
+        return word, d if d >= today else d.replace(year=today.year + 1)
     if word in ("сегодня", "today"):
         return word, today
     if word in ("завтра", "tomorrow"):
@@ -132,6 +141,10 @@ def summarize(drafts: Sequence[DraftProposal]) -> str:
     return f"Предложено задач: {len(drafts)}. " + "; ".join(parts) + "."
 
 
+_STORY = re.compile(r"^(?:СТ|ST)[-\s]?(\d+)\s*[,–—:\-]\s*(.+)$", re.I)
+_ATTR = re.compile(r"^(исполнитель|дедлайн|срок|оценка|user story)\s*[–—:\-]\s*(.+)$", re.I)
+
+
 def capitalize(s: str) -> str:
     return s[:1].upper() + s[1:]
 
@@ -172,6 +185,7 @@ class RuleDrafter:
     ) -> DraftingResult:
         result = DraftingResult()
         current: Optional[DraftProposal] = None
+        structured = False  # current draft came from the "СТ-N – ..." dictation format
 
         def apply_attrs(draft: DraftProposal, sentence: str) -> None:
             person = find_person(sentence, known_people)
@@ -186,6 +200,30 @@ class RuleDrafter:
         for seg in segments:
             collecting_criteria = False
             for sent in split_sentences(seg.text):
+                story = _STORY.match(sent)
+                if story:  # dictation format "СТ-16, выделение правил в модуль" starts a task
+                    current = DraftProposal(title=capitalize(story.group(2).strip(" .,;")), source_quote=sent)
+                    structured, collecting_criteria = True, False
+                    result.drafts.append(current)
+                    continue
+                if current and structured:
+                    attr = _ATTR.match(sent)
+                    if attr:
+                        key, val = attr.group(1).lower(), attr.group(2).strip(" .,;")
+                        if key == "исполнитель":
+                            person = find_person(val, known_people)
+                            if person:
+                                current.assignee_name = person
+                            else:  # said, but not a known team member: keep it visible, never assign
+                                current.description += f"Исполнитель по записи: {val} (нет в команде). "
+                        elif key in ("дедлайн", "срок"):
+                            due = parse_due(val, today)
+                            current.due_text, current.due_date = due if due else (val, None)
+                        else:
+                            current.description += f"{capitalize(key)}: {val}. "
+                    else:  # continuation of the title / extra context of the same task
+                        current.description += sent + " "
+                    continue
                 if _HEDGE.search(sent):
                     topic = _TOPIC.search(sent)
                     if topic:
@@ -201,12 +239,15 @@ class RuleDrafter:
                     current.acceptance_criteria.append(capitalize(sent))
                     continue
                 if _PROPOSE.search(sent) and not _OWNER.search(sent):
+                    structured = False
                     current = DraftProposal(title=_title(sent), description=sent, source_quote=sent)
                     apply_attrs(current, sent)
                     result.drafts.append(current)
                 elif _OWNER.search(sent) and current:
                     apply_attrs(current, sent)
 
+        for d in result.drafts:
+            d.description = d.description.strip()
         result.summary = summarize(result.drafts)
         return result
 

@@ -51,7 +51,12 @@ def generate_drafts(session: Session, meeting: Meeting) -> None:
                 reviewer_id=lead.id if lead else None,
             )
         )
-    meeting.summary = result.summary
+    meeting.summary = result.summary or (
+        f"Транскрипт готов: {len(segs)} фраз, задач автоматически не найдено. "
+        "Проверьте транскрипт и при необходимости создайте задачи вручную."
+        if segs
+        else "Речь не распознана."
+    )
     topics = ", ".join(result.skipped)
     meeting.skipped_note = f"Не создано — {topics}. На встрече не было решения." if topics else ""
 

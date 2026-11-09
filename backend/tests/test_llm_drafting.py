@@ -79,7 +79,7 @@ def test_assignee_must_be_a_teammate_named_in_the_fragment(said, text, expected)
         ("пятница", "Срок — пятница.", ("пятница", date(2026, 11, 13))),
         ("до пятницы", "Сделаем в пятницу.", ("пятница", date(2026, 11, 13))),  # reworded, same day
         ("завтра", "Сделаем в пятницу.", (None, None)),  # a date nobody said
-        ("15 ноября", "Сдать до 15 ноября.", ("15 ноября", None)),  # said verbatim, rules cannot date it
+        ("15 ноября", "Сдать до 15 ноября.", ("15 ноября", date(2026, 11, 15))),  # said verbatim, dated by rules
         ("16 ноября", "Сдать до 15 ноября.", (None, None)),
         (None, "Срок — пятница.", (None, None)),
     ],

@@ -83,3 +83,34 @@ def test_no_due_means_no_date():
 )
 def test_english_due_wording(raw, expected):
     assert normalise_due(raw, FRI_NOV_6) == expected
+
+
+# ---------------------------------------------------------------- dictation format "СТ-N – ... Исполнитель – ... Дедлайн – ..."
+def test_dictated_stories_become_drafts_with_assignee_and_date():
+    segs = [
+        SegmentIn(0, None, "СТ-16, выделение основных правил в отдельный модуль"),
+        SegmentIn(4, None, "с модульными тестами – Unit Tests."),
+        SegmentIn(6, None, "Исполнитель – Ерлан."),
+        SegmentIn(15, None, "Оценка – 3 часа, осталось 3 часа."),
+        SegmentIn(18, None, "Дедлайн – 12 ноября."),
+        SegmentIn(44, None, "СТ-12 – отображение исходного предложения в каждом черновике."),
+        SegmentIn(49, None, "Исполнитель – Марат."),  # not in the team -> must stay unassigned
+        SegmentIn(59, None, "Дедлайн – 17 ноября."),
+    ]
+    r = PlaceholderDrafter().generate(segs, PEOPLE, today=date(2026, 11, 9))
+    assert [d.title for d in r.drafts] == [
+        "Выделение основных правил в отдельный модуль",
+        "Отображение исходного предложения в каждом черновике",
+    ]
+    a, b = r.drafts
+    assert a.assignee_name == "Ерлан" and a.due_date == date(2026, 11, 12) and a.due_text == "12 ноября"
+    assert "Unit Tests" in a.description and "3 часа" in a.description
+    assert b.assignee_name is None and "Марат" in b.description  # never assigned to an unknown name
+    assert b.due_date == date(2026, 11, 17)
+    assert r.summary.startswith("Предложено задач: 2")
+
+
+def test_date_with_month_name_rolls_to_next_year_when_passed():
+    from app.services.drafting import normalise_due
+    assert normalise_due("12 ноября", date(2026, 11, 20))[1] == date(2027, 11, 12)
+    assert normalise_due("31 февраля", date(2026, 1, 1))[1] is None  # impossible date -> no date, no crash
