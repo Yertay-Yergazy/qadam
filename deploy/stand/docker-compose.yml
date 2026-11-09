@@ -1,4 +1,5 @@
-# Temporary stand on the shared Digitron dev VM: no calls (no LiveKit/Egress), no public ports, TLS by the host's Caddy.
+# Stand on the shared Digitron dev VM, with audio calls. TLS and the public domains are handled by the host's Caddy
+# (qadam-kbtu.asia -> qadam-web, lk.qadam-kbtu.asia -> qadam-livekit). Only the WebRTC media ports are published.
 # Unique service names (qadam-*) so they never clash with Digitron's `web`/`api`/`db` when Caddy joins this network.
 name: qadam
 services:
@@ -8,7 +9,10 @@ services:
     mem_limit: 1g
     user: root
     environment:
-      LIVEKIT_API_KEY: ""            # empty = upload-only mode
+      LIVEKIT_URL: wss://lk.${DOMAIN}          # what the browser connects to
+      LIVEKIT_API_URL: http://qadam-livekit:7880
+      LIVEKIT_API_KEY: ${LIVEKIT_API_KEY}
+      LIVEKIT_API_SECRET: ${LIVEKIT_API_SECRET}
       WHISPER_MODEL: ${WHISPER_MODEL:-base}
       WHISPER_LANGUAGE: ${WHISPER_LANGUAGE:-}
       DRAFTER: placeholder
@@ -20,7 +24,9 @@ services:
       CORS_ORIGINS: https://${DOMAIN}
     volumes:
       - qadam-db:/data
+      - recordings:/data/recordings            # Egress writes here, the backend reads
       - whisper-cache:/root/.cache/huggingface
+    depends_on: [qadam-livekit]
 
   qadam-web:
     image: qadam-web:${IMAGE_TAG}
@@ -30,6 +36,60 @@ services:
       - "127.0.0.1:8081:80"          # SSH-tunnel access for testing; not reachable from the internet
     depends_on: [qadam-backend]
 
+  qadam-redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    mem_limit: 64m
+
+  qadam-livekit:
+    image: livekit/livekit-server:latest
+    restart: unless-stopped
+    mem_limit: 256m
+    environment:
+      LIVEKIT_CONFIG: |
+        port: 7880
+        rtc:
+          tcp_port: 7881
+          udp_port: 7882
+          use_external_ip: true
+        redis:
+          address: qadam-redis:6379
+        keys:
+          ${LIVEKIT_API_KEY}: ${LIVEKIT_API_SECRET}
+        webhook:
+          api_key: ${LIVEKIT_API_KEY}
+          urls:
+            - http://qadam-backend:8000/api/livekit/webhook
+    ports:
+      - "7881:7881"                  # WebRTC over TCP (fallback)  -- public
+      - "7882:7882/udp"              # WebRTC over UDP             -- public
+    depends_on: [qadam-redis]
+
+  qadam-egress:
+    image: livekit/egress:latest
+    restart: unless-stopped
+    # no `user: root`: the entrypoint starts pulseaudio, which refuses to run as root. The `recordings` volume must be
+    # writable for the image's `egress` user once: docker run --rm -v qadam_recordings:/out alpine chmod 777 /out
+    mem_limit: 1g
+    cap_add:
+      - SYS_ADMIN                    # Chromium sandbox
+    environment:
+      EGRESS_CONFIG_BODY: |
+        api_key: ${LIVEKIT_API_KEY}
+        api_secret: ${LIVEKIT_API_SECRET}
+        ws_url: ws://qadam-livekit:7880
+        redis:
+          address: qadam-redis:6379
+        health_port: 8080
+        # 1 vCPU dev VM: we only record audio, which is far cheaper than the default 4-core video budget
+        cpu_cost:
+          max_cpu_utilization: 0.95
+          audio_room_composite_cpu_cost: 0.5
+    volumes:
+      - recordings:/out
+    depends_on: [qadam-livekit, qadam-redis]
+
 volumes:
   qadam-db:
   whisper-cache:
+  recordings:

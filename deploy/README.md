@@ -25,3 +25,11 @@ The CD key is restricted in the server's `authorized_keys` (`restrict,command="/
 only run `load` and `deploy <tag>` (`deploy/stand/deploy.sh`), cannot read `~/qadam/.env` and cannot open a shell.
 The compose file lives on the server and is NOT uploaded by CD: when it changes, copy `deploy/stand/docker-compose.yml`
 to `~/qadam/` by hand, and add new variables to `~/qadam/.env` by hand.
+
+### Calls on the stand
+`deploy/stand/docker-compose.yml` runs LiveKit + Egress + Redis next to the app (published on the host: 7881/tcp and
+7882/udp only; signalling goes through the host's Caddy at `wss://lk.<domain>`). `LIVEKIT_API_KEY/SECRET` live in the
+server's `~/qadam/.env` (generate your own pair, never the `devkey` from `.env.example`). Egress must not run as root
+(pulseaudio refuses). On a 1 vCPU VM the Egress CPU budget is lowered for audio-only recording (`cpu_cost` in the compose).
+`deploy/stand/attach-caddy.sh` adds both site blocks to the host's Caddyfile; rerun it after every deploy of the host project.
+The cloud firewall of the VM must allow 7881/tcp and 7882/udp.
